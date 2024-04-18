@@ -19,5 +19,7 @@ export default {
 <style lang="scss" scoped>
 main {
   margin-top: 200px;
+
+  height: 800px; /* costruzione */
 }
 </style>
