@@ -77,13 +77,14 @@ img {
         font-family: "Quicksand", sans-serif;
         color: white;
         font-weight: 700;
+        font-size: 2rem;
 
         .logo-img {
-            height: 35px;
+            height: 30px;
             width: auto;
             position: relative;
-            bottom: 25px;
-            right: 30px;
+            bottom: 15px;
+            right: 22px;
         }
     }
 }
