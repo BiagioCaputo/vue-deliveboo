@@ -36,10 +36,20 @@ export default {
                     </div>
                     <ul class="text-white text-center">
                         <a href="#">
-                            <li class="mb-4">Scarica per apple (da finire)</li>
+                            <li class="mb-4">
+                                <div class="download">
+                                    <i class="fa-brands fa-apple fa-xl"></i>
+                                    Scarica per apple (da finire)
+                                </div>
+                            </li>
                         </a>
                         <a href="#">
-                            <li class="mb-4">Scarica da google play(da finire) </li>
+                            <li class="mb-4">
+                                <div class="download">
+                                    <i class="fa-brands fa-google-play fa-xl"></i>
+                                    Scarica da google play(da finire)
+                                </div>
+                            </li>
                         </a>
                         <a href="#">
                             <li class="mb-4">TERMINI E CONDIZIONI</li>
