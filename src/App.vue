@@ -10,9 +10,14 @@ export default {
 
 <template>
   <AppHeader />
-  <h1 class="text-center my-5">DeliveBoo <i class="fa-solid fa-utensils"></i></h1>
+  <main>
+    <h1 class="text-center my-5">DeliveBoo <i class="fa-solid fa-utensils"></i></h1>
+  </main>
   <AppFooter />
 </template>
 
 <style lang="scss" scoped>
+main {
+  margin-top: 200px;
+}
 </style>
