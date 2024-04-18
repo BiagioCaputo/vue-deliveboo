@@ -1,7 +1,11 @@
 <script>
+import {store} from '../data/store.js'
 
 export default {
-    name: 'Appfooter'
+    name: 'Appfooter',
+    data: () => ({
+        store
+    })
 }
 </script>
 
@@ -16,6 +20,15 @@ export default {
                         <img src="/img/glovo_logo.png" alt="Logo" class="logo-img">
                     </h1>
                 </div>
+
+                <div v-for="(links, i) in store.footerLinks" :key="i" class="text-white d-flex">
+                    <h3 class="d-flex">{{ links.title }}</h3>
+                    <ul>
+                        <li v-for="(link, i) in links" key="i">
+                            {{ link.text }}
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </footer>
@@ -28,7 +41,7 @@ img {
 }
 
 .bg-footer{
-    height: 300px;
+    height: fit-content;
     background-color: #1D1D1D;
 
     .logo-text{
