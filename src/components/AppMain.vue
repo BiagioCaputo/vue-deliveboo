@@ -27,12 +27,13 @@ export default {
         <img src="/img/jumbotron-wave-desktop.svg" alt="footer-wave">
         <!---------------------------->
 
+        <!--Section Top Restaurant-->
         <section class="top-restaurant">
             <h1 class="text-center my-5">
                 I migliori ristoranti della tua città
                 <i class="fa-solid fa-utensils"></i>
             </h1>
-
+            
             <!--img e label dinamici nello store-->
             <div class="text-center container-rest">
                 <div class="row flex-container">
@@ -42,10 +43,18 @@ export default {
                         <div class="label-rest">{{ top.label}}</div>
                     </div>
                 </div>
-
+                
             </div>
-
+            
         </section>
+        <!-------------------------->
+
+        <!--Section undefine-->
+        <section class="undefine">
+            <img src="/img/main-waves-desktop.svg" alt="Middle main wave">
+            <h1 class="title-undefine">Sezione da definire</h1>
+        </section>
+
   </main>
 </template>
 
@@ -101,11 +110,14 @@ main {
         font-weight: 600;
     }
   }
+
+  section{
+    margin-bottom: 50px;
+  }
   
 
   /* Section Top Restaurant */
   .top-restaurant{
-    margin-bottom: 50px;
     h1{
         font-weight: 700;
     }
@@ -149,6 +161,24 @@ main {
 
     }
 }
+}
+
+
+.undefine{
+    position: relative;
+
+    img{
+        width: 100%;
+    }
+
+    .title-undefine{
+        text-align: center;
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50% -50%);
+    }
 }
 
 </style>
