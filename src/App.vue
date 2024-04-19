@@ -1,25 +1,20 @@
 <script>
 import AppHeader from './components/AppHeader.vue';
+import AppMain from './components/AppMain.vue';
 import AppFooter from './components/AppFooter.vue';
 
 export default {
   name: 'Deliveboo',
-  components: {AppHeader, AppFooter}
+  components: {AppHeader, AppMain, AppFooter}
 }
 </script>
 
 <template>
   <AppHeader />
-  <main>
-    <h1 class="text-center my-5">DeliveBoo <i class="fa-solid fa-utensils"></i></h1>
-  </main>
+  <AppMain />
   <AppFooter />
 </template>
 
 <style lang="scss" scoped>
-main {
-  margin-top: 200px;
 
-  height: 800px; /* costruzione */
-}
 </style>
