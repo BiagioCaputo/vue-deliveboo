@@ -30,5 +30,40 @@ export const store = reactive({
                 { url: '#', text: 'Instagram' }
             ]
         }
+    ],
+
+    topRestaurant: [
+        {
+            src: '',
+            label: 'McDonald\'s'
+        },
+        {
+            src: '',
+            label: 'I Love Poke'
+        },
+        {
+            src: '',
+            label: 'Carrefour'
+        },
+        {
+            src: '',
+            label: 'Old Wild West'
+        },
+        {
+            src: '',
+            label: 'Sweet Lab'
+        },
+        {
+            src: '',
+            label: 'KFC'
+        },
+        {
+            src: '',
+            label: 'Ritual'
+        },
+        {
+            src: '',
+            label: 'Spontini'
+        },
     ]
 })

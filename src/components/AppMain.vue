@@ -1,6 +1,10 @@
 <script>
+import { store } from '../data/store.js'
 export default {
-    name: 'AppMain'
+    name: 'AppMain',
+    data: () => ({
+        store
+    })
 }
 </script>
 
@@ -29,42 +33,14 @@ export default {
                 <i class="fa-solid fa-utensils"></i>
             </h1>
 
-            <!--img e label dinamici-->
+            <!--img e label dinamici nello store-->
             <div class="text-center container-rest">
                 <div class="row flex-container">
-                    <div class="col flex-item">
+                    <div class="col flex-item" v-for="top in store.topRestaurant">
+                        <!--apppena hai la rete scarica img-->
                         <div class="round-img"></div>
-                        <div class="label-rest">McDonal's</div>
+                        <div class="label-rest">{{ top.label}}</div>
                     </div>
-                    <div class="col flex-item">
-                        <div class="round-img"></div>
-                        <div class="label-rest">I Love Poke</div>
-                    </div>
-                    <div class="col flex-item">
-                        <div class="round-img"></div>
-                        <div class="label-rest">Carrefour</div>
-                    </div>
-                    <div class="col flex-item">
-                        <div class="round-img"></div>
-                        <div class="label-rest">Old Wild West</div>
-                    </div>
-                    <div class="col flex-item">
-                        <div class="round-img"></div>
-                        <div class="label-rest">Sweet Lab</div>
-                    </div>
-                    <div class="col flex-item">
-                        <div class="round-img"></div>
-                        <div class="label-rest">KFC</div>
-                    </div>
-                    <div class="col flex-item">
-                        <div class="round-img"></div>
-                        <div class="label-rest">Ritual</div>
-                    </div>
-                    <div class="col flex-item">
-                        <div class="round-img"></div>
-                        <div class="label-rest">Spontini</div>
-                    </div>
-                    
                 </div>
 
             </div>
