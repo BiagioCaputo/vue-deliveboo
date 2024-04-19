@@ -164,8 +164,8 @@ main {
     .label-rest{
         background-color: #FFC244;
         width: fit-content;
-        padding: 5px 10px;
-        border-radius: 20px;
+        padding: 5px 15px;
+        border-radius: 10px;
         font-weight: 700;
 
         position: relative;
