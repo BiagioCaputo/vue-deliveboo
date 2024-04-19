@@ -34,27 +34,35 @@ export default {
                 <div class="row flex-container">
                     <div class="col flex-item">
                         <div class="round-img"></div>
+                        <div class="label-rest">McDonal's</div>
                     </div>
                     <div class="col flex-item">
                         <div class="round-img"></div>
+                        <div class="label-rest">I Love Poke</div>
                     </div>
                     <div class="col flex-item">
                         <div class="round-img"></div>
+                        <div class="label-rest">Carrefour</div>
                     </div>
                     <div class="col flex-item">
                         <div class="round-img"></div>
+                        <div class="label-rest">Old Wild West</div>
                     </div>
                     <div class="col flex-item">
                         <div class="round-img"></div>
+                        <div class="label-rest">Sweet Lab</div>
                     </div>
                     <div class="col flex-item">
                         <div class="round-img"></div>
+                        <div class="label-rest">KFC</div>
                     </div>
                     <div class="col flex-item">
                         <div class="round-img"></div>
+                        <div class="label-rest">Ritual</div>
                     </div>
                     <div class="col flex-item">
                         <div class="round-img"></div>
+                        <div class="label-rest">Spontini</div>
                     </div>
                     
                 </div>
@@ -142,14 +150,27 @@ main {
 
             display: flex;
             justify-content: center;
+            align-items: center;
+            flex-direction: column;
         }
     }
 
     .round-img{
         width: 150px;
         height: 150px;
-        background-color: #FFC244;
+        background-color: #00A082;
         border-radius: 50% 60% 50% 80%;
+    }
+    .label-rest{
+        background-color: #FFC244;
+        width: fit-content;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-weight: 700;
+
+        position: relative;
+        bottom: 20px;
+
     }
 }
 }
