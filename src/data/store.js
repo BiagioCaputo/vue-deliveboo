@@ -65,5 +65,7 @@ export const store = reactive({
             src: '/img/spontini.png',
             label: 'Spontini'
         },
-    ]
+    ],
+
+    categories: ['Burgers', 'Pizza', 'Italiano', 'Poke', 'Kebab', 'Sushi', 'Pesce', 'Sandwich', 'Giapponese', 'Carne']
 })

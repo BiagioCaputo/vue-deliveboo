@@ -26,7 +26,7 @@ export default {
                 </div>
             </div>
         </div>
-        <img src="/img/jumbotron-wave-desktop.svg" alt="footer-wave">
+        <img src="/img/jumbotron-wave-desktop.svg" alt="jumbo-wave">
         <!---------------------------->
 
         <!--Section Top Restaurant-->
@@ -50,11 +50,26 @@ export default {
         </section>
         <!-------------------------->
 
-        <!--Section undefine-->
-        <section class="undefine">
-            <img src="/img/main-waves-desktop.svg" alt="Middle main wave">
-            <h1 class="title-undefine">Sezione da definire</h1>
+        <!--Section category-->
+        <section class="category">
+            <div class="category-container">
+
+                <h1 class="title-category">Le categorie più richieste</h1>
+                <div class="category-pills d-flex gap-4 mt-5">
+                    <div class="pills" v-for="category in store.categories">
+                        {{ category }}
+                    </div>
+
+                </div>
+            </div>
         </section>
+        <img src="/img/jumbotron-wave-desktop.svg" alt="jumbo-wave">
+        <!--------------------->
+
+
+        <!--Sezione-->
+        <section></section>
+        <!----------->
 
     </main>
 </template>
@@ -69,10 +84,9 @@ main {
     }
 
     .jumbotron {
-        height: 600px;
-        /*Costruzione*/
         background-color: #FFC244;
         padding-top: 200px;
+        padding-bottom: 20px;
 
 
         .jumbo-content {
@@ -100,7 +114,7 @@ main {
 
     /* Input mail */
     .input-group {
-        width: 80%;
+        width: 60%;
         margin: 0 auto;
 
         span {
@@ -112,7 +126,7 @@ main {
     }
 
     section {
-        margin-bottom: 50px;
+        margin-top: 50px;
     }
 
 
@@ -167,21 +181,38 @@ main {
     }
 }
 
+/* Sezione Categorie */
+.category {
+    background-image: url('/img/main-waves-desktop.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 400px;
 
-.undefine {
-    position: relative;
-
-    img {
-        width: 100%;
-    }
-
-    .title-undefine {
+    .category-container {
+        width: 1000px;
+        margin: 0 auto;
         text-align: center;
 
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50% -50%);
+        h1 {
+            font-weight: 700;
+            padding-top: 200px;
+            text-align: center;
+        }
+
+        .pills {
+            background-color: #fff3da;
+            padding: 10px 15px;
+            border-radius: 50px;
+            font-weight: 700;
+        }
+
+        .pills:hover {
+            background-color: #00A082;
+            color: #fff3da;
+        }
     }
+
+
 }
 </style>
