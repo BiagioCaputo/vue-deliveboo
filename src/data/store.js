@@ -34,35 +34,35 @@ export const store = reactive({
 
     topRestaurant: [
         {
-            src: '',
+            src: '/img/mcdonalds.jpeg',
             label: 'McDonald\'s'
         },
         {
-            src: '',
+            src: '/img/lovepoke.png',
             label: 'I Love Poke'
         },
         {
-            src: '',
+            src: '/img/carrefour.jpeg',
             label: 'Carrefour'
         },
         {
-            src: '',
+            src: '/img/oldwildwest.jpg',
             label: 'Old Wild West'
         },
         {
-            src: '',
+            src: '/img/sweetlab.png',
             label: 'Sweet Lab'
         },
         {
-            src: '',
+            src: '/img/kfc.jpeg',
             label: 'KFC'
         },
         {
-            src: '',
-            label: 'Ritual'
+            src: '/img/burgerking.jpeg',
+            label: 'Burger King'
         },
         {
-            src: '',
+            src: '/img/spontini.png',
             label: 'Spontini'
         },
     ]

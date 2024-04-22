@@ -9,11 +9,13 @@ export default {
 </script>
 
 <template>
-     <main>
+    <main>
         <!--Componente Jumbotron-->
         <div class="jumbotron">
             <div class="jumbo-content container">
-                <div class="box-img"></div>
+                <div class="box-img">
+                    <img src="/img/jumbo-food.png" alt="Food">
+                </div>
                 <div class="text-center">
                     <h1 class="jumbo-title">Consegna di cibo a domicilio e molto altro</h1>
                     <p class="jumbo-subtitle">Ordina dai tuoi ristoranti preferiti, in pochi minuti a casa tua.</p>
@@ -33,19 +35,18 @@ export default {
                 I migliori ristoranti della tua città
                 <i class="fa-solid fa-utensils"></i>
             </h1>
-            
+
             <!--img e label dinamici nello store-->
             <div class="text-center container-rest">
                 <div class="row flex-container">
                     <div class="col flex-item" v-for="top in store.topRestaurant">
-                        <!--apppena hai la rete scarica img-->
-                        <div class="round-img"></div>
-                        <div class="label-rest">{{ top.label}}</div>
+                        <img :src="top.src" alt="Mask" class="round-img">
+                        <div class="label-rest">{{ top.label }}</div>
                     </div>
                 </div>
-                
+
             </div>
-            
+
         </section>
         <!-------------------------->
 
@@ -55,123 +56,126 @@ export default {
             <h1 class="title-undefine">Sezione da definire</h1>
         </section>
 
-  </main>
+    </main>
 </template>
 
 <style lang="scss" scoped>
 main {
-  height: fit-content;
+    height: fit-content;
 
     /*Wave img */
-    img{
+    img {
         width: 100%;
     }
 
-  .jumbotron{
-    height: 600px; /*Costruzione*/
-    background-color: #FFC244;
-    padding-top: 200px;
-
-    
-    .jumbo-content{
-        width: 70%;
-        margin: 0 auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 30px;
+    .jumbotron {
+        height: 600px;
+        /*Costruzione*/
+        background-color: #FFC244;
+        padding-top: 200px;
 
 
-        .box-img{
-            width: 300px;
-            height: 300px;
-            border: 2px solid #00A082;
-        }
-
-        .jumbo-title{
+        .jumbo-content {
             width: 70%;
             margin: 0 auto;
-            font-size: 3.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+
+
+            .box-img {
+                width: 450px;
+            }
+
+            .jumbo-title {
+                width: 70%;
+                margin: 0 auto;
+                font-size: 3.5rem;
+                font-weight: 700;
+            }
+        }
+
+    }
+
+    /* Input mail */
+    .input-group {
+        width: 80%;
+        margin: 0 auto;
+
+        span {
+            background-color: #00A082;
+            border-color: #00A082;
+            color: white;
+            font-weight: 600;
+        }
+    }
+
+    section {
+        margin-bottom: 50px;
+    }
+
+
+    /* Section Top Restaurant */
+    .top-restaurant {
+        h1 {
             font-weight: 700;
         }
-    }
 
-  }
+        .container-rest {
+            width: 70%;
+            margin: 0 auto;
+        }
 
-  /* Input mail */
-  .input-group{
-    width: 80%;
-    margin: 0 auto;
-
-    span{
-        background-color: #00A082;
-        border-color: #00A082;
-        color:white;
-        font-weight: 600;
-    }
-  }
-
-  section{
-    margin-bottom: 50px;
-  }
-  
-
-  /* Section Top Restaurant */
-  .top-restaurant{
-    h1{
-        font-weight: 700;
-    }
-
-    .container-rest{
-        width: 70%;
-        margin: 0 auto;
-    }
-
-    .row.flex-container{
-        display: flex;
-        margin: 0 -2rem;
-        flex-wrap: wrap;
-
-        .col.flex-item{
-            margin: 2rem;
-            flex-basis: calc(100% / 4 - 4rem);
-
+        .row.flex-container {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+            margin: 0 -1rem;
+            flex-wrap: wrap;
+
+            .col.flex-item {
+                margin: 1rem;
+                flex-basis: calc(100% / 4 - 2rem);
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
+        }
+
+        .round-img {
+            width: 200px;
+            height: auto;
+            mask-image: url('/img/partners-mask.svg');
+            mask-repeat: no-repeat;
+            mask-position: 35px 0;
+        }
+
+
+
+        .label-rest {
+            background-color: #FFC244;
+            width: fit-content;
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-weight: 700;
+
+            position: relative;
+            bottom: 20px;
+
         }
     }
-
-    .round-img{
-        width: 150px;
-        height: 150px;
-        background-color: #00A082;
-        border-radius: 50% 60% 50% 80%;
-    }
-    .label-rest{
-        background-color: #FFC244;
-        width: fit-content;
-        padding: 5px 15px;
-        border-radius: 10px;
-        font-weight: 700;
-
-        position: relative;
-        bottom: 20px;
-
-    }
-}
 }
 
 
-.undefine{
+.undefine {
     position: relative;
 
-    img{
+    img {
         width: 100%;
     }
 
-    .title-undefine{
+    .title-undefine {
         text-align: center;
 
         position: absolute;
@@ -180,5 +184,4 @@ main {
         transform: translate(-50% -50%);
     }
 }
-
 </style>
