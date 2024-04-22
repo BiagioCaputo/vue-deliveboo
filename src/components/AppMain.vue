@@ -210,6 +210,7 @@ main {
         .pills:hover {
             background-color: #00A082;
             color: #fff3da;
+            cursor: pointer;
         }
     }
 
