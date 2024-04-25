@@ -34,20 +34,27 @@ export default {
                             </ul>
                         </div>
                     </div>
+                    <!--Magari li famo dinamici?-->
                     <ul class="text-white text-center">
                         <a href="#">
-                            <li class="mb-4">
+                            <li class="mb-4 d-flex justify-content-center">
                                 <div class="download">
                                     <i class="fa-brands fa-apple fa-xl"></i>
-                                    Scarica per apple (da finire)
+                                    <div>
+                                        <p class="top-text">Download on the</p>
+                                        <p class="bottom-text">App Store</p>
+                                    </div>
                                 </div>
                             </li>
                         </a>
                         <a href="#">
-                            <li class="mb-4">
+                            <li class="mb-4 d-flex justify-content-center">
                                 <div class="download">
                                     <i class="fa-brands fa-google-play fa-xl"></i>
-                                    Scarica da google play(da finire)
+                                    <div>
+                                        <p class="top-text">GET IT ON</p>
+                                        <p class="bottom-text">Google Play</p>
+                                    </div>
                                 </div>
                             </li>
                         </a>
@@ -117,6 +124,29 @@ ul {
     a {
         color: white;
         text-decoration: none;
+    }
+}
+
+.download {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid white;
+    border-radius: 7px;
+    padding: 2px 5px;
+    width: fit-content;
+
+    .top-text {
+        text-align: left;
+        font-size: 8px;
+        margin: 0;
+        position: relative;
+        top: 5px;
+    }
+
+    .bottom-text {
+        font-weight: 500;
+        margin: 0;
     }
 }
 </style>
