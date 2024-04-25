@@ -5,7 +5,7 @@ import AppFooter from './components/AppFooter.vue';
 
 export default {
   name: 'Deliveboo',
-  components: {AppHeader, AppMain, AppFooter}
+  components: { AppHeader, AppMain, AppFooter }
 }
 </script>
 
@@ -15,6 +15,8 @@ export default {
   <AppFooter />
 </template>
 
-<style lang="scss" scoped>
-
+<style lang="scss">
+body {
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
 </style>
