@@ -1,7 +1,7 @@
 <script>
 import { store } from '../../data/store.js'
 export default {
-    name: 'ListRestaurantsPage',
+    name: 'NotfoundPage',
     data: () => ({
         store
     })
@@ -9,7 +9,7 @@ export default {
 </script>
 
 <template>
-    <h1>ristoranti</h1>
+    <h1>404</h1>
 </template>
 
 <style lang="scss" scoped>
