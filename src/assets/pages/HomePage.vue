@@ -10,7 +10,7 @@ export default {
 
 <template>
     <main>
-        <!--Componente Jumbotron-->
+        <!--Jumbotron-->
         <div class="jumbotron">
             <div class="jumbo-content container">
                 <div class="box-img">
@@ -108,6 +108,8 @@ export default {
                     </div>
                 </div>
             </div>
+
+            <!--Button RouterLink-->
 
         </section>
         <!----------->
@@ -222,7 +224,7 @@ main {
     }
 }
 
-/* Sezione Categorie */
+/* Section Category */
 .category {
     background-image: url('/img/main-waves-desktop.svg');
     background-repeat: no-repeat;
@@ -254,7 +256,7 @@ main {
     }
 }
 
-/* Sezione Delivery */
+/* Section Delivery */
 .delivery {
     margin-bottom: 50px;
 
