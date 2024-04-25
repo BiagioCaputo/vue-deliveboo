@@ -1,17 +1,16 @@
 <script>
 import AppHeader from './components/AppHeader.vue';
-import AppMain from './components/AppMain.vue';
 import AppFooter from './components/AppFooter.vue';
 
 export default {
   name: 'Deliveboo',
-  components: { AppHeader, AppMain, AppFooter }
+  components: { AppHeader, AppFooter }
 }
 </script>
 
 <template>
   <AppHeader />
-  <AppMain />
+  <RouterView />
   <AppFooter />
 </template>
 

@@ -1,7 +1,7 @@
 <script>
-import { store } from '../data/store.js'
+import { store } from '../../data/store.js'
 export default {
-    name: 'AppMain',
+    name: 'HomePage',
     data: () => ({
         store
     })
