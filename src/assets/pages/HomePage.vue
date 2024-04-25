@@ -1,4 +1,5 @@
 <script>
+import { RouterLink } from 'vue-router';
 import { store } from '../../data/store.js'
 export default {
     name: 'HomePage',
@@ -10,7 +11,7 @@ export default {
 
 <template>
     <main>
-        <!--Componente Jumbotron-->
+        <!--Jumbotron-->
         <div class="jumbotron">
             <div class="jumbo-content container">
                 <div class="box-img">
@@ -70,7 +71,7 @@ export default {
         <!--Sezione Delivery-->
         <section class="delivery text-center">
             <h1 class="delivery-title">Consegniamo tutto ciò che vuoi</h1>
-            <div class="delivery-group">
+            <div class="delivery-group mb-4">
                 <div class="delivery-item">
                     <img src="/img/restaurants.svg" alt="">
                     <div>
@@ -108,6 +109,11 @@ export default {
                     </div>
                 </div>
             </div>
+
+            <!--Button RouterLink-->
+            <RouterLink class="custom-primary-btn router-link" :to="{ name: 'list' }">
+                Esplora i locali intorno a te
+            </RouterLink>
 
         </section>
         <!----------->
@@ -222,7 +228,7 @@ main {
     }
 }
 
-/* Sezione Categorie */
+/* Section Category */
 .category {
     background-image: url('/img/main-waves-desktop.svg');
     background-repeat: no-repeat;
@@ -254,9 +260,9 @@ main {
     }
 }
 
-/* Sezione Delivery */
+/* Section Delivery */
 .delivery {
-    margin-bottom: 50px;
+    margin-bottom: 60px;
 
     .delivery-title {
         font-weight: 700;
