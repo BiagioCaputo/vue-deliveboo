@@ -8,8 +8,8 @@ import ListRestaurantsPage from '../assets/pages/ListRestaurantsPage.vue';
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: '/', component: HomePage },
-        { path: '/list-restaurants', component: ListRestaurantsPage }
+        { path: '/', component: HomePage, name: 'home' },
+        { path: '/list-restaurants', component: ListRestaurantsPage, name: 'list' }
     ]
 });
 

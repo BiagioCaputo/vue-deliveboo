@@ -1,4 +1,6 @@
 <script>
+import { RouterLink } from 'vue-router';
+
 
 export default {
     name: 'AppHeader'
@@ -9,10 +11,12 @@ export default {
     <header>
         <div class="container h-100">
             <div class="logo">
-                <h1 class="logo-text">DeliveBoo
+                <RouterLink class="router-link" :to="{ name: 'home' }">
+                    <h1 class="logo-text">DeliveBoo
 
-                    <img src="/img/glovo_logo.png" alt="Logo" class="logo-img">
-                </h1>
+                        <img src="/img/glovo_logo.png" alt="Logo" class="logo-img">
+                    </h1>
+                </RouterLink>
             </div>
         </div>
     </header>

@@ -1,4 +1,5 @@
 <script>
+import { RouterLink } from 'vue-router';
 import { store } from '../../data/store.js'
 export default {
     name: 'HomePage',
@@ -70,7 +71,7 @@ export default {
         <!--Sezione Delivery-->
         <section class="delivery text-center">
             <h1 class="delivery-title">Consegniamo tutto ciò che vuoi</h1>
-            <div class="delivery-group">
+            <div class="delivery-group mb-4">
                 <div class="delivery-item">
                     <img src="/img/restaurants.svg" alt="">
                     <div>
@@ -110,6 +111,9 @@ export default {
             </div>
 
             <!--Button RouterLink-->
+            <RouterLink class="custom-primary-btn router-link" :to="{ name: 'list' }">
+                Esplora i locali intorno a te
+            </RouterLink>
 
         </section>
         <!----------->
@@ -258,7 +262,7 @@ main {
 
 /* Section Delivery */
 .delivery {
-    margin-bottom: 50px;
+    margin-bottom: 60px;
 
     .delivery-title {
         font-weight: 700;
