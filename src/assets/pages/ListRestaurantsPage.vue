@@ -9,12 +9,19 @@ export default {
 </script>
 
 <template>
-    <h1>ristoranti</h1>
+    <main class="container-main">
+
+        <h1>ristoranti</h1>
+    </main>
 </template>
 
 <style lang="scss" scoped>
-h1 {
+.container-main {
+    width: 1100px;
+    margin: 0 auto;
+
     padding-top: 200px;
     padding-bottom: 200px;
+    /* da togliere*/
 }
 </style>
