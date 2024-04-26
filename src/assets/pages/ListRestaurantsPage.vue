@@ -51,7 +51,22 @@ export default {
                 </ul>
             </div>
         </section>
-        <section class="list"></section>
+        <section class="list">
+            <h2>Ristoranti a domicilio a ?</h2>
+            <div class="row flex-container">
+                <div class="col flex-item">
+                    <div class="card-restaurant">
+                        <div class="img-restaurant">
+                            <img src="" alt="">
+                        </div>
+                        <div class="text-restaurant">
+                            <h5 class="mb-0">Ristorante</h5>
+                            <div class="category">Categoria</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 </template>
 
@@ -63,12 +78,11 @@ export default {
     display: flex;
 
     padding-top: 200px;
-    padding-bottom: 200px;
-    /* da togliere*/
+    padding-bottom: 50px;
 
     h6 {
         font-weight: 700;
-        font-size: 12px;
+        font-size: 0.9rem;
     }
 
     ul {
@@ -86,9 +100,10 @@ export default {
                 display: flex;
                 align-items: center;
                 gap: 10px;
-                margin-bottom: 10px;
+                margin-bottom: 5px;
                 border-bottom: 1px solid #e4e4e4;
-                padding: 10px 0;
+                padding: 5px 0;
+                font-size: 15px;
 
                 .category-img {
                     width: 35px;
@@ -102,10 +117,54 @@ export default {
     }
 
     .list {
-        /*di costruzione spazi */
         width: 80%;
-        height: 700px;
-        background-color: rgb(139, 95, 160);
+
+        h2 {
+            font-weight: 700;
+            padding-left: 1rem;
+        }
+
+        .row.flex-container {
+            display: flex;
+            margin: 0 -1rem;
+            flex-wrap: wrap;
+
+            .col.flex-item {
+                margin: 1rem;
+                flex-basis: calc(100% / 3 - 2rem);
+                flex-grow: 0;
+            }
+        }
+
+        .card-restaurant {
+            width: 100%;
+            height: 200px;
+
+            .img-restaurant {
+                width: 100%;
+                height: 80%;
+                background-color: burlywood;
+                border-radius: 10px;
+            }
+
+            .text-restaurant {
+                padding-top: 5px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                h5 {
+                    font-weight: 800;
+                    font-size: 1.1rem;
+                }
+
+                .category {
+                    color: #7b7d7b;
+                    font-size: 0.8rem;
+                    font-weight: 800;
+                }
+            }
+        }
 
     }
 }
