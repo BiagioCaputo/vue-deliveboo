@@ -13,7 +13,7 @@ export default {
     <main>
         <!--Jumbotron-->
         <div class="jumbotron">
-            <div class="jumbo-content container">
+            <div class="jumbo-content container-desktop">
                 <div class="box-img">
                     <img src="/img/jumbo-food.png" alt="Food">
                 </div>
@@ -31,14 +31,14 @@ export default {
         <!---------------------------->
 
         <!--Section Top Restaurant-->
-        <section class="top-restaurant">
+        <section class="top-restaurant container-desktop">
             <h1 class="text-center my-5">
                 I migliori ristoranti della tua città
                 <i class="fa-solid fa-utensils"></i>
             </h1>
 
             <!--img e label dinamici nello store-->
-            <div class="text-center container-rest">
+            <div class="text-center">
                 <div class="row flex-container">
                     <div class="col flex-item" v-for="top in store.topRestaurant">
                         <img :src="top.src" alt="Mask" class="round-img">
@@ -53,7 +53,7 @@ export default {
 
         <!--Section category-->
         <section class="category">
-            <div class="category-container">
+            <div class="container-desktop">
 
                 <h1 class="title-category text-center">Le categorie più richieste</h1>
                 <div class="category-pills d-flex gap-4 mt-5">
@@ -69,7 +69,7 @@ export default {
 
 
         <!--Sezione Delivery-->
-        <section class="delivery text-center">
+        <section class="delivery text-center container-desktop">
             <h1 class="delivery-title">Consegniamo tutto ciò che vuoi</h1>
             <div class="delivery-group mb-4">
                 <div class="delivery-item">
@@ -125,6 +125,11 @@ export default {
 main {
     height: fit-content;
 
+    .container-desktop {
+        width: 1100px;
+        margin: 0 auto;
+    }
+
     /*Wave img */
     img {
         width: 100%;
@@ -134,7 +139,6 @@ main {
         background-color: #FFC244;
         padding-top: 200px;
         padding-bottom: 20px;
-
 
         .jumbo-content {
             width: 70%;
@@ -173,7 +177,7 @@ main {
     }
 
     section {
-        margin-top: 50px;
+        padding-top: 50px;
     }
 
 
@@ -181,11 +185,6 @@ main {
     .top-restaurant {
         h1 {
             font-weight: 700;
-        }
-
-        .container-rest {
-            width: 70%;
-            margin: 0 auto;
         }
 
         .row.flex-container {
@@ -234,35 +233,31 @@ main {
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
-    height: 400px;
+    height: 450px;
 
-    .category-container {
-        width: 1000px;
-        margin: 0 auto;
-
-        h1 {
-            font-weight: 700;
-            padding-top: 190px;
-        }
-
-        .pills {
-            background-color: #fff3da;
-            padding: 10px 15px;
-            border-radius: 50px;
-            font-weight: 700;
-        }
-
-        .pills:hover {
-            background-color: #00A082;
-            color: #fff3da;
-            cursor: pointer;
-        }
+    h1 {
+        font-weight: 700;
+        padding-top: 190px;
     }
+
+    .pills {
+        background-color: #fff3da;
+        padding: 10px 15px;
+        border-radius: 50px;
+        font-weight: 700;
+    }
+
+    .pills:hover {
+        background-color: #00A082;
+        color: #fff3da;
+        cursor: pointer;
+    }
+
 }
 
 /* Section Delivery */
 .delivery {
-    margin-bottom: 60px;
+    padding-bottom: 60px;
 
     .delivery-title {
         font-weight: 700;

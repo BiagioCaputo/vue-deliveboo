@@ -83,7 +83,7 @@ img {
 }
 
 .container {
-    width: 1200px;
+    width: 1100px;
 }
 
 .bg-footer {
