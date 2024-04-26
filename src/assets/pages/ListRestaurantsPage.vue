@@ -57,7 +57,7 @@ export default {
                 <div class="col flex-item">
                     <div class="card-restaurant">
                         <div class="img-restaurant">
-                            <img src="" alt="">
+                            <!-- <img src="" alt=""> -->
                         </div>
                         <div class="text-restaurant">
                             <h5 class="mb-0">Ristorante</h5>
@@ -143,12 +143,19 @@ export default {
             .img-restaurant {
                 width: 100%;
                 height: 80%;
-                background-color: burlywood;
                 border-radius: 10px;
+
+                background-color: #fff3da; //bg in caso di assenza img
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 10px;
+                }
             }
 
             .text-restaurant {
-                padding-top: 5px;
+                padding: 5px 5px 0 5px;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
@@ -162,6 +169,10 @@ export default {
                     color: #7b7d7b;
                     font-size: 0.8rem;
                     font-weight: 800;
+
+                    background-color: #f5f5f5;
+                    padding: 0 5px;
+                    border-radius: 5px;
                 }
             }
         }
