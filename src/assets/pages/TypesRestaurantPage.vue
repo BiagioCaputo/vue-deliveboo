@@ -1,26 +1,27 @@
 <script>
 import { RouterLink } from 'vue-router';
-import { store } from '../../data/store.js'
 import axios from 'axios';
 
 const baseUri = 'http://localhost:8000/api/';
-const endpoint = 'http://localhost:8000/api/restaurants';
+
 const Types = 'http://localhost:8000/api/types';
 
+
 export default {
-    name: 'ListRestaurantsPage',
+    name: 'TypesRestaurantPage',
     data: () => ({
-        store,
         restaurants: [],
+
         categories: []
     }),
-
     methods: {
-        fetchRestaurants() {
-            axios.get(endpoint).then(res => {
-                this.restaurants = res.data;
+        fetchTypeRestaurants() {
+            axios.get(baseUri + `types/${this.$route.params.type}/restaurants`).then(res => {
+                this.restaurants = res.data.restaurants;
             })
         },
+
+
 
         fetchTypes() {
             axios.get(Types).then(res => {
@@ -31,13 +32,16 @@ export default {
     },
 
     created() {
-        this.fetchRestaurants();
+        this.fetchTypeRestaurants();
+
         this.fetchTypes();
     }
 }
 </script>
 
 <template>
+
+    <!--Da fare componenti-->
     <main class="container-main">
         <section class="sidebar">
             <!-- <div class="popular-filters">

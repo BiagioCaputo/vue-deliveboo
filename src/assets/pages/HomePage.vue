@@ -20,10 +20,10 @@ export default {
                 <div class="text-center">
                     <h1 class="jumbo-title">Consegna di cibo a domicilio e molto altro</h1>
                     <p class="jumbo-subtitle">Ordina dai tuoi ristoranti preferiti, in pochi minuti a casa tua.</p>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" type="text">@</span>
-                        <input type="text" class="form-control" placeholder="Inserisci la tua mail">
-                    </div>
+
+                    <RouterLink class="custom-primary-btn router-link" :to="{ name: 'list' }">
+                        Ordina subito!
+                    </RouterLink>
                 </div>
             </div>
         </div>
@@ -112,7 +112,7 @@ export default {
 
             <!--Button RouterLink-->
             <RouterLink class="custom-primary-btn router-link" :to="{ name: 'list' }">
-                Esplora i locali intorno a te
+                Esplora i locali
             </RouterLink>
 
         </section>
@@ -161,19 +161,6 @@ main {
             }
         }
 
-    }
-
-    /* Input mail */
-    .input-group {
-        width: 60%;
-        margin: 0 auto;
-
-        span {
-            background-color: #00A082;
-            border-color: #00A082;
-            color: white;
-            font-weight: 600;
-        }
     }
 
     section {
