@@ -35,8 +35,8 @@ export default {
 <template>
     <main class="container-main">
         <section class="sidebar">
-            <div class="popular-filters">
-                <h6>Filtri popolari</h6>
+            <!-- <div class="popular-filters">
+                <h6>Categorie popolari</h6>
                 <ul>
                     <li>
                         <div class="category-img"><img src="" alt=""></div>
@@ -52,12 +52,14 @@ export default {
                     </li>
 
                 </ul>
-            </div>
+            </div> -->
             <div class="more-filters">
-                <h6>Altri filtri</h6>
+                <h6>Categorie</h6>
                 <ul>
                     <li v-for="category in categories">
-                        <div class="category-img"><img src="" alt=""></div>
+                        <div class="category-img">
+                            <img :src="category.image" alt="">
+                        </div>
                         <span>{{ category.label }}</span>
                     </li>
                 </ul>
@@ -73,7 +75,7 @@ export default {
                         </div>
                         <div class="text-restaurant">
                             <h5 class="mb-0">{{ restaurant.activity_name }}</h5>
-                            <div class="category">Categoria</div>
+                            <!-- <div class="category">Categoria</div> -->
                         </div>
                     </div>
                 </div>
@@ -122,6 +124,14 @@ export default {
                     height: 35px;
                     background-color: #fff3da;
                     border-radius: 50%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    img {
+                        width: 80%;
+                        height: 80%;
+                    }
                 }
             }
         }
@@ -179,7 +189,7 @@ export default {
 
                 .category {
                     color: #7b7d7b;
-                    font-size: 0.8rem;
+                    font-size: 0.7rem;
                     font-weight: 800;
 
                     background-color: #f5f5f5;
