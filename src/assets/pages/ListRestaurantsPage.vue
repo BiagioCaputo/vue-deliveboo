@@ -2,11 +2,13 @@
 import { store } from '../../data/store.js'
 import axios from 'axios';
 const endpoint = 'http://localhost:8000/api/restaurants';
+const endpointType = 'http://localhost:8000/api/types';
 export default {
     name: 'ListRestaurantsPage',
     data: () => ({
         store,
-        restaurants: []
+        restaurants: [],
+        categories: []
     }),
 
     methods: {
@@ -14,11 +16,18 @@ export default {
             axios.get(endpoint).then(res => {
                 this.restaurants = res.data;
             })
+        },
+
+        fetchTypes() {
+            axios.get(endpointType).then(res => {
+                this.categories = res.data;
+            })
         }
     },
 
     created() {
         this.fetchRestaurants();
+        this.fetchTypes();
     }
 }
 </script>
@@ -47,21 +56,9 @@ export default {
             <div class="more-filters">
                 <h6>Altri filtri</h6>
                 <ul>
-                    <li>
+                    <li v-for="category in categories">
                         <div class="category-img"><img src="" alt=""></div>
-                        <span>Filtro</span>
-                    </li>
-                    <li>
-                        <div class="category-img"><img src="" alt=""></div>
-                        <span>Filtro</span>
-                    </li>
-                    <li>
-                        <div class="category-img"><img src="" alt=""></div>
-                        <span>Filtro</span>
-                    </li>
-                    <li>
-                        <div class="category-img"><img src="" alt=""></div>
-                        <span>Filtro</span>
+                        <span>{{ category.label }}</span>
                     </li>
                 </ul>
             </div>
