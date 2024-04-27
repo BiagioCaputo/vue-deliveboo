@@ -1,10 +1,25 @@
 <script>
 import { store } from '../../data/store.js'
+import axios from 'axios';
+const endpoint = 'http://localhost:8000/api/restaurants';
 export default {
     name: 'ListRestaurantsPage',
     data: () => ({
-        store
-    })
+        store,
+        restaurants: []
+    }),
+
+    methods: {
+        fetchRestaurants() {
+            axios.get(endpoint).then(res => {
+                this.restaurants = res.data;
+            })
+        }
+    },
+
+    created() {
+        this.fetchRestaurants();
+    }
 }
 </script>
 
@@ -54,13 +69,13 @@ export default {
         <section class="list">
             <h2>Ristoranti a domicilio a ?</h2>
             <div class="row flex-container">
-                <div class="col flex-item">
+                <div class="col flex-item" v-for="restaurant in restaurants">
                     <div class="card-restaurant">
                         <div class="img-restaurant">
-                            <!-- <img src="" alt=""> -->
+                            <img :src="restaurant.image" :alt="restaurant.activity_name">
                         </div>
                         <div class="text-restaurant">
-                            <h5 class="mb-0">Ristorante</h5>
+                            <h5 class="mb-0">{{ restaurant.activity_name }}</h5>
                             <div class="category">Categoria</div>
                         </div>
                     </div>
