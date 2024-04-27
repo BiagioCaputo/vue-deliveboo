@@ -4,9 +4,6 @@ import axios from 'axios';
 
 const baseUri = 'http://localhost:8000/api/';
 
-const Types = 'http://localhost:8000/api/types';
-
-
 export default {
     name: 'TypesRestaurantPage',
     data: () => ({
@@ -18,13 +15,16 @@ export default {
         fetchTypeRestaurants() {
             axios.get(baseUri + `types/${this.$route.params.type}/restaurants`).then(res => {
                 this.restaurants = res.data.restaurants;
+
             })
+                .catch(error => {
+                    console.error('Errore nel recupero delle tipologie:', error);
+                    // Redirect alla pagina not-found
+                    this.$router.push({ name: 'not-found' });
+                }).then(() => { });
         },
-
-
-
         fetchTypes() {
-            axios.get(Types).then(res => {
+            axios.get(baseUri + 'types').then(res => {
                 this.categories = res.data;
             })
         },
@@ -33,8 +33,15 @@ export default {
 
     created() {
         this.fetchTypeRestaurants();
-
         this.fetchTypes();
+    },
+
+    watch: {
+        '$route'(to, from) {
+            if (to.params.type !== from.params.type) {
+                this.fetchTypeRestaurants();
+            }
+        }
     }
 }
 </script>
@@ -65,7 +72,7 @@ export default {
             <div class="more-filters">
                 <h6>Categorie</h6>
                 <ul>
-                    <li v-for="category in categories">
+                    <li v-for="category in categories" :key="category.id">
                         <RouterLink :to="{ name: 'category', params: { type: category.id } }" class="category-list">
                             <div class="category-img">
                                 <img :src="category.image" alt="">
