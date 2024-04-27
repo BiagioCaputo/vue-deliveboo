@@ -61,7 +61,7 @@ export default {
             <div class="more-filters">
                 <h6>Categorie</h6>
                 <ul>
-                    <li v-for="category in categories">
+                    <li v-for="category in categories" :key="category.id">
                         <RouterLink :to="{ name: 'category', params: { type: category.id } }" class="category-list">
                             <div class="category-img">
                                 <img :src="category.image" alt="">
@@ -75,7 +75,7 @@ export default {
         <section class="list">
             <h2>Ristoranti a domicilio a ?</h2>
             <div class="row flex-container">
-                <div class="col flex-item" v-for="restaurant in restaurants">
+                <div class="col flex-item" v-for="restaurant in restaurants" :key="restaurant.id">
                     <div class="card-restaurant">
                         <div class="img-restaurant">
                             <img :src="restaurant.image" :alt="restaurant.activity_name">
