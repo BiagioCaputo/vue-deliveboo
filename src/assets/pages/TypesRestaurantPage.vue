@@ -51,24 +51,17 @@ export default {
     <!--Da fare componenti-->
     <main class="container-main">
         <section class="sidebar">
-            <!-- <div class="popular-filters">
-                <h6>Categorie popolari</h6>
+            <div class="all">
+                <h6>Tutti i ristoranti</h6>
                 <ul>
-                    <li>
-                        <div class="category-img"><img src="" alt=""></div>
+                    <li class="category-list">
+                        <div class="category-img">
+                            <!-- <img src="" alt=""> -->
+                        </div>
                         <span>Filtro</span>
                     </li>
-                    <li>
-                        <div class="category-img"><img src="" alt=""></div>
-                        <span>Filtro</span>
-                    </li>
-                    <li>
-                        <div class="category-img"><img src="" alt=""></div>
-                        <span>Filtro</span>
-                    </li>
-
                 </ul>
-            </div> -->
+            </div>
             <div class="more-filters">
                 <h6>Categorie</h6>
                 <ul>
@@ -84,7 +77,7 @@ export default {
             </div>
         </section>
         <section class="list">
-            <h2>Ristoranti a domicilio a ?</h2>
+            <h2>Ristoranti a domicilio</h2>
             <div class="row flex-container">
                 <div class="col flex-item" v-for="restaurant in restaurants">
                     <div class="card-restaurant">

@@ -1,11 +1,29 @@
 <script>
 import { RouterLink } from 'vue-router';
 import { store } from '../../data/store.js'
+import axios from 'axios';
+
+const Types = 'http://localhost:8000/api/types';
+
 export default {
     name: 'HomePage',
     data: () => ({
-        store
-    })
+        store,
+        categories: []
+    }),
+
+    methods: {
+        fetchTypes() {
+            axios.get(Types).then(res => {
+                this.categories = res.data;
+            })
+        },
+
+    },
+
+    created() {
+        this.fetchTypes();
+    }
 }
 </script>
 
@@ -55,10 +73,13 @@ export default {
         <section class="category">
             <div class="container-desktop">
 
-                <h1 class="title-category text-center">Le categorie più richieste</h1>
-                <div class="category-pills d-flex gap-4 mt-5">
-                    <div class="pills" v-for="category in store.categories">
-                        {{ category }}
+                <h1 class="title-category text-center">Le nostre categorie</h1>
+                <div class="category-pills d-flex flex-wrap justify-content-center gap-4 mt-5">
+
+                    <div v-for="category in categories">
+                        <RouterLink :to="{ name: 'category', params: { type: category.id } }" class="pills">
+                            {{ category.label }}
+                        </RouterLink>
                     </div>
 
                 </div>
@@ -220,7 +241,7 @@ main {
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
-    height: 450px;
+    height: 500px;
 
     h1 {
         font-weight: 700;
@@ -232,6 +253,9 @@ main {
         padding: 10px 15px;
         border-radius: 50px;
         font-weight: 700;
+
+        text-decoration: none;
+        color: black;
     }
 
     .pills:hover {
