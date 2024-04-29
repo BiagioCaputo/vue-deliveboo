@@ -1,57 +1,66 @@
 <script>
 import { RouterLink } from 'vue-router';
 import { store } from '../../data/store.js'
+
 import axios from 'axios';
 
 const baseUri = 'http://localhost:8000/api/';
-const endpoint = 'http://localhost:8000/api/restaurants';
-const Types = 'http://localhost:8000/api/types';
 
 export default {
-    name: 'ListRestaurantsPage',
+    name: 'TypesRestaurantPage',
     data: () => ({
         store,
         restaurants: [],
         categories: []
     }),
-
     methods: {
-        fetchRestaurants() {
+        fetchTypeRestaurants() {
             store.isLoading = true;
-            axios.get(endpoint).then(res => {
-                this.restaurants = res.data;
+            axios.get(baseUri + `types/${this.$route.params.type}/restaurants`).then(res => {
+                this.restaurants = res.data.restaurants;
+
             })
                 .catch(error => {
-                    console.log(error)
-                })
-                .then(() => {
-                    store.isLoading = false
-                })
+                    console.error('Errore nel recupero delle tipologie:', error);
+                    // Redirect alla pagina not-found
+                    this.$router.push({ name: 'not-found' });
+                }).then(() => {
+                    store.isLoading = false;
+                });
         },
-
         fetchTypes() {
             store.isLoading = true;
-            axios.get(Types).then(res => {
+            axios.get(baseUri + 'types').then(res => {
                 this.categories = res.data;
             })
                 .catch(error => {
                     console.log(error)
                 })
                 .then(() => {
-                    store.isLoading = false
+                    store.isLoading = false;
                 })
         },
 
     },
 
     created() {
-        this.fetchRestaurants();
+        this.fetchTypeRestaurants();
         this.fetchTypes();
+    },
+
+    watch: {
+        '$route'(to, from) {
+            if (to.params.type !== from.params.type) {
+                this.fetchTypeRestaurants();
+            }
+        }
     }
 }
 </script>
 
 <template>
+
+    <!--Da fare componenti-->
     <main class="container-main">
         <section class="sidebar">
             <div class="all">
@@ -85,7 +94,7 @@ export default {
         <section class="list">
             <h2>Ristoranti a domicilio</h2>
             <div class="row flex-container">
-                <div class="col flex-item" v-for="restaurant in restaurants" :key="restaurant.id">
+                <div class="col flex-item" v-for="restaurant in restaurants">
                     <div class="card-restaurant">
                         <div class="img-restaurant">
                             <img :src="restaurant.image" :alt="restaurant.activity_name">

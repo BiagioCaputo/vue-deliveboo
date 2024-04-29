@@ -1,15 +1,21 @@
 <script>
 import AppHeader from './components/AppHeader.vue';
 import AppFooter from './components/AppFooter.vue';
+import AppLoader from './components/AppLoader.vue';
+import { store } from './data/store';
 
 export default {
   name: 'Deliveboo',
-  components: { AppHeader, AppFooter }
+  data: () => ({
+    store
+  }),
+  components: { AppHeader, AppFooter, AppLoader }
 }
 </script>
 
 <template>
   <AppHeader />
+  <AppLoader v-if="store.isLoading" />
   <RouterView />
   <AppFooter />
 </template>

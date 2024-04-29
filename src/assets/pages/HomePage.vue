@@ -1,11 +1,36 @@
 <script>
 import { RouterLink } from 'vue-router';
 import { store } from '../../data/store.js'
+import axios from 'axios';
+
+const Types = 'http://localhost:8000/api/types';
+
 export default {
     name: 'HomePage',
     data: () => ({
-        store
-    })
+        store,
+        categories: []
+    }),
+
+    methods: {
+        fetchTypes() {
+            store.isLoading = true;
+            axios.get(Types).then(res => {
+                this.categories = res.data;
+            })
+                .catch(error => {
+                    console.log(error)
+                })
+                .then(() => {
+                    store.isLoading = false
+                })
+        },
+
+    },
+
+    created() {
+        this.fetchTypes();
+    }
 }
 </script>
 
@@ -20,10 +45,10 @@ export default {
                 <div class="text-center">
                     <h1 class="jumbo-title">Consegna di cibo a domicilio e molto altro</h1>
                     <p class="jumbo-subtitle">Ordina dai tuoi ristoranti preferiti, in pochi minuti a casa tua.</p>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" type="text">@</span>
-                        <input type="text" class="form-control" placeholder="Inserisci la tua mail">
-                    </div>
+
+                    <RouterLink class="custom-primary-btn router-link" :to="{ name: 'list' }">
+                        Ordina subito!
+                    </RouterLink>
                 </div>
             </div>
         </div>
@@ -41,7 +66,7 @@ export default {
             <div class="text-center">
                 <div class="row flex-container">
                     <div class="col flex-item" v-for="top in store.topRestaurant">
-                        <img :src="top.src" alt="Mask" class="round-img">
+                        <img :src="top.src" alt="Mask" class="mask-img">
                         <div class="label-rest">{{ top.label }}</div>
                     </div>
                 </div>
@@ -55,10 +80,13 @@ export default {
         <section class="category">
             <div class="container-desktop">
 
-                <h1 class="title-category text-center">Le categorie più richieste</h1>
-                <div class="category-pills d-flex gap-4 mt-5">
-                    <div class="pills" v-for="category in store.categories">
-                        {{ category }}
+                <h1 class="title-category text-center">Le nostre categorie</h1>
+                <div class="category-pills d-flex flex-wrap justify-content-center gap-4 mt-5">
+
+                    <div v-for="category in categories">
+                        <RouterLink :to="{ name: 'category', params: { type: category.id } }" class="pills">
+                            {{ category.label }}
+                        </RouterLink>
                     </div>
 
                 </div>
@@ -112,7 +140,7 @@ export default {
 
             <!--Button RouterLink-->
             <RouterLink class="custom-primary-btn router-link" :to="{ name: 'list' }">
-                Esplora i locali intorno a te
+                Esplora i locali
             </RouterLink>
 
         </section>
@@ -163,19 +191,6 @@ main {
 
     }
 
-    /* Input mail */
-    .input-group {
-        width: 60%;
-        margin: 0 auto;
-
-        span {
-            background-color: #00A082;
-            border-color: #00A082;
-            color: white;
-            font-weight: 600;
-        }
-    }
-
     section {
         padding-top: 50px;
     }
@@ -203,12 +218,13 @@ main {
             }
         }
 
-        .round-img {
+        .mask-img {
             width: 200px;
-            height: auto;
+            height: 111px;
             mask-image: url('/img/partners-mask.svg');
             mask-repeat: no-repeat;
             mask-position: 35px 0;
+            object-fit: fill;
         }
 
 
@@ -233,7 +249,7 @@ main {
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
-    height: 450px;
+    height: 500px;
 
     h1 {
         font-weight: 700;
@@ -245,6 +261,9 @@ main {
         padding: 10px 15px;
         border-radius: 50px;
         font-weight: 700;
+
+        text-decoration: none;
+        color: black;
     }
 
     .pills:hover {

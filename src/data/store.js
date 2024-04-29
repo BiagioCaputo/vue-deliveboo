@@ -1,6 +1,8 @@
 import { reactive } from "vue";
 
 export const store = reactive({
+    isLoading: false,
+
     footerLinks: [
         {
             title: 'Uniamo le forze',
@@ -66,6 +68,4 @@ export const store = reactive({
             label: 'Spontini'
         },
     ],
-
-    categories: ['Burgers', 'Pizza', 'Italiano', 'Poke', 'Kebab', 'Sushi', 'Pesce', 'Sandwich', 'Giapponese', 'Carne']
 })
