@@ -14,9 +14,16 @@ export default {
 
     methods: {
         fetchTypes() {
+            store.isLoading = true;
             axios.get(Types).then(res => {
                 this.categories = res.data;
             })
+                .catch(error => {
+                    console.log(error)
+                })
+                .then(() => {
+                    store.isLoading = false
+                })
         },
 
     },
@@ -59,7 +66,7 @@ export default {
             <div class="text-center">
                 <div class="row flex-container">
                     <div class="col flex-item" v-for="top in store.topRestaurant">
-                        <img :src="top.src" alt="Mask" class="round-img">
+                        <img :src="top.src" alt="Mask" class="mask-img">
                         <div class="label-rest">{{ top.label }}</div>
                     </div>
                 </div>
@@ -211,12 +218,13 @@ main {
             }
         }
 
-        .round-img {
+        .mask-img {
             width: 200px;
-            height: auto;
+            height: 111px;
             mask-image: url('/img/partners-mask.svg');
             mask-repeat: no-repeat;
             mask-position: 35px 0;
+            object-fit: fill;
         }
 
 

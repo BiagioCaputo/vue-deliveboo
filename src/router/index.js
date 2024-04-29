@@ -10,6 +10,9 @@ import NotFoundPage from '../assets/pages/NotFoundPage.vue'
 //Rotte
 const router = createRouter({
     history: createWebHistory(),
+    scrollBehavior() {
+        return { top: 0 }
+    },
     routes: [
         { path: '/', component: HomePage, name: 'home' },
         { path: '/list-restaurants', component: ListRestaurantsPage, name: 'list' },

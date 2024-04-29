@@ -17,15 +17,29 @@ export default {
 
     methods: {
         fetchRestaurants() {
+            store.isLoading = true;
             axios.get(endpoint).then(res => {
                 this.restaurants = res.data;
             })
+                .catch(error => {
+                    console.log(error)
+                })
+                .then(() => {
+                    store.isLoading = false
+                })
         },
 
         fetchTypes() {
+            store.isLoading = true;
             axios.get(Types).then(res => {
                 this.categories = res.data;
             })
+                .catch(error => {
+                    console.log(error)
+                })
+                .then(() => {
+                    store.isLoading = false
+                })
         },
 
     },
@@ -43,11 +57,14 @@ export default {
             <div class="all">
                 <h6>Tutti i ristoranti</h6>
                 <ul>
-                    <li class="category-list">
-                        <div class="category-img">
-                            <!-- <img src="" alt=""> -->
-                        </div>
-                        <span>Filtro</span>
+                    <li>
+                        <RouterLink :to="{ name: 'list' }" class="category-list">
+
+                            <div class="category-img">
+                                <!-- <img src="" alt=""> -->
+                            </div>
+                            <span>Vedi tutti</span>
+                        </RouterLink>
                     </li>
                 </ul>
             </div>

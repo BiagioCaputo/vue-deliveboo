@@ -1,5 +1,7 @@
 <script>
 import { RouterLink } from 'vue-router';
+import { store } from '../../data/store.js'
+
 import axios from 'axios';
 
 const baseUri = 'http://localhost:8000/api/';
@@ -7,12 +9,13 @@ const baseUri = 'http://localhost:8000/api/';
 export default {
     name: 'TypesRestaurantPage',
     data: () => ({
+        store,
         restaurants: [],
-
         categories: []
     }),
     methods: {
         fetchTypeRestaurants() {
+            store.isLoading = true;
             axios.get(baseUri + `types/${this.$route.params.type}/restaurants`).then(res => {
                 this.restaurants = res.data.restaurants;
 
@@ -21,12 +24,21 @@ export default {
                     console.error('Errore nel recupero delle tipologie:', error);
                     // Redirect alla pagina not-found
                     this.$router.push({ name: 'not-found' });
-                }).then(() => { });
+                }).then(() => {
+                    store.isLoading = false;
+                });
         },
         fetchTypes() {
+            store.isLoading = true;
             axios.get(baseUri + 'types').then(res => {
                 this.categories = res.data;
             })
+                .catch(error => {
+                    console.log(error)
+                })
+                .then(() => {
+                    store.isLoading = false;
+                })
         },
 
     },
@@ -54,11 +66,14 @@ export default {
             <div class="all">
                 <h6>Tutti i ristoranti</h6>
                 <ul>
-                    <li class="category-list">
-                        <div class="category-img">
-                            <!-- <img src="" alt=""> -->
-                        </div>
-                        <span>Filtro</span>
+                    <li>
+                        <RouterLink :to="{ name: 'list' }" class="category-list">
+
+                            <div class="category-img">
+                                <!-- <img src="" alt=""> -->
+                            </div>
+                            <span>Vedi tutti</span>
+                        </RouterLink>
                     </li>
                 </ul>
             </div>
