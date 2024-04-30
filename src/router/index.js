@@ -17,7 +17,7 @@ const router = createRouter({
         { path: '/', component: HomePage, name: 'home' },
         { path: '/list-restaurants', component: ListRestaurantsPage, name: 'list' },
         { path: '/types/:type/restaurants', component: TypesRestaurantPage, name: 'category' },
-        { path: '/restaurant-menu', component: RestaurantMenuPage, name: 'menu' },
+        { path: '/restaurant-menu/:id', component: RestaurantMenuPage, name: 'menu' },
         { path: '/not-found', component: NotFoundPage, name: 'not-found' },
         { path: '/:patchMatch(.*)*', redirect: 'not-found' }
     ]

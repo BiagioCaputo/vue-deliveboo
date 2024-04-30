@@ -1,6 +1,37 @@
 <script>
+import { RouterLink } from 'vue-router';
+import axios from 'axios';
+import { store } from '../../data/store.js'
+const endpoint = 'http://localhost:8000/api/restaurants/'
+
 export default {
-    name: 'RestaurantMenuPage'
+    name: 'RestaurantMenuPage',
+
+    data() {
+        return {
+            store,
+            restaurant: null
+        }
+    },
+    methods: {
+        getRestaurantDishes() {
+            store.isLoading = true;
+            axios.get(endpoint + this.$route.params.id)
+                .then((res) => {
+                    this.restaurant = res.data;
+                    console.log(this.restaurant)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+                .then(() => {
+                    store.isLoading = false;
+                })
+        }
+    },
+    created() {
+        this.getRestaurantDishes();
+    }
 }
 </script>
 
@@ -23,9 +54,9 @@ export default {
                 </div>
 
                 <div class="row m-0 p-0">
-                    <!-- lista categorie -->
+                    <!-- lista Portate -->
                     <div class="col-3 yellow sections-menu m-2 ms-0 rounded-3">
-                        <h1>Sections</h1>
+                        <h1>Portate</h1>
                         <ul>
                             <li>Sezione 1</li>
                             <li>Sezione 1</li>
@@ -33,35 +64,36 @@ export default {
                             <li>Sezione 1</li>
                             <li>Sezione 1</li>
                             <li>Sezione 1</li>
-
-
                         </ul>
                     </div>
 
 
                     <!-- lista piatti -->
-                    <div class="col green dishes-section m-2 me-0 rounded-3">
-                        <input type="text">
-                        <h1>Dishes section</h1>
-                        <ul>
-                            <li>Piatto 1</li>
-                            <li>Piatto 1</li>
-                            <li>Piatto 1</li>
-                            <li>Piatto 1</li>
-                            <li>Piatto 1</li>
-
-                        </ul>
+                    <div class="col green dishes-section m-2 me-0 rounded-3 overflow-y-scroll">
+                        <h1>Piatti</h1>
+                        <div class="row">
+                            <div v-for="(dish, index) in restaurant" :key="index" class="col">
+                                <div class="card" style="width: 18rem;">
+                                    <img class="card-img-top" :src="dish.image" :alt="dish.name">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ dish.name }}</h5>
+                                        <p class="card-text">{{ dish.description }}</p>
+                                        <a href="#" class="btn btn-primary">Aggiungi al carrello</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
             </div>
 
             <!-- carrello -->
-            <div class="col blue order-card rounded-3 d-flex flex-column justify-content-evenly align-items-center p-4">
+            <!-- <div class="col blue order-card rounded-3 d-flex flex-column justify-content-evenly align-items-center p-4">
                 <h2>Your order</h2>
                 <img src="/public/img/astronaut-grey-scale.svg" alt="image">
                 <p>You've not added any products yet. When you do, you'll see them here!</p>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
