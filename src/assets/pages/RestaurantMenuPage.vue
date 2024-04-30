@@ -36,18 +36,12 @@ export default {
                 })
         },
 
-        //funzione per salvare i dati nel carrello del local storage dal carrello dello store che verrà richiamata ogni volta all'aggiunta di un piatto
-        saveInLS() {
-            localStorage.cart = JSON.stringify(this.cart);
-            console.log(localStorage.cart);
-        },
-
-        //funzione per aggiungere un piatto al carrello dello store e salvare in Local Storage
+        // Funzione per aggiungere un piatto al carrello dello store e a quello del LocalSorage
         addDishToCart(dish) {
             if (this.cart.length === 0 || this.cart[0].restaurant_id === dish.restaurant_id) //se il cart è vuoto oppure l'elemento che provo a salvare ha lo stesso restaurant id del primo salvato
             {
                 this.cart.push(dish); //inserico il piatto nel carrello dello store
-                this.saveInLS(); //richiamo la funzione per salvare il cart dello store in localo storage
+                localStorage.cart = JSON.stringify(this.cart);
             }
             else {
                 console.log("No se puede") // TODO MODALE NEL CASO L'UTENTE INSERISCA IL PIATTO DI UN ALTRO RISTORANTE
@@ -57,7 +51,7 @@ export default {
     },
     created() {
         this.getRestaurantDishes();
-    }
+    },
 }
 </script>
 
