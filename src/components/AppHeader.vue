@@ -5,7 +5,13 @@ import AppCart from './AppCart.vue';
 
 export default {
     name: 'AppHeader',
-    components: { AppCart }
+    components: { AppCart },
+
+    data: () => ({
+        // Props carrello
+        items: [],
+        isVisible: false,
+    })
 }
 </script>
 
@@ -18,7 +24,7 @@ export default {
                         <img src="/img/glovo_logo.png" alt="Logo" class="logo-img">
                     </h1>
                 </RouterLink>
-                <AppCart />
+                <AppCart :items="items" :isVisible="isVisible" />
             </div>
         </div>
     </header>

@@ -3,12 +3,9 @@ export default {
     // Javascript Logic
     name: 'AppCart',
     props: {
+        items: Array,
         isVisible: Boolean,
     },
-
-    data: () => ({
-        items: [],
-    })
 };
 </script>
 
