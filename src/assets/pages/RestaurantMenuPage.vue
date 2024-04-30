@@ -1,25 +1,29 @@
 <script>
-import { RouterLink } from 'vue-router';
 import axios from 'axios';
 import { store } from '../../data/store.js'
 const endpoint = 'http://localhost:8000/api/restaurants/'
+
+// Destructuring dello store
+let { isLoading, cartItems } = store;
 
 export default {
     name: 'RestaurantMenuPage',
 
     data() {
         return {
-            store,
-            restaurant: null
+            isLoading,
+            restaurant: '',
+            dishes: [],
+            cartItems,
         }
     },
     methods: {
         getRestaurantDishes() {
-            store.isLoading = true;
+            isLoading = true;
             axios.get(endpoint + this.$route.params.id)
                 .then((res) => {
                     const { restaurant, dishes } = res.data; // Destructuring per estrarre restaurant e dishes
-                    console.log(restaurant, dishes)
+                    // console.log(restaurant, dishes)
                     this.restaurant = restaurant; // Assegna restaurant al tuo dato
                     this.dishes = dishes; // Assegna dishes al tuo dato
                 })
@@ -27,8 +31,13 @@ export default {
                     console.log(err)
                 })
                 .then(() => {
-                    store.isLoading = false;
+                    isLoading = false;
                 })
+        },
+
+        updateCart(dish) {
+            this.cartItems.push(dish)
+            console.log('Carrello:', this.cartItems);
         }
     },
     created() {
@@ -81,7 +90,8 @@ export default {
                                         <p class="card-text">{{ dish.description }}</p>
                                         <p class="card-text">{{ dish.course.label }}</p>
                                         <p class="card-text">{{ dish.price }}</p>
-                                        <a href="#" class="btn btn-primary">Aggiungi al carrello</a>
+                                        <button @click="updateCart(dish)" class="btn btn-primary">Aggiungi al
+                                            carrello</button>
                                     </div>
                                 </div>
                             </div>
