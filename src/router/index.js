@@ -5,8 +5,8 @@ import HomePage from '../assets/pages/HomePage.vue';
 import ListRestaurantsPage from '../assets/pages/ListRestaurantsPage.vue';
 import TypesRestaurantPage from '../assets/pages/TypesRestaurantPage.vue';
 import RestaurantMenuPage from '../assets/pages/RestaurantMenuPage.vue';
-import NotFoundPage from '../assets/pages/NotFoundPage.vue'
-
+import CartPage from '../assets/pages/CartPage.vue';
+import NotFoundPage from '../assets/pages/NotFoundPage.vue';
 //Rotte
 const router = createRouter({
     history: createWebHistory(),
@@ -18,8 +18,9 @@ const router = createRouter({
         { path: '/list-restaurants', component: ListRestaurantsPage, name: 'list' },
         { path: '/types/:type/restaurants', component: TypesRestaurantPage, name: 'category' },
         { path: '/restaurant-menu/:id', component: RestaurantMenuPage, name: 'menu' },
+        { path: '/cart', component: CartPage, name: 'cart' },
         { path: '/not-found', component: NotFoundPage, name: 'not-found' },
-        { path: '/:patchMatch(.*)*', redirect: 'not-found' }
+        { path: '/:patchMatch(.*)*', redirect: 'not-found' },
     ]
 });
 
