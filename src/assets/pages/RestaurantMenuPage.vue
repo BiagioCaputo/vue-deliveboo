@@ -58,12 +58,12 @@ export default {
                     <div class="col-3 yellow sections-menu m-2 ms-0 rounded-3">
                         <h1>Portate</h1>
                         <ul>
-                            <li>Sezione 1</li>
-                            <li>Sezione 1</li>
-                            <li>Sezione 1</li>
-                            <li>Sezione 1</li>
-                            <li>Sezione 1</li>
-                            <li>Sezione 1</li>
+                            <li>Antipasti</li>
+                            <li>Primi</li>
+                            <li>Secondi</li>
+                            <li>Contorni</li>
+                            <li>Dolci</li>
+                            <li>Bevande</li>
                         </ul>
                     </div>
 
@@ -88,7 +88,7 @@ export default {
                 </div>
             </div>
 
-            <!-- carrello -->
+            <!-- Carrello da implementare in futuro! -->
             <!-- <div class="col blue order-card rounded-3 d-flex flex-column justify-content-evenly align-items-center p-4">
                 <h2>Your order</h2>
                 <img src="/public/img/astronaut-grey-scale.svg" alt="image">
