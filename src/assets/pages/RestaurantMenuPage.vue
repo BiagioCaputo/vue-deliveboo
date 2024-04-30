@@ -4,7 +4,7 @@ import { store } from '../../data/store.js'
 const endpoint = 'http://localhost:8000/api/restaurants/'
 
 // Destructuring dello store
-let { isLoading, cartItems } = store;
+let { isLoading, cart } = store;
 
 export default {
     name: 'RestaurantMenuPage',
@@ -14,18 +14,19 @@ export default {
             isLoading,
             restaurant: '',
             dishes: [],
-            cartItems,
+            cart,
         }
     },
     methods: {
+
+        //Chiamata per ricevere dati del ristorante e dei piatti
         getRestaurantDishes() {
             isLoading = true;
             axios.get(endpoint + this.$route.params.id)
                 .then((res) => {
                     const { restaurant, dishes } = res.data; // Destructuring per estrarre restaurant e dishes
-                    // console.log(restaurant, dishes)
-                    this.restaurant = restaurant; // Assegna restaurant al tuo dato
-                    this.dishes = dishes; // Assegna dishes al tuo dato
+                    this.restaurant = restaurant;
+                    this.dishes = dishes;
                 })
                 .catch(err => {
                     console.log(err)
@@ -35,10 +36,18 @@ export default {
                 })
         },
 
-        updateCart(dish) {
-            this.cartItems.push(dish)
-            console.log('Carrello:', this.cartItems);
-        }
+        //funzione per salvare i dati nel carrello del local storage dal carrello dello store che verrà richiamata ogni volta all'aggiunta di un piatto
+        saveInLS() {
+            localStorage.cart = JSON.stringify(this.cart);
+            console.log(localStorage.cart);
+        },
+
+        //funzione per aggiungere un piatto al carrello dello store e salvare in Local Storage
+        addDishToCart(dish) {
+            this.cart.push(dish);
+            this.saveInLS();
+        },
+
     },
     created() {
         this.getRestaurantDishes();
@@ -90,7 +99,7 @@ export default {
                                         <p class="card-text">{{ dish.description }}</p>
                                         <p class="card-text">{{ dish.course.label }}</p>
                                         <p class="card-text">{{ dish.price }}</p>
-                                        <button @click="updateCart(dish)" class="btn btn-primary">Aggiungi al
+                                        <button class="btn btn-primary" @click="addDishToCart(dish)">Aggiungi al
                                             carrello</button>
                                     </div>
                                 </div>
