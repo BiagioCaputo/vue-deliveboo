@@ -1,5 +1,6 @@
 <script>
 import { RouterLink } from 'vue-router';
+import { store } from '../data/store.js'
 
 
 export default {
@@ -10,6 +11,7 @@ export default {
         // Props carrello
         items: [],
         isVisible: false,
+        store,
     })
 }
 </script>
@@ -24,8 +26,11 @@ export default {
                     </h1>
                 </RouterLink>
                 <Router-link to="/cart">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    Carrello
+                    <div class="cart-shopping">
+                        <i class="fa-solid fa-cart-shopping position-relative">
+                            <span class="cart-number-items fw-bold">{{ store.cart.length }}</span>
+                        </i>
+                    </div>
                 </Router-link>
             </div>
         </div>
@@ -33,6 +38,8 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+@use '../assets/scss/variables.scss' as *;
+
 header {
     height: 120px;
     background-color: #FFC244;
@@ -63,6 +70,34 @@ header {
                 right: 25px;
             }
         }
+    }
+}
+
+//stile carrello
+.cart-shopping {
+    font-size: 2.1rem;
+    color: $secondary-color;
+    border-radius: 10px;
+
+    &:hover {
+        color: gray;
+    }
+
+    .cart-number-items {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: 3px;
+        left: 15px;
+        font-size: 0.5rem;
+        color: white;
+        border: 1px solid white;
+        background-color: $primary-color;
+        width: 8px;
+        height: 8px;
+        padding: 6px;
+        border-radius: 50%;
     }
 }
 </style>
