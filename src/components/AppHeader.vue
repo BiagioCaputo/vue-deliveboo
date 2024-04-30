@@ -1,9 +1,17 @@
 <script>
 import { RouterLink } from 'vue-router';
+import AppCart from './AppCart.vue';
 
 
 export default {
-    name: 'AppHeader'
+    name: 'AppHeader',
+    components: { AppCart },
+
+    data: () => ({
+        // Props carrello
+        items: [],
+        isVisible: false,
+    })
 }
 </script>
 
@@ -13,10 +21,10 @@ export default {
             <div class="logo">
                 <RouterLink class="router-link" :to="{ name: 'home' }">
                     <h1 class="logo-text">DeliveBoo
-
                         <img src="/img/glovo_logo.png" alt="Logo" class="logo-img">
                     </h1>
                 </RouterLink>
+                <AppCart :items="items" :isVisible="isVisible" />
             </div>
         </div>
     </header>
@@ -35,6 +43,7 @@ header {
     .logo {
         height: 100%;
         display: flex;
+        justify-content: space-between;
         align-items: center;
 
 
