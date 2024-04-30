@@ -18,8 +18,10 @@ export default {
             store.isLoading = true;
             axios.get(endpoint + this.$route.params.id)
                 .then((res) => {
-                    this.restaurant = res.data;
-                    console.log(this.restaurant)
+                    const { restaurant, dishes } = res.data; // Destructuring per estrarre restaurant e dishes
+                    console.log(restaurant, dishes)
+                    this.restaurant = restaurant; // Assegna restaurant al tuo dato
+                    this.dishes = dishes; // Assegna dishes al tuo dato
                 })
                 .catch(err => {
                     console.log(err)
@@ -37,7 +39,7 @@ export default {
 
 <template>
     <!-- jumbotron -->
-    <img class="restaurant-bg" src="/public/img/burgerking.jpeg" alt="restaurant-background-image">
+    <img class="restaurant-bg" :src="restaurant.image" :alt="restaurant.name">
 
     <!-- sezione ristorante -->
     <div class="container-md">
@@ -46,11 +48,10 @@ export default {
                 <!-- titolo ristorante -->
                 <div class="restaurant-title rounded-start-3 rounded-bottom-3 p-2">
                     <div class="logo rounded-2 d-flex justify-content-center align-itmes-center">
-                        <img src="" alt="">
-                        logo
+                        <img :src="restaurant.logo" :alt="restaurant.name">
                     </div>
-                    <div class="restaurant-name">McDonald's</div>
-                    <div class="icons">Icons</div>
+                    <div class="restaurant-name">{{ restaurant.activity_name }}</div>
+                    <div class="icons">Icone varie</div>
                 </div>
 
                 <div class="row m-0 p-0">
@@ -72,12 +73,14 @@ export default {
                     <div class="col green dishes-section m-2 me-0 rounded-3 overflow-y-scroll">
                         <h1>Piatti</h1>
                         <div class="row">
-                            <div v-for="(dish, index) in restaurant" :key="index" class="col">
-                                <div class="card" style="width: 18rem;">
+                            <div v-for="dish in dishes" :key="dish.id" class="col">
+                                <div class="card">
                                     <img class="card-img-top" :src="dish.image" :alt="dish.name">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ dish.name }}</h5>
                                         <p class="card-text">{{ dish.description }}</p>
+                                        <p class="card-text">{{ dish.course.label }}</p>
+                                        <p class="card-text">{{ dish.price }}</p>
                                         <a href="#" class="btn btn-primary">Aggiungi al carrello</a>
                                     </div>
                                 </div>
@@ -128,11 +131,12 @@ export default {
             box-shadow: 0 3px 10px rgba(0, 0, 0, .1);
 
             .logo {
-                width: 50px;
-                height: 50px;
+                width: 120px;
+                height: 120px;
                 background-color: aqua;
-                margin-left: 100px;
-                margin-top: -35px;
+                border: 1px solid black;
+                margin-left: 50px;
+                margin-top: -105px;
             }
         }
 
