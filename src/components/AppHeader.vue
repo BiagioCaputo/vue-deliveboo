@@ -1,11 +1,10 @@
 <script>
 import { RouterLink } from 'vue-router';
-import AppCart from './AppCart.vue';
 
 
 export default {
     name: 'AppHeader',
-    components: { AppCart },
+    components: {},
 
     data: () => ({
         // Props carrello
@@ -24,7 +23,10 @@ export default {
                         <img src="/img/glovo_logo.png" alt="Logo" class="logo-img">
                     </h1>
                 </RouterLink>
-                <AppCart :items="items" :isVisible="isVisible" />
+                <Router-link to="/cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    Carrello
+                </Router-link>
             </div>
         </div>
     </header>
