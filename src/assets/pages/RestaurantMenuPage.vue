@@ -5,10 +5,14 @@ export default {
 </script>
 
 <template>
+    <!-- jumbotron -->
     <img class="restaurant-bg" src="/public/img/burgerking.jpeg" alt="restaurant-background-image">
+
+    <!-- sezione ristorante -->
     <div class="container-md">
         <div class="row p-0">
             <div class="col-xl-9">
+                <!-- titolo ristorante -->
                 <div class="restaurant-title rounded-start-3 rounded-bottom-3 p-2">
                     <div class="logo rounded-2 d-flex justify-content-center align-itmes-center">
                         <img src="" alt="">
@@ -17,23 +21,42 @@ export default {
                     <div class="restaurant-name">McDonald's</div>
                     <div class="icons">Icons</div>
                 </div>
+
                 <div class="row m-0 p-0">
+                    <!-- lista categorie -->
                     <div class="col-3 yellow sections-menu m-2 ms-0 rounded-3">
                         <h1>Sections</h1>
                         <ul>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
+                            <li>Sezione 1</li>
+                            <li>Sezione 1</li>
+                            <li>Sezione 1</li>
+                            <li>Sezione 1</li>
+                            <li>Sezione 1</li>
+                            <li>Sezione 1</li>
+
+
                         </ul>
                     </div>
+
+
+                    <!-- lista piatti -->
                     <div class="col green dishes-section m-2 me-0 rounded-3">
+                        <input type="text">
                         <h1>Dishes section</h1>
+                        <ul>
+                            <li>Piatto 1</li>
+                            <li>Piatto 1</li>
+                            <li>Piatto 1</li>
+                            <li>Piatto 1</li>
+                            <li>Piatto 1</li>
+
+                        </ul>
                     </div>
 
                 </div>
             </div>
+
+            <!-- carrello -->
             <div class="col blue order-card rounded-3 d-flex flex-column justify-content-evenly align-items-center p-4">
                 <h2>Your order</h2>
                 <img src="/public/img/astronaut-grey-scale.svg" alt="image">
