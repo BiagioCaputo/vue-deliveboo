@@ -14,6 +14,7 @@ export default {
         //funzione per svuotare il carrello
         emptyCart() {
             this.store.cart = [];
+            localStorage.cart = [];
         }
 
 
