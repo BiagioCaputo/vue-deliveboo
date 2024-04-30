@@ -86,17 +86,18 @@ export default {
             <h2>Ristoranti a domicilio</h2>
             <div class="row flex-container">
                 <div class="col flex-item" v-for="restaurant in restaurants" :key="restaurant.id">
-                    <div class="card-restaurant">
-                        <div class="img-restaurant">
-                            <img :src="restaurant.image" :alt="restaurant.activity_name">
+                    <RouterLink :to="`/restaurant-menu/${restaurant.id}`" class="text-decoration-none">
+                        <div class="card-restaurant">
+                            <div class="img-restaurant">
+                                <img :src="restaurant.image" :alt="restaurant.activity_name">
+                            </div>
+                            <div class="text-restaurant">
+                                <h5 class="mb-0 text-black">{{ restaurant.activity_name }}</h5>
+
+                                <!-- <div class="category">Categoria</div> -->
+                            </div>
                         </div>
-                        <div class="text-restaurant">
-                            <h5 class="mb-0">{{ restaurant.activity_name }}</h5>
-                            <RouterLink class="btn btn-primary" :to="`/restaurant-menu/${restaurant.id}`"><i
-                                    class="fa-solid fa-eye"></i></RouterLink>
-                            <!-- <div class="category">Categoria</div> -->
-                        </div>
-                    </div>
+                    </RouterLink>
                 </div>
             </div>
         </section>
