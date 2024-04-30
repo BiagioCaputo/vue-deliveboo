@@ -38,7 +38,7 @@ export default {
                     console.log(error)
                 })
                 .then(() => {
-                    store.isLoading = false
+                    store.isLoading = false;
                 })
         },
 
@@ -92,6 +92,8 @@ export default {
                         </div>
                         <div class="text-restaurant">
                             <h5 class="mb-0">{{ restaurant.activity_name }}</h5>
+                            <RouterLink class="btn btn-primary" :to="`/restaurant-menu/${restaurant.id}`"><i
+                                    class="fa-solid fa-eye"></i></RouterLink>
                             <!-- <div class="category">Categoria</div> -->
                         </div>
                     </div>
