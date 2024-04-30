@@ -12,7 +12,31 @@ export default {
         items: [],
         isVisible: false,
         store,
-    })
+    }),
+    // computed: {
+    //     storeLenght() {
+    //         return this.store.cart.length
+    //     }
+    // },
+
+    mounted() {
+        // Recupero i dati dal localStorage all'avvio del componente
+        const savedCart = localStorage.getItem('cart');
+        if (savedCart) {
+            this.store.cart = JSON.parse(savedCart);
+        }
+    },
+    // watch: {
+    //     // Watcher per il cambio di store.cart
+    //     'store.cart': {
+    //         handler(updatedCart) {
+    //             // Salva il nuovo valore di store.cart nel localStorage
+    //             localStorage.setItem('cart', JSON.stringify(updatedCart));
+    //         },
+    //         // Attivo forzatamente la callback
+    //         deep: true
+    //     }
+    // }
 }
 </script>
 
