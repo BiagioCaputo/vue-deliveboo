@@ -39,6 +39,14 @@ main {
 
 }
 
+h1 {
+    font-weight: bolder;
+}
+
+p {
+    font-weight: bold;
+}
+
 .container-fluid {
     height: 800px;
 }
@@ -172,7 +180,7 @@ main {
         }
 
         50% {
-            transform: translate(-10px, -5px);
+            transform: translate(-12px, 15px);
 
         }
 
@@ -188,7 +196,7 @@ main {
         }
 
         50% {
-            transform: translateY(-15px, -5px);
+            transform: translate(15px, -7px);
 
         }
 
