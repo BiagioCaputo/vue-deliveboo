@@ -159,7 +159,7 @@ export default {
 
                 <!-- Sezione Carrello -->
                 <div class="col-3">
-                    <div class="card p-3 text-center">
+                    <div class="card p-3 text-center cart">
                         <h2 class="cart-title">Il tuo ordine</h2>
                         <div v-if="cart.length <= 0">
                             <img src="/img/astronaut-grey-scale.svg" alt="">
@@ -302,6 +302,11 @@ section {
             }
         }
     }
+}
+
+.cart {
+    box-shadow: 0px 2px 24px 1px rgba(0, 0, 0, 0.1019607843);
+    border: transparent;
 }
 
 .cart-title {
