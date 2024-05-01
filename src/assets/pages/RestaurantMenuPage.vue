@@ -50,7 +50,7 @@ export default {
                     if (item.id === dish.id) {
                         item.quantity++;
                         found = true;
-                        break;
+                        break; //se abbiamo trovato l'elemento e abbiamo aumentato il conteggio, interompiamo
                     }
                 }
                 //altrimenti non ho trovato altri elementi uguali e quindi inizializzo la quantità ad 1
@@ -73,6 +73,7 @@ export default {
             }
             this.totalPrice = totalPrice.toFixed(2);
         },
+
 
         //Funzione per svuotare il carrello e chiudere la modale
         emptyCartAndCloseModal() {
@@ -176,7 +177,7 @@ export default {
                     </div>
                 </div>
                 <div v-else>
-                    <p>Il carrello è vuoto.</p>
+                    <h2 class="text-center">Il carrello è vuoto.</h2>
                 </div>
             </div>
         </div>
