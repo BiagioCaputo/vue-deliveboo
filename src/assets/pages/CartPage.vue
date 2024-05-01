@@ -19,13 +19,22 @@ export default {
             window.location.reload(); // Refresha la pagina
         },
 
-        // Funzione per calcolare il prezzo totale
+        // Funzione per calcolare il prezzo totale tenendo conto delle quantità
         calculateTotalPrice() {
             let totalPrice = 0;
             for (let dish of this.store.cart) {
-                totalPrice += parseFloat(dish.price);
+                totalPrice += parseFloat(dish.price) * dish.quantity;;
             }
             this.totalPrice = totalPrice.toFixed(2);
+        },
+
+        // Funzione per calcolare il numero totale di piatti nel carrello
+        getTotalQuantity() {
+            let totalQuantity = 0;
+            for (let dish of this.store.cart) {
+                totalQuantity += dish.quantity;
+            }
+            return totalQuantity;
         }
 
 
@@ -33,7 +42,6 @@ export default {
     mounted() {
         //se ho dati nel localStorage li salvo nel cart dello store per poter interagire con esso con le altre funzioni del carrello, altrimenti salvo un array vuoto nel cart dello store
         this.store.cart = localStorage.cart ? JSON.parse(localStorage.cart) : [];
-        // Calcola il prezzo totale
         this.calculateTotalPrice();
 
     },
@@ -46,7 +54,7 @@ export default {
 
         <!-- se il carrello non è vuoto visualizzo gli elementi -->
         <div v-if="store.cart && store.cart.length > 0">
-            <h2>Il carrello contiene {{ store.cart.length }} elementi:</h2>
+            <h2>Il carrello contiene {{ getTotalQuantity() }} elementi:</h2>
 
             <div v-for="dish in store.cart">
                 <div class="card mb-3" style="max-width: 540px;">
@@ -58,7 +66,8 @@ export default {
                             <div class="card-body">
                                 <h5 class="card-title">{{ dish.name }}</h5>
                                 <p class="card-text">{{ dish.ingredients }}</p>
-                                <p class="card-text">{{ dish.price }} €</p>
+                                <p class="card-text"> <span v-if="dish.quantity > 1" class="me-2">{{
+                                    dish.quantity }}x</span> {{ dish.price }} €</p>
                             </div>
                         </div>
                     </div>
