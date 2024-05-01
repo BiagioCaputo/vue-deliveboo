@@ -50,22 +50,65 @@ main {
     ;
 
 
-    img {
+    .pane-sopra {
         position: absolute;
-        animation-name: infinite-updown;
-        animation-duration: 5s;
+        animation-name: loop-panesopra;
+        animation-duration: 3s;
         animation-iteration-count: infinite;
         animation-timing-function: ease;
+    }
+
+    .carne-sopra {
+        position: absolute;
+        animation-name: loop-carnesopra;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease;
+        z-index: 2;
+    }
+
+    .carne-sotto {
+        position: absolute;
+        animation-name: loop-carnesotto;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease;
+        z-index: 1;
 
     }
 
-    @keyframes infinite-updown {
+
+    .pane-sotto {
+        position: absolute;
+        animation-name: loop-panesotto;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease;
+    }
+
+    .cetriolo {
+        position: absolute;
+        animation-name: cetriolo;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease;
+    }
+
+    .pomodoro {
+        position: absolute;
+        animation-name: pomodoro;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease;
+    }
+
+    @keyframes loop-panesopra {
         0% {
             transform: translateY(0px);
         }
 
         50% {
-            transform: translateY(50px);
+            transform: translateY(20px);
 
         }
 
@@ -74,5 +117,86 @@ main {
 
         }
     }
+
+    @keyframes loop-carnesopra {
+        0% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(15px);
+
+        }
+
+        100% {
+            transform: translateY(0px);
+
+        }
+    }
+
+    @keyframes loop-carnesotto {
+        0% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(8px);
+
+        }
+
+        100% {
+            transform: translateY(0px);
+
+        }
+    }
+
+    @keyframes loop-panesotto {
+        0% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-4px);
+
+        }
+
+        100% {
+            transform: translateY(0px);
+
+        }
+    }
+
+    @keyframes cetriolo {
+        0% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translate(-10px, -5px);
+
+        }
+
+        100% {
+            transform: translateY(0px);
+
+        }
+    }
+
+    @keyframes pomodoro {
+        0% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-15px, -5px);
+
+        }
+
+        100% {
+            transform: translateY(0px);
+
+        }
+    }
+
 }
 </style>
