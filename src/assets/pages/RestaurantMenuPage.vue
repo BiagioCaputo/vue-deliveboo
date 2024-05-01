@@ -41,14 +41,27 @@ export default {
 
         // Funzione per aggiungere un piatto al carrello dello store e a quello del LocalSorage
         addDishToCart(dish) {
-            if (this.cart.length === 0 || this.cart[0].restaurant_id === dish.restaurant_id) //se il cart è vuoto oppure l'elemento che provo a salvare ha lo stesso restaurant id del primo salvato
-            {
-                this.cart.push(dish); //inserico il piatto nel carrello dello store
-                localStorage.cart = JSON.stringify(this.cart);
-                this.calculateTotalPrice(); //all'aggiunta di un piatto nel carrello ricarico il prezzo totale
-            }
-            else {
-                this.showModal = true; // TODO MODALE NEL CASO L'UTENTE INSERISCA IL PIATTO DI UN ALTRO RISTORANTE
+            //flag per piatti uguali
+            let found = false;
+            // Se il carrello è vuoto o se l'elemento appartiene allo stesso ristorante
+            if (this.cart.length === 0 || this.cart[0].restaurant_id === dish.restaurant_id) {
+                //itero per vedere se ho piatti uguali, se ne ho aumento il suo attributo quantità e imposto found a true
+                for (let item of this.cart) {
+                    if (item.id === dish.id) {
+                        item.quantity++;
+                        found = true;
+                        break;
+                    }
+                }
+                //altrimenti non ho trovato altri elementi uguali e quindi inizializzo la quantità ad 1
+                if (!found) {
+                    dish.quantity = 1;
+                    this.cart.push(dish);
+                }
+                localStorage.cart = JSON.stringify(this.cart); //salvo nel LS
+                this.calculateTotalPrice(); //ricalcolo il prezzo ad ogni piatto salvato
+            } else {
+                this.showModal = true; // Mostra la modale per avvertire l'utente
             }
         },
 
@@ -56,18 +69,19 @@ export default {
         calculateTotalPrice() {
             let totalPrice = 0;
             for (let item of this.cart) {
-                totalPrice += parseFloat(item.price);
+                totalPrice += parseFloat(item.price) * item.quantity;;
             }
             this.totalPrice = totalPrice.toFixed(2);
         },
 
+        //Funzione per svuotare il carrello e chiudere la modale
         emptyCartAndCloseModal() {
             this.cart = [];
             localStorage.cart = JSON.stringify(this.cart);
             this.showModal = false;
         },
 
-        // Metodo per recuperare i piatti dal localStorage
+        // Metodo per recuperare i piatti dal localStorage (usato items per non confondersi con gli altri dishes in pagina)
         getCartItemsFromLocalStorage() {
             const cartItems = localStorage.cart ? JSON.parse(localStorage.cart) : [];
             this.cart = cartItems;
@@ -77,6 +91,7 @@ export default {
     created() {
         this.getRestaurantDishes();
         this.getCartItemsFromLocalStorage();
+        this.calculateTotalPrice();
     },
 }
 </script>
@@ -150,7 +165,8 @@ export default {
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ item.name }}</h5>
+                                        <h5 class="card-title">{{ item.name }} <span v-if="item.quantity > 1">x{{
+                                            item.quantity }}</span></h5>
                                         <p class="card-text">{{ item.ingredients }}</p>
                                         <p class="card-text">{{ item.price }} €</p>
                                     </div>
