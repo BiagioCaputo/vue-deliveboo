@@ -52,6 +52,27 @@ main {
 
     img {
         position: absolute;
+        animation-name: infinite-updown;
+        animation-duration: 5s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease;
+
+    }
+
+    @keyframes infinite-updown {
+        0% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(50px);
+
+        }
+
+        100% {
+            transform: translateY(0px);
+
+        }
     }
 }
 </style>
