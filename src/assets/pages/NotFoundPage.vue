@@ -13,7 +13,12 @@ export default {
 
         <div class="container-fluid d-flex justify-content-center align-items-center">
             <div class="animated-image">
-                <img src="/img/jumbo-food-no-bg.png" alt="immagine che fluttua">
+                <img class="pane-sopra" src="/img/jumbo-food-pane-sopra.png" alt="immagine che fluttua">
+                <img class="carne-sopra" src="/img/jumbo-food-carne-sopra.png" alt="immagine che fluttua">
+                <img class="carne-sotto" src="/img/jumbo-food-carne-sotto.png" alt="immagine che fluttua">
+                <img class="pane-sotto" src="/img/jumbo-food-pane-sotto.png" alt="immagine che fluttua">
+                <img class="cetriolo" src="/img/jumbo-food-cetriolo.png" alt="immagine che fluttua">
+                <img class="pomodoro" src="/img/jumbo-food-pomodoro.png" alt="immagine che fluttua">
             </div>
             <div class="text-section ">
                 <h1>Mmm..., cos'è un 404?</h1>
@@ -36,5 +41,17 @@ main {
 
 .container-fluid {
     height: 800px;
+}
+
+.animated-image {
+    position: relative;
+    width: 500px;
+    height: 400px;
+    ;
+
+
+    img {
+        position: absolute;
+    }
 }
 </style>
