@@ -8,6 +8,7 @@ let { isLoading, cart } = store;
 
 export default {
     name: 'RestaurantMenuPage',
+    components: {},
 
     data() {
         return {
@@ -48,176 +49,142 @@ export default {
             }
         },
 
+        // Metodo per recuperare i piatti dal localStorage
+        getCartItemsFromLocalStorage() {
+            const cartItems = localStorage.cart ? JSON.parse(localStorage.cart) : [];
+            this.cart = cartItems;
+            console.log(cart)
+        },
     },
     created() {
         this.getRestaurantDishes();
+        this.getCartItemsFromLocalStorage();
     },
 }
 </script>
 
 <template>
-    <!-- jumbotron -->
-    <img class="restaurant-bg" :src="restaurant.image" :alt="restaurant.name">
 
-    <!-- sezione ristorante -->
-    <div class="container-md">
-        <div class="row p-0">
-            <div class="col-xl-9">
-                <!-- titolo ristorante -->
-                <div class="restaurant-title rounded-start-3 rounded-bottom-3 p-2">
-                    <div class="logo rounded-2 d-flex justify-content-center align-itmes-center">
-                        <img :src="restaurant.logo" :alt="restaurant.name">
-                    </div>
-                    <div class="restaurant-name">{{ restaurant.activity_name }}</div>
-                    <div class="icons">Icone varie</div>
+    <!-- Sfondo ristorante -->
+    <div class="background-container" :style="{ 'background-image': 'url(' + restaurant.image + ')' }"></div>
+
+
+    <div class="container-fluid">
+
+        <!-- Sezione ristorante -->
+        <div class="clearfix">
+            <div class="card card-deliveboo my-5">
+
+                <div id="logo-box">
+                    <img :src="restaurant.logo" :alt="restaurant.name">
                 </div>
 
-                <div class="row m-0 p-0">
-                    <!-- lista Portate -->
-                    <div class="col-3 yellow sections-menu m-2 ms-0 rounded-3">
-                        <h1>Portate</h1>
-                        <ul>
-                            <li>Antipasti</li>
-                            <li>Primi</li>
-                            <li>Secondi</li>
-                            <li>Contorni</li>
-                            <li>Dolci</li>
-                            <li>Bevande</li>
-                        </ul>
+                <div class="card-bottom mb-3">
+                    <h1>{{ restaurant.activity_name }}</h1>
+                    <div>
+                        <div><i class="fa-solid fa-phone mb-3 me-2"></i>{{ restaurant.phone }}</div>
+                        <div><i class="fa-solid fa-location-dot me-2"></i>{{ restaurant.address }}</div>
+
+                        <!-- TODO da implementare i types del restaurant -->
                     </div>
+                </div>
 
+            </div>
+        </div>
 
-                    <!-- lista piatti -->
-                    <div class="col green dishes-section m-2 me-0 rounded-3 overflow-y-scroll">
-                        <h1>Piatti</h1>
+        <!-- Sezione Piatti + Sezione Ordine -->
+        <div class="row">
+            <!-- Sezione Piatti -->
+            <div class="col-8 row">
+                <div v-for="dish in dishes" :key="dish.id" class="col-12">
+                    <div class="card">
                         <div class="row">
-                            <div v-for="dish in dishes" :key="dish.id" class="col">
-                                <div class="card">
-                                    <img class="card-img-top" :src="dish.image" :alt="dish.name">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ dish.name }}</h5>
-                                        <p class="card-text">{{ dish.description }}</p>
-                                        <p class="card-text">{{ dish.course.label }}</p>
-                                        <p class="card-text">{{ dish.price }}</p>
-                                        <button class="btn btn-primary" @click="addDishToCart(dish)">Aggiungi al
-                                            carrello</button>
-                                    </div>
+                            <div class="col-2">
+                                <div class="dish-image">
+                                    <img class="img-fluid" :src="dish.image" :alt="dish.name">
                                 </div>
+                            </div>
+                            <div class="col">
+                                <ul>
+                                    <li><strong>Nome prodotto:</strong> {{ dish.name }}</li>
+                                    <li><strong>Ingredienti:</strong>{{ dish.ingredients }}</li>
+                                    <li><strong>Portata:</strong>{{ dish.course.label }} €</li>
+                                    <li><strong>Prezzo:</strong>{{ dish.price }} €</li>
+                                </ul>
+                                <button class="btn btn-primary" @click="addDishToCart(dish)">Aggiungi al
+                                    carrello</button>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
 
-            <!-- Carrello da implementare in futuro! -->
-            <!-- <div class="col blue order-card rounded-3 d-flex flex-column justify-content-evenly align-items-center p-4">
-                <h2>Your order</h2>
-                <img src="/public/img/astronaut-grey-scale.svg" alt="image">
-                <p>You've not added any products yet. When you do, you'll see them here!</p>
-            </div> -->
+            <!-- Sezione Menu -->
+            <div class="col-4">
+                <div v-if="cart.length > 0">
+                    <h2>Carrello</h2>
+                    <div v-for="item in cart" :key="item.id">
+                        <p>{{ item.name }}</p>
+                    </div>
+                </div>
+                <div v-else>
+                    <p>Il carrello è vuoto.</p>
+                </div>
+            </div>
         </div>
     </div>
+
 </template>
 
 <style lang="scss" scoped>
-.restaurant-bg {
-    width: 100%;
-    filter: blur(8px);
-    -webkit-filter: blur(8px);
-    object-fit: cover;
-    max-height: 400px;
-    position: relative;
-    z-index: -1;
-
-
+.background-container {
+    height: 400px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
-.container-md {
-    margin-top: -120px;
-    position: relative;
-    height: 2000px;
-    z-index: 0;
-
-    .row {
-        height: 500px;
-
-        .restaurant-title {
-            width: 100%;
-            height: 200px;
-            background-color: rgb(255, 255, 255);
-            border-top-right-radius: 100px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, .1);
-
-            .logo {
-                width: 120px;
-                height: 120px;
-                background-color: aqua;
-                border: 1px solid black;
-                margin-left: 50px;
-                margin-top: -105px;
-            }
-        }
-
-        .dishes-section {
-            box-shadow: 0 3px 10px rgba(0, 0, 0, .1);
-            background-color: white;
-
-        }
-
-        .sections-menu {
-            box-shadow: 0 3px 10px rgba(0, 0, 0, .1);
-            background-color: white;
-
-        }
-
-        .order-card {
-            border-radius: 10px;
-            height: 400px;
-            background-color: white;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, .1);
-
-            h2 {
-                font-weight: bold;
-            }
-
-            p {
-                text-align: center;
-                padding-right: 30px;
-                padding-left: 30px;
-            }
-
-        }
-    }
-
-
-
+.bg-transparent {
+    background-color: transparent;
 }
 
+.bg-deliveboo {
+    background-color: #00A082;
+    color: #FFC244;
+    border-color: #FFC244;
+}
 
-@media screen and (max-width: 576px) {
+#logo-box {
+    width: 100px;
+    height: 100px;
+    background-color: dodgerblue;
+    border: 1px solid #fff;
+    border-radius: 20px;
 
+    position: absolute;
+    top: -30px;
 
-    .row {
-        padding: 0;
-
-        .order-card {
-            display: none;
-        }
-
-        .sections-menu {
-            display: none;
-        }
-
-        .col-lg-9 {
-            margin: 0;
-            padding: 0;
-        }
+    img {
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
     }
+}
 
-    .container-md {
-        margin: 0;
-        padding: 0;
+.card-deliveboo {
+    padding: 40px;
+    border: 0px;
+    border-radius: 20px 70px 20px 20px;
+    box-shadow: 0px 2px 24px 1px #0000001A;
+
+    position: relative;
+    bottom: 125px;
+
+
+
+    h1 {
+        margin-top: 30px;
+        font-weight: 700;
     }
 
 }
