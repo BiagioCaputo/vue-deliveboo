@@ -3,16 +3,31 @@ import { RouterLink } from 'vue-router';
 import { store } from '../../data/store.js'
 import axios from 'axios';
 
+const endpoint = 'http://localhost:8000/api/restaurants';
 const Types = 'http://localhost:8000/api/types';
 
 export default {
     name: 'HomePage',
     data: () => ({
         store,
+        restaurants: [],
         categories: []
     }),
 
     methods: {
+        fetchRestaurants() {
+            store.isLoading = true;
+            axios.get(endpoint).then(res => {
+                this.restaurants = res.data;
+            })
+                .catch(error => {
+                    console.log(error)
+                })
+                .then(() => {
+                    store.isLoading = false
+                })
+        },
+
         fetchTypes() {
             store.isLoading = true;
             axios.get(Types).then(res => {
@@ -29,6 +44,7 @@ export default {
     },
 
     created() {
+        this.fetchRestaurants();
         this.fetchTypes();
     }
 }
@@ -55,19 +71,22 @@ export default {
         <img src="/img/jumbotron-wave-desktop.svg" alt="jumbo-wave">
         <!---------------------------->
 
-        <!--Section Top Restaurant-->
-        <section class="top-restaurant container-desktop">
+        <!--Section Restaurant-->
+        <section class="restaurant container-desktop">
             <h1 class="text-center my-5">
-                I migliori ristoranti della tua città
+                I ristoranti della tua città
                 <i class="fa-solid fa-utensils"></i>
             </h1>
 
-            <!--img e label dinamici nello store-->
             <div class="text-center">
-                <div class="row flex-container">
-                    <div class="col flex-item" v-for="top in store.topRestaurant">
-                        <img :src="top.src" alt="Mask" class="mask-img">
-                        <div class="label-rest">{{ top.label }}</div>
+                <div class="flex-container">
+                    <div v-for="restaurant in restaurants">
+
+                        <RouterLink :to="{ name: 'menu', params: { id: restaurant.id } }" class="col flex-item">
+                            <img :src="restaurant.image" :alt="restaurant.activity_name" class="mask-img">
+                            <div class="label-rest">{{ restaurant.activity_name }}</div>
+                        </RouterLink>
+
                     </div>
                 </div>
 
@@ -196,16 +215,17 @@ main {
     }
 
 
-    /* Section Top Restaurant */
-    .top-restaurant {
+    /* Section Restaurant */
+    .restaurant {
         h1 {
             font-weight: 700;
         }
 
-        .row.flex-container {
+        .flex-container {
             display: flex;
             margin: 0 -1rem;
             flex-wrap: wrap;
+            justify-content: center;
 
             .col.flex-item {
                 margin: 1rem;
@@ -215,6 +235,14 @@ main {
                 justify-content: center;
                 align-items: center;
                 flex-direction: column;
+
+                text-decoration: none;
+                color: black;
+
+                &:hover {
+                    transform: scale(1.3);
+                    color: #fff3da;
+                }
             }
         }
 
@@ -238,7 +266,6 @@ main {
 
             position: relative;
             bottom: 20px;
-
         }
     }
 }
