@@ -52,6 +52,14 @@ export default {
             }
         },
 
+        // Funzione per rimuovere un piatto dal carrello
+        removeDish(dishIndex) {
+            this.store.cart.splice(dishIndex, 1); // 1 elemento:indice da cui iniziare l'eliminazione, 2 quanti da eliminare, 3 elemento+:rimpiazzo(in questo caso il o i rimpiazzi non ci servono)
+            // this.cart = this.store.cart.filter((item, index) => index !== dishIndex); //in alternativa si poteva utilizzare il filter...sono 10 euro per il ripasso
+            localStorage.cart = JSON.stringify(this.store.cart); // Aggiorna il localStorage
+            this.calculateTotalPrice(); // Ricalcola il prezzo totale
+        },
+
 
     },
     mounted() {
@@ -84,6 +92,7 @@ export default {
                                 <p class="card-text"> <span v-if="dish.quantity > 1" class="me-2">{{
                                     dish.quantity }}x</span> {{ dish.price }} €</p>
                             </div>
+                            <button class="btn btn-danger" @click="removeDish(index)">Rimuovi</button>
                             <p class="card-text">
                                 <button class="btn btn-sm btn-secondary me-2" @click="decreaseQuantity(dish)">-</button>
                                 <span>{{ dish.quantity }}</span>
