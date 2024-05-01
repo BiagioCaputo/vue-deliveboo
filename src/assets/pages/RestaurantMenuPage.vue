@@ -76,7 +76,7 @@ export default {
     <div class="background-container" :style="{ 'background-image': 'url(' + restaurant.image + ')' }"></div>
 
 
-    <div class="container-fluid">
+    <div class="container">
 
         <!-- Sezione ristorante -->
         <div class="clearfix">
@@ -131,7 +131,20 @@ export default {
                 <div v-if="cart.length > 0">
                     <h2>Carrello</h2>
                     <div v-for="item in cart" :key="item.id">
-                        <p>{{ item.name }}</p>
+                        <div class="card mb-3" style="max-width: 540px;">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img :src="item.image" :alt="item.name" class="img-fluid rounded-start">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ item.name }}</h5>
+                                        <p class="card-text">{{ item.ingredients }}</p>
+                                        <p class="card-text">{{ item.price }} €</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div v-else>

@@ -36,7 +36,22 @@ export default {
         <div v-if="store.cart && store.cart.length > 0">
             <h2>Il carrello contiene {{ store.cart.length }} elementi:</h2>
 
-            <div v-for="dish in store.cart">{{ dish.name }}</div>
+            <div v-for="dish in store.cart">
+                <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img :src="dish.image" :alt="dish.name" class="img-fluid rounded-start">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ dish.name }}</h5>
+                                <p class="card-text">{{ dish.ingredients }}</p>
+                                <p class="card-text">{{ dish.price }} €</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- Bottone per svuotare il carrello -->
             <button class="btn btn-danger my-5" @click="emptyCart()">Svuota carrello</button>
