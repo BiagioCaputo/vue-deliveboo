@@ -121,6 +121,8 @@ export default {
                             <div><i class="fa-solid fa-location-dot me-2"></i>{{ restaurant.address }}</div>
 
                             <!-- TODO da implementare i types del restaurant -->
+
+                            <!--Perché vuoi implentare i types?-->
                         </div>
                     </div>
 
@@ -132,7 +134,7 @@ export default {
                 <!-- Sezione Piatti -->
                 <div class="col-9 row">
                     <div v-for="dish in dishes" :key="dish.id" class="col-6">
-                        <div class="card p-3 dish">
+                        <div class="card p-3 dish mb-4">
                             <div class="d-flex gap-2">
                                 <img class="dish-image rounded" :src="dish.image" :alt="dish.name">
 
@@ -157,34 +159,37 @@ export default {
 
                 <!-- Sezione Carrello -->
                 <div class="col-3">
-                    <div v-if="cart.length > 0">
-                        <h2>Carrello</h2>
-                        <p><strong>Prezzo Totale: </strong>{{ totalPrice }} €</p>
-                        <div v-for="item in cart" :key="item.id">
-                            <div class="card mb-3" style="max-width: 540px;">
-                                <div class="row g-0">
-                                    <div class="col-md-4">
-                                        <img :src="item.image" :alt="item.name" class="img-fluid rounded-start">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ item.name }} <span v-if="item.quantity > 1">x{{
-                                                item.quantity }}</span></h5>
-                                            <p class="card-text">{{ item.ingredients }}</p>
-                                            <p class="card-text">{{ item.price }} €</p>
-                                        </div>
+                    <div class="card p-3 text-center">
+                        <h2 class="cart-title">Il tuo ordine</h2>
+                        <div v-if="cart.length <= 0">
+                            <img src="/img/astronaut-grey-scale.svg" alt="">
+                        </div>
+                        <div v-else>
+                            <div v-for="item in cart" :key="item.id">
+                                <div class="mb-3" style="max-width: 540px;">
+                                    <div class="d-flex justify-content-between text-start">
+                                        <p><strong v-if="item.quantity > 1">{{
+                                            item.quantity }}x</strong>
+                                            {{ item.name }}
+                                        </p>
+                                        <p class="card-text">{{ item.price }} €</p>
                                     </div>
                                 </div>
                             </div>
+                            <p><strong>Totale: </strong>{{ totalPrice }} €</p>
+
+
+                            <Router-link to="/cart" class="cart-shopping">
+                                <div class="custom-primary-btn">Vai al carrello</div>
+                            </Router-link>
                         </div>
-                    </div>
-                    <div v-else>
-                        <h2 class="text-center">Il carrello è vuoto.</h2>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!--  v-if="cart.length > 0"  -->
 
 
     <!--Modale se l'utente prova ad ordinare da più ristoranti -->
@@ -298,6 +303,15 @@ section {
         }
     }
 }
+
+.cart-title {
+    font-weight: 700;
+}
+
+.cart-shopping {
+    text-decoration: none;
+}
+
 
 //Stile Modale
 .modal {
