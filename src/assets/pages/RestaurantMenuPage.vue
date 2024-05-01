@@ -8,7 +8,6 @@ let { isLoading, cart } = store;
 
 export default {
     name: 'RestaurantMenuPage',
-    components: {},
 
     data() {
         return {
@@ -41,11 +40,14 @@ export default {
 
         // Funzione per aggiungere un piatto al carrello dello store e a quello del LocalSorage
         addDishToCart(dish) {
-            //flag per piatti uguali
+
+            // Flag per piatti uguali
             let found = false;
+
             // Se il carrello è vuoto o se l'elemento appartiene allo stesso ristorante
             if (this.cart.length === 0 || this.cart[0].restaurant_id === dish.restaurant_id) {
-                //itero per vedere se ho piatti uguali, se ne ho aumento il suo attributo quantità e imposto found a true
+
+                // Itero per vedere se ho piatti uguali, se ne ho aumento il suo attributo quantità e imposto found a true
                 for (let item of this.cart) {
                     if (item.id === dish.id) {
                         item.quantity++;
@@ -53,7 +55,7 @@ export default {
                         break; //se abbiamo trovato l'elemento e abbiamo aumentato il conteggio, interompiamo
                     }
                 }
-                //altrimenti non ho trovato altri elementi uguali e quindi inizializzo la quantità ad 1
+                // Altrimenti non ho trovato altri elementi uguali e quindi inizializzo la quantità ad 1
                 if (!found) {
                     dish.quantity = 1;
                     this.cart.push(dish);
@@ -67,11 +69,9 @@ export default {
 
         // Funzione per calcolare il prezzo totale
         calculateTotalPrice() {
-            let totalPrice = 0;
             for (let item of this.cart) {
-                totalPrice += parseFloat(item.price) * item.quantity;;
+                this.totalPrice += (parseFloat(item.price) * item.quantity).toFixed(2);
             }
-            this.totalPrice = totalPrice.toFixed(2);
         },
 
 
@@ -84,8 +84,8 @@ export default {
 
         // Metodo per recuperare i piatti dal localStorage (usato items per non confondersi con gli altri dishes in pagina)
         getCartItemsFromLocalStorage() {
-            const cartItems = localStorage.cart ? JSON.parse(localStorage.cart) : [];
-            this.cart = cartItems;
+            // const cartItems = localStorage.cart ? JSON.parse(localStorage.cart) : [];
+            // this.cart = cartItems;
             //console.log(cart)
         },
     },
@@ -167,7 +167,7 @@ export default {
                                 <div class="col-md-8">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ item.name }} <span v-if="item.quantity > 1">x{{
-                                            item.quantity }}</span></h5>
+        item.quantity }}</span></h5>
                                         <p class="card-text">{{ item.ingredients }}</p>
                                         <p class="card-text">{{ item.price }} €</p>
                                     </div>

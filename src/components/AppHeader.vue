@@ -23,10 +23,7 @@ export default {
 
     mounted() {
         // Recupero i dati dal localStorage all'avvio del componente
-        const savedCart = localStorage.getItem('cart');
-        if (savedCart) {
-            this.store.cart = JSON.parse(savedCart);
-        }
+        if (localStorage.getItem('cart')) this.store.cart = localStorage.getItem('cart');
     },
 }
 </script>
@@ -62,7 +59,7 @@ header {
     top: 0;
     right: 0;
     left: 0;
-    z-index: 1;
+    z-index: 3;
 
     .logo {
         height: 100%;
