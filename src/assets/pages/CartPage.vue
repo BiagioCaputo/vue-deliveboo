@@ -35,7 +35,22 @@ export default {
                 totalQuantity += dish.quantity;
             }
             return totalQuantity;
-        }
+        },
+        // Funzione per aumentare la quantità di un piatto nel carrello 
+        increaseQuantity(dish) {
+            dish.quantity++;
+            this.calculateTotalPrice();
+            localStorage.cart = JSON.stringify(this.store.cart); //TODO considerare se mettere un limite...
+        },
+
+        // Funzione per diminuire la quantità di un piatto nel carrello
+        decreaseQuantity(dish) {
+            if (dish.quantity > 1) {
+                dish.quantity--;
+                this.calculateTotalPrice();
+                localStorage.cart = JSON.stringify(this.store.cart);
+            }
+        },
 
 
     },
@@ -69,6 +84,12 @@ export default {
                                 <p class="card-text"> <span v-if="dish.quantity > 1" class="me-2">{{
                                     dish.quantity }}x</span> {{ dish.price }} €</p>
                             </div>
+                            <p class="card-text">
+                                <button class="btn btn-sm btn-secondary me-2" @click="decreaseQuantity(dish)">-</button>
+                                <span>{{ dish.quantity }}</span>
+                                <button class="btn btn-sm btn-secondary ms-2" @click="increaseQuantity(dish)">+</button>
+                                {{ dish.price }} €
+                            </p>
                         </div>
                     </div>
                 </div>
