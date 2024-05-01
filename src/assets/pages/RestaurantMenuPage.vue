@@ -17,6 +17,7 @@ export default {
             dishes: [],
             cart,
             showModal: false, // Flag Modale
+            totalPrice: 0
         }
     },
     methods: {
@@ -44,13 +45,23 @@ export default {
             {
                 this.cart.push(dish); //inserico il piatto nel carrello dello store
                 localStorage.cart = JSON.stringify(this.cart);
+                this.calculateTotalPrice(); //all'aggiunta di un piatto nel carrello ricarico il prezzo totale
             }
             else {
                 this.showModal = true; // TODO MODALE NEL CASO L'UTENTE INSERISCA IL PIATTO DI UN ALTRO RISTORANTE
             }
         },
 
-        clearCartAndCloseModal() {
+        // Funzione per calcolare il prezzo totale
+        calculateTotalPrice() {
+            let totalPrice = 0;
+            for (let item of this.cart) {
+                totalPrice += parseFloat(item.price);
+            }
+            this.totalPrice = totalPrice.toFixed(2);
+        },
+
+        emptyCartAndCloseModal() {
             this.cart = [];
             localStorage.cart = JSON.stringify(this.cart);
             this.showModal = false;
@@ -60,7 +71,7 @@ export default {
         getCartItemsFromLocalStorage() {
             const cartItems = localStorage.cart ? JSON.parse(localStorage.cart) : [];
             this.cart = cartItems;
-            console.log(cart)
+            //console.log(cart)
         },
     },
     created() {
@@ -130,6 +141,7 @@ export default {
             <div class="col-4">
                 <div v-if="cart.length > 0">
                     <h2>Carrello</h2>
+                    <p><strong>Prezzo Totale: </strong>{{ totalPrice }} €</p>
                     <div v-for="item in cart" :key="item.id">
                         <div class="card mb-3" style="max-width: 540px;">
                             <div class="row g-0">
@@ -166,7 +178,7 @@ export default {
                 <p>Non puoi ordinare da più ristoranti contemporaneamente. Vuoi svuotare il carrello?</p>
             </section>
             <footer class="modal-card-foot bg-transparent">
-                <button class="btn btn-danger is-success me-3" @click="clearCartAndCloseModal">Sì</button>
+                <button class="btn btn-danger is-success me-3" @click="emptyCartAndCloseModal">Sì</button>
                 <button class="btn btn-secondary" @click="showModal = false">No</button>
             </footer>
         </div>

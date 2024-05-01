@@ -7,6 +7,7 @@ export default {
     data() {
         return {
             store,
+            totalPrice: 0,
         }
     },
     methods: {
@@ -16,13 +17,24 @@ export default {
             this.store.cart = [];
             localStorage.cart = this.store.cart;
             window.location.reload(); // Refresha la pagina
+        },
+
+        // Funzione per calcolare il prezzo totale
+        calculateTotalPrice() {
+            let totalPrice = 0;
+            for (let dish of this.store.cart) {
+                totalPrice += parseFloat(dish.price);
+            }
+            this.totalPrice = totalPrice.toFixed(2);
         }
 
 
     },
     mounted() {
-        this.store.cart = localStorage.cart ? JSON.parse(localStorage.cart) : []; //se ho dati nel localStorage li salvo nel cart dello store per poter interagire con esso con le altre funzioni del carrello,
-        //altrimenti salvo un array vuoto nel cart dello store
+        //se ho dati nel localStorage li salvo nel cart dello store per poter interagire con esso con le altre funzioni del carrello, altrimenti salvo un array vuoto nel cart dello store
+        this.store.cart = localStorage.cart ? JSON.parse(localStorage.cart) : [];
+        // Calcola il prezzo totale
+        this.calculateTotalPrice();
 
     },
 }
@@ -52,6 +64,9 @@ export default {
                     </div>
                 </div>
             </div>
+
+            <!-- Mostra il prezzo totale -->
+            <div><strong>Prezzo Totale:</strong> {{ totalPrice }} €</div>
 
             <!-- Bottone per svuotare il carrello -->
             <button class="btn btn-danger my-5" @click="emptyCart()">Svuota carrello</button>
