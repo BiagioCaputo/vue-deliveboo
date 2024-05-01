@@ -1,10 +1,8 @@
 <script>
-import { RouterLink } from 'vue-router';
-import { store } from '../../data/store.js'
+import { store } from '../../data/store.js';
 import axios from 'axios';
 
-const endpoint = 'http://localhost:8000/api/restaurants';
-const Types = 'http://localhost:8000/api/types';
+const baseUri = 'http://localhost:8000/api';
 
 export default {
     name: 'HomePage',
@@ -17,7 +15,7 @@ export default {
     methods: {
         fetchRestaurants() {
             store.isLoading = true;
-            axios.get(endpoint).then(res => {
+            axios.get(`${baseUri}/restaurants`).then(res => {
                 this.restaurants = res.data;
             })
                 .catch(error => {
@@ -30,7 +28,7 @@ export default {
 
         fetchTypes() {
             store.isLoading = true;
-            axios.get(Types).then(res => {
+            axios.get(`${baseUri}/types`).then(res => {
                 this.categories = res.data;
             })
                 .catch(error => {
@@ -100,15 +98,15 @@ export default {
         </section>
         <!-------------------------->
 
-        <!--Section category-->
+        <!--Section type-->
         <section class="category">
             <div class="container-desktop">
 
                 <h1 class="title-category text-center">Le nostre categorie</h1>
                 <div class="category-pills d-flex flex-wrap justify-content-center gap-4 mt-5">
 
-                    <div v-for="category in categories">
-                        <RouterLink :to="{ name: 'category', params: { type: category.id } }" class="pills">
+                    <div v-for="category in categories" :key="category.id">
+                        <RouterLink :to="{ name: 'type', params: { type: category.id } }" class="pills">
                             {{ category.label }}
                         </RouterLink>
                     </div>
@@ -492,7 +490,7 @@ main {
                 height: 10px;
                 background-color: #FFC244;
                 border-radius: 100px;
-                -webkit-box-decoration-break: clone;
+                // -webkit-box-decoration-break: clone;
                 padding: 0 5px;
                 font-size: 8px;
             }

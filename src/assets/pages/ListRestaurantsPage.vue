@@ -1,11 +1,8 @@
 <script>
-import { RouterLink } from 'vue-router';
 import { store } from '../../data/store.js'
 import axios from 'axios';
 
-const baseUri = 'http://localhost:8000/api/';
-const endpoint = 'http://localhost:8000/api/restaurants';
-const Types = 'http://localhost:8000/api/types';
+const baseUri = 'http://localhost:8000/api';
 
 export default {
     name: 'ListRestaurantsPage',
@@ -18,7 +15,7 @@ export default {
     methods: {
         fetchRestaurants() {
             store.isLoading = true;
-            axios.get(endpoint).then(res => {
+            axios.get(`${baseUri}/restaurants`).then(res => {
                 this.restaurants = res.data;
             })
                 .catch(error => {
@@ -31,7 +28,7 @@ export default {
 
         fetchTypes() {
             store.isLoading = true;
-            axios.get(Types).then(res => {
+            axios.get(`${baseUri}/types`).then(res => {
                 this.categories = res.data;
             })
                 .catch(error => {
@@ -59,7 +56,6 @@ export default {
                 <ul>
                     <li>
                         <RouterLink :to="{ name: 'list' }" class="category-list">
-
                             <div class="category-img">
                                 <!-- <img src="" alt=""> -->
                             </div>
@@ -72,7 +68,7 @@ export default {
                 <h6>Categorie</h6>
                 <ul>
                     <li v-for="category in categories" :key="category.id">
-                        <RouterLink :to="{ name: 'category', params: { type: category.id } }" class="category-list">
+                        <RouterLink :to="{ name: 'type', params: { type: category.id } }" class="category-list">
                             <div class="category-img">
                                 <img :src="category.image" alt="">
                             </div>
@@ -82,11 +78,12 @@ export default {
                 </ul>
             </div>
         </section>
+
         <section class="list">
             <h2>Ristoranti a domicilio</h2>
             <div class="row flex-container">
                 <div class="col flex-item" v-for="restaurant in restaurants" :key="restaurant.id">
-                    <RouterLink :to="`/restaurant-menu/${restaurant.id}`" class="text-decoration-none">
+                    <RouterLink :to="{ name: 'menu', params: { id: restaurant.id } }" class="text-decoration-none">
                         <div class="card-restaurant">
                             <div class="img-restaurant">
                                 <img :src="restaurant.image" :alt="restaurant.activity_name">
