@@ -21,8 +21,13 @@ export default {
 </template>
 
 <style lang="scss">
+// Generics
 body {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.wave-img {
+  width: 100%;
 }
 
 .router-link {
@@ -38,6 +43,19 @@ body {
 
   &:hover {
     background-color: #00846b;
+  }
+}
+
+main {
+  height: fit-content;
+
+  .container-desktop {
+    width: 1100px;
+    margin: 0 auto;
+  }
+
+  section {
+    padding-top: 50px;
   }
 }
 </style>
