@@ -116,7 +116,7 @@ p {
         }
 
         50% {
-            transform: translateY(20px);
+            transform: translate(-3px, 25px);
 
         }
 
@@ -132,7 +132,7 @@ p {
         }
 
         50% {
-            transform: translateY(15px);
+            transform: translate(-1px, 19px);
 
         }
 
@@ -148,7 +148,7 @@ p {
         }
 
         50% {
-            transform: translateY(8px);
+            transform: translateY(10px);
 
         }
 
@@ -164,7 +164,7 @@ p {
         }
 
         50% {
-            transform: translateY(-4px);
+            transform: translateY(7px);
 
         }
 
