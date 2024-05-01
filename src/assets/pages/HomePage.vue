@@ -3,16 +3,31 @@ import { RouterLink } from 'vue-router';
 import { store } from '../../data/store.js'
 import axios from 'axios';
 
+const endpoint = 'http://localhost:8000/api/restaurants';
 const Types = 'http://localhost:8000/api/types';
 
 export default {
     name: 'HomePage',
     data: () => ({
         store,
+        restaurants: [],
         categories: []
     }),
 
     methods: {
+        fetchRestaurants() {
+            store.isLoading = true;
+            axios.get(endpoint).then(res => {
+                this.restaurants = res.data;
+            })
+                .catch(error => {
+                    console.log(error)
+                })
+                .then(() => {
+                    store.isLoading = false
+                })
+        },
+
         fetchTypes() {
             store.isLoading = true;
             axios.get(Types).then(res => {
@@ -29,6 +44,7 @@ export default {
     },
 
     created() {
+        this.fetchRestaurants();
         this.fetchTypes();
     }
 }
@@ -39,8 +55,13 @@ export default {
         <!--Jumbotron-->
         <div class="jumbotron">
             <div class="jumbo-content container-desktop">
-                <div class="box-img">
-                    <img src="/img/jumbo-food.png" alt="Food">
+                <div class="animated-image">
+                    <img class="pane-sopra" src="/img/jumbo-food-pane-sopra.png" alt="immagine che fluttua">
+                    <img class="carne-sopra" src="/img/jumbo-food-carne-sopra.png" alt="immagine che fluttua">
+                    <img class="carne-sotto" src="/img/jumbo-food-carne-sotto.png" alt="immagine che fluttua">
+                    <img class="pane-sotto" src="/img/jumbo-food-pane-sotto.png" alt="immagine che fluttua">
+                    <img class="cetriolo" src="/img/jumbo-food-cetriolo.png" alt="immagine che fluttua">
+                    <img class="pomodoro" src="/img/jumbo-food-pomodoro.png" alt="immagine che fluttua">
                 </div>
                 <div class="text-center">
                     <h1 class="jumbo-title">Consegna di cibo a domicilio e molto altro</h1>
@@ -55,19 +76,22 @@ export default {
         <img src="/img/jumbotron-wave-desktop.svg" alt="jumbo-wave">
         <!---------------------------->
 
-        <!--Section Top Restaurant-->
-        <section class="top-restaurant container-desktop">
+        <!--Section Restaurant-->
+        <section class="restaurant container-desktop">
             <h1 class="text-center my-5">
-                I migliori ristoranti della tua città
+                I ristoranti della tua città
                 <i class="fa-solid fa-utensils"></i>
             </h1>
 
-            <!--img e label dinamici nello store-->
             <div class="text-center">
-                <div class="row flex-container">
-                    <div class="col flex-item" v-for="top in store.topRestaurant">
-                        <img :src="top.src" alt="Mask" class="mask-img">
-                        <div class="label-rest">{{ top.label }}</div>
+                <div class="flex-container">
+                    <div v-for="restaurant in restaurants">
+
+                        <RouterLink :to="{ name: 'menu', params: { id: restaurant.id } }" class="col flex-item">
+                            <img :src="restaurant.image" :alt="restaurant.activity_name" class="mask-img">
+                            <div class="label-rest">{{ restaurant.activity_name }}</div>
+                        </RouterLink>
+
                     </div>
                 </div>
 
@@ -177,8 +201,161 @@ main {
             gap: 30px;
 
 
-            .box-img {
-                width: 450px;
+            .animated-image {
+                position: relative;
+                width: 500px;
+                height: 400px;
+                ;
+
+
+                .pane-sopra {
+                    position: absolute;
+                    animation-name: loop-panesopra;
+                    animation-duration: 3s;
+                    animation-iteration-count: infinite;
+                    animation-timing-function: ease;
+                }
+
+                .carne-sopra {
+                    position: absolute;
+                    animation-name: loop-carnesopra;
+                    animation-duration: 3s;
+                    animation-iteration-count: infinite;
+                    animation-timing-function: ease;
+                    z-index: 2;
+                }
+
+                .carne-sotto {
+                    position: absolute;
+                    animation-name: loop-carnesotto;
+                    animation-duration: 3s;
+                    animation-iteration-count: infinite;
+                    animation-timing-function: ease;
+                    z-index: 1;
+
+                }
+
+
+                .pane-sotto {
+                    position: absolute;
+                    animation-name: loop-panesotto;
+                    animation-duration: 3s;
+                    animation-iteration-count: infinite;
+                    animation-timing-function: ease;
+                }
+
+                .cetriolo {
+                    position: absolute;
+                    animation-name: cetriolo;
+                    animation-duration: 3s;
+                    animation-iteration-count: infinite;
+                    animation-timing-function: ease;
+                }
+
+                .pomodoro {
+                    position: absolute;
+                    animation-name: pomodoro;
+                    animation-duration: 3s;
+                    animation-iteration-count: infinite;
+                    animation-timing-function: ease;
+                }
+
+                @keyframes loop-panesopra {
+                    0% {
+                        transform: translateY(0px);
+                    }
+
+                    50% {
+                        transform: translate(-3px, 25px);
+
+                    }
+
+                    100% {
+                        transform: translateY(0px);
+
+                    }
+                }
+
+                @keyframes loop-carnesopra {
+                    0% {
+                        transform: translateY(0px);
+                    }
+
+                    50% {
+                        transform: translate(-1px, 19px);
+
+                    }
+
+                    100% {
+                        transform: translateY(0px);
+
+                    }
+                }
+
+                @keyframes loop-carnesotto {
+                    0% {
+                        transform: translateY(0px);
+                    }
+
+                    50% {
+                        transform: translateY(10px);
+
+                    }
+
+                    100% {
+                        transform: translateY(0px);
+
+                    }
+                }
+
+                @keyframes loop-panesotto {
+                    0% {
+                        transform: translateY(0px);
+                    }
+
+                    50% {
+                        transform: translateY(7px);
+
+                    }
+
+                    100% {
+                        transform: translateY(0px);
+
+                    }
+                }
+
+                @keyframes cetriolo {
+                    0% {
+                        transform: translateY(0px);
+                    }
+
+                    50% {
+                        transform: translate(-12px, 15px);
+
+                    }
+
+                    100% {
+                        transform: translateY(0px);
+
+                    }
+                }
+
+                @keyframes pomodoro {
+                    0% {
+                        transform: translateY(0px);
+                    }
+
+                    50% {
+                        transform: translate(15px, -7px);
+
+                    }
+
+                    100% {
+                        transform: translateY(0px);
+
+                    }
+                }
+
             }
 
             .jumbo-title {
@@ -196,16 +373,17 @@ main {
     }
 
 
-    /* Section Top Restaurant */
-    .top-restaurant {
+    /* Section Restaurant */
+    .restaurant {
         h1 {
             font-weight: 700;
         }
 
-        .row.flex-container {
+        .flex-container {
             display: flex;
             margin: 0 -1rem;
             flex-wrap: wrap;
+            justify-content: center;
 
             .col.flex-item {
                 margin: 1rem;
@@ -215,6 +393,14 @@ main {
                 justify-content: center;
                 align-items: center;
                 flex-direction: column;
+
+                text-decoration: none;
+                color: black;
+
+                &:hover {
+                    transform: scale(1.3);
+                    color: #fff3da;
+                }
             }
         }
 
@@ -238,7 +424,6 @@ main {
 
             position: relative;
             bottom: 20px;
-
         }
     }
 }

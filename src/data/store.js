@@ -35,39 +35,4 @@ export const store = reactive({
             ]
         }
     ],
-
-    topRestaurant: [
-        {
-            src: '/img/mcdonalds.jpeg',
-            label: 'McDonald\'s'
-        },
-        {
-            src: '/img/lovepoke.png',
-            label: 'I Love Poke'
-        },
-        {
-            src: '/img/carrefour.jpeg',
-            label: 'Carrefour'
-        },
-        {
-            src: '/img/oldwildwest.jpg',
-            label: 'Old Wild West'
-        },
-        {
-            src: '/img/sweetlab.png',
-            label: 'Sweet Lab'
-        },
-        {
-            src: '/img/kfc.jpeg',
-            label: 'KFC'
-        },
-        {
-            src: '/img/burgerking.jpeg',
-            label: 'Burger King'
-        },
-        {
-            src: '/img/spontini.png',
-            label: 'Spontini'
-        },
-    ],
 })
