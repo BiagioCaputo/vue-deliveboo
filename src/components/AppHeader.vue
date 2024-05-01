@@ -23,10 +23,7 @@ export default {
 
     mounted() {
         // Recupero i dati dal localStorage all'avvio del componente
-        const savedCart = localStorage.getItem('cart');
-        if (savedCart) {
-            this.store.cart = JSON.parse(savedCart);
-        }
+        if (localStorage.getItem('cart')) this.store.cart = localStorage.getItem('cart');
     },
 }
 </script>
