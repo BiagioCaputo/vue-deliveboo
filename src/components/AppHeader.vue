@@ -8,16 +8,18 @@ export default {
     components: {},
 
     data: () => ({
-        // Props carrello
         items: [],
-        isVisible: false,
         store,
     }),
-    // computed: {
-    //     storeLenght() {
-    //         return this.store.cart.length
-    //     }
-    // },
+    computed: {
+        cartTotalQuantity() {
+            let totalQuantity = 0;
+            for (let item of this.store.cart) {
+                totalQuantity += item.quantity;
+            }
+            return totalQuantity;
+        }
+    },
 
     mounted() {
         // Recupero i dati dal localStorage all'avvio del componente
@@ -26,17 +28,6 @@ export default {
             this.store.cart = JSON.parse(savedCart);
         }
     },
-    // watch: {
-    //     // Watcher per il cambio di store.cart
-    //     'store.cart': {
-    //         handler(updatedCart) {
-    //             // Salva il nuovo valore di store.cart nel localStorage
-    //             localStorage.setItem('cart', JSON.stringify(updatedCart));
-    //         },
-    //         // Attivo forzatamente la callback
-    //         deep: true
-    //     }
-    // }
 }
 </script>
 
@@ -52,7 +43,7 @@ export default {
                 <Router-link to="/cart">
                     <div class="cart-shopping">
                         <i class="fa-solid fa-cart-shopping position-relative">
-                            <span class="cart-number-items fw-bold">{{ store.cart.length }}</span>
+                            <span class="cart-number-items fw-bold">{{ cartTotalQuantity }}</span>
                         </i>
                     </div>
                 </Router-link>

@@ -12,7 +12,7 @@ export default {
     },
     methods: {
 
-        //funzione per svuotare il carrello
+        //Funzione per svuotare il carrello
         emptyCart() {
             this.store.cart = [];
             localStorage.cart = this.store.cart;
