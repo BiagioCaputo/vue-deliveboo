@@ -98,90 +98,98 @@ export default {
 </script>
 
 <template>
+    <section>
 
-    <!-- Sfondo ristorante -->
-    <div class="background-container" :style="{ 'background-image': 'url(' + restaurant.image + ')' }"></div>
+        <!-- Sfondo ristorante -->
+        <div class="background-container" :style="{ 'background-image': 'url(' + restaurant.image + ')' }"></div>
 
 
-    <div class="container">
+        <div class="container">
 
-        <!-- Sezione ristorante -->
-        <div class="clearfix">
-            <div class="card card-deliveboo my-5">
+            <!-- Sezione ristorante -->
+            <div class="clearfix">
+                <div class="card card-deliveboo">
 
-                <div id="logo-box">
-                    <img :src="restaurant.logo" :alt="restaurant.name">
-                </div>
-
-                <div class="card-bottom mb-3">
-                    <h1>{{ restaurant.activity_name }}</h1>
-                    <div>
-                        <div><i class="fa-solid fa-phone mb-3 me-2"></i>{{ restaurant.phone }}</div>
-                        <div><i class="fa-solid fa-location-dot me-2"></i>{{ restaurant.address }}</div>
-
-                        <!-- TODO da implementare i types del restaurant -->
+                    <div id="logo-box">
+                        <img :src="restaurant.logo" :alt="restaurant.name">
                     </div>
+
+                    <div class="card-bottom mb-3">
+                        <h1>{{ restaurant.activity_name }}</h1>
+                        <div>
+                            <div><i class="fa-solid fa-phone mb-3 me-2"></i>{{ restaurant.phone }}</div>
+                            <div><i class="fa-solid fa-location-dot me-2"></i>{{ restaurant.address }}</div>
+
+                            <!-- TODO da implementare i types del restaurant -->
+
+                            <!--Perché vuoi implentare i types?-->
+                        </div>
+                    </div>
+
                 </div>
-
             </div>
-        </div>
 
-        <!-- Sezione Piatti + Sezione Ordine -->
-        <div class="row">
-            <!-- Sezione Piatti -->
-            <div class="col-8 row">
-                <div v-for="dish in dishes" :key="dish.id" class="col-12">
-                    <div class="card">
-                        <div class="row">
-                            <div class="col-2">
-                                <div class="dish-image">
-                                    <img class="img-fluid" :src="dish.image" :alt="dish.name">
-                                </div>
-                            </div>
-                            <div class="col">
-                                <ul>
-                                    <li><strong>Nome prodotto:</strong> {{ dish.name }}</li>
-                                    <li><strong>Ingredienti:</strong>{{ dish.ingredients }}</li>
-                                    <li><strong>Portata:</strong>{{ dish.course.label }} €</li>
-                                    <li><strong>Prezzo:</strong>{{ dish.price }} €</li>
+            <!-- Sezione Piatti + Sezione Ordine -->
+            <div class="row">
+                <!-- Sezione Piatti -->
+                <div class="col-9 row">
+                    <div v-for="dish in dishes" :key="dish.id" class="col-6">
+                        <div class="card p-3 dish mb-4">
+                            <div class="d-flex gap-2">
+                                <img class="dish-image rounded" :src="dish.image" :alt="dish.name">
+
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <h5>{{ dish.name }}</h5>
+                                    </li>
+                                    <li class="dish-info">{{ dish.ingredients }}</li>
+                                    <!-- <li><strong>Portata:</strong>{{ dish.course.label }}</li> -->
                                 </ul>
-                                <button class="btn btn-primary" @click="addDishToCart(dish)">Aggiungi al
-                                    carrello</button>
+                            </div>
+                            <div class="footer-card">
+
+                                <div class="dish-price">{{ dish.price }} €</div>
+                                <button class="btn btn-add" @click="addDishToCart(dish)">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Sezione Menu -->
-            <div class="col-4">
-                <div v-if="cart.length > 0">
-                    <h2>Carrello</h2>
-                    <p><strong>Prezzo Totale: </strong>{{ totalPrice }} €</p>
-                    <div v-for="item in cart" :key="item.id">
-                        <div class="card mb-3" style="max-width: 540px;">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img :src="item.image" :alt="item.name" class="img-fluid rounded-start">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ item.name }} <span v-if="item.quantity > 1">x{{
-        item.quantity }}</span></h5>
-                                        <p class="card-text">{{ item.ingredients }}</p>
+                <!-- Sezione Carrello -->
+                <div class="col-3">
+                    <div class="card p-3 text-center cart">
+                        <h2 class="cart-title">Il tuo ordine</h2>
+                        <div v-if="cart.length <= 0">
+                            <img src="/img/astronaut-grey-scale.svg" alt="">
+                        </div>
+                        <div v-else>
+                            <div v-for="item in cart" :key="item.id">
+                                <div class="mb-3" style="max-width: 540px;">
+                                    <div class="d-flex justify-content-between text-start">
+                                        <p><strong v-if="item.quantity > 1">{{
+                                            item.quantity }}x</strong>
+                                            {{ item.name }}
+                                        </p>
                                         <p class="card-text">{{ item.price }} €</p>
                                     </div>
                                 </div>
                             </div>
+                            <p><strong>Totale: </strong>{{ totalPrice }} €</p>
+
+
+                            <Router-link to="/cart" class="cart-shopping">
+                                <div class="custom-primary-btn">Vai al carrello</div>
+                            </Router-link>
                         </div>
                     </div>
                 </div>
-                <div v-else>
-                    <h2 class="text-center">Il carrello è vuoto.</h2>
-                </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!--  v-if="cart.length > 0"  -->
 
 
     <!--Modale se l'utente prova ad ordinare da più ristoranti -->
@@ -204,6 +212,10 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+section {
+    margin-bottom: 70px;
+}
+
 .background-container {
     height: 400px;
     background-position: center;
@@ -255,6 +267,56 @@ export default {
     }
 
 }
+
+.dish {
+
+    .dish-image {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+    }
+
+    .dish-info {
+        font-size: 14px;
+        color: #6e6e6e;
+    }
+
+    .footer-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+
+        .dish-price {
+            font-weight: 500;
+            font-size: 18px;
+        }
+
+        .btn-add {
+            background-color: #e9f8f5;
+            border-radius: 50%;
+            color: #00A082;
+
+            &:hover {
+                transform: scale(1.3);
+            }
+        }
+    }
+}
+
+.cart {
+    box-shadow: 0px 2px 24px 1px rgba(0, 0, 0, 0.1019607843);
+    border: transparent;
+}
+
+.cart-title {
+    font-weight: 700;
+}
+
+.cart-shopping {
+    text-decoration: none;
+}
+
 
 //Stile Modale
 .modal {
