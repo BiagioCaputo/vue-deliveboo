@@ -16,6 +16,7 @@ export default {
             restaurant: '',
             dishes: [],
             cart,
+            showModal: false, // Flag Modale
         }
     },
     methods: {
@@ -45,8 +46,14 @@ export default {
                 localStorage.cart = JSON.stringify(this.cart);
             }
             else {
-                console.log("No se puede") // TODO MODALE NEL CASO L'UTENTE INSERISCA IL PIATTO DI UN ALTRO RISTORANTE
+                this.showModal = true; // TODO MODALE NEL CASO L'UTENTE INSERISCA IL PIATTO DI UN ALTRO RISTORANTE
             }
+        },
+
+        clearCartAndCloseModal() {
+            this.cart = [];
+            localStorage.cart = JSON.stringify(this.cart);
+            this.showModal = false;
         },
 
         // Metodo per recuperare i piatti dal localStorage
@@ -134,6 +141,24 @@ export default {
         </div>
     </div>
 
+
+    <!--Modale se l'utente prova ad ordinare da più ristoranti -->
+    <div class="modal" :class="{ 'is-active': showModal }">
+        <div class="modal-background"></div>
+        <div class="modal-card my-modal-bg glass ">
+            <header class="modal-card-head">
+                <p class="modal-card-title fw-bold fs-3">Attenzione</p>
+            </header>
+            <section class="modal-card-body fs-4">
+                <p>Non puoi ordinare da più ristoranti contemporaneamente. Vuoi svuotare il carrello?</p>
+            </section>
+            <footer class="modal-card-foot bg-transparent">
+                <button class="btn btn-danger is-success me-3" @click="clearCartAndCloseModal">Sì</button>
+                <button class="btn btn-secondary" @click="showModal = false">No</button>
+            </footer>
+        </div>
+    </div>
+
 </template>
 
 <style lang="scss" scoped>
@@ -187,5 +212,30 @@ export default {
         font-weight: 700;
     }
 
+}
+
+//Stile Modale
+.modal {
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.modal.is-active {
+    display: flex;
+}
+
+.my-modal-bg {
+    background-color: rgba(243, 131, 4, 0.973);
+    padding: 20px;
+    border-radius: 15px;
+    color: white;
 }
 </style>
