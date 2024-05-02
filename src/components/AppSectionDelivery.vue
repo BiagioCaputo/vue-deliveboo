@@ -86,7 +86,7 @@ export default {
                 height: 10px;
                 background-color: #FFC244;
                 border-radius: 100px;
-                // -webkit-box-decoration-break: clone;
+                -webkit-box-decoration-break: clone;
                 padding: 0 5px;
                 font-size: 8px;
             }
