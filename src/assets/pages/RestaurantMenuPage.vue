@@ -69,9 +69,12 @@ export default {
 
         // Funzione per calcolare il prezzo totale
         calculateTotalPrice() {
+            this.totalPrice = 0;
             for (let item of this.cart) {
-                this.totalPrice += (parseFloat(item.price) * item.quantity).toFixed(2);
+                this.totalPrice += parseFloat(item.price) * item.quantity;
             }
+
+            this.totalPrice = this.totalPrice.toFixed(2);
         },
 
 
@@ -208,7 +211,6 @@ export default {
             </footer>
         </div>
     </div>
-
 </template>
 
 <style lang="scss" scoped>
