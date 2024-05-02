@@ -1,4 +1,5 @@
 <script>
+import { RouterLink } from 'vue-router';
 import { store } from '../../data/store.js'
 export default {
     name: "CartPage",
@@ -73,46 +74,73 @@ export default {
 
 <template>
     <div class="cart-container container">
-        <h1 class="text-center my-5">Carrello</h1>
+        <h1 class="text-center my-5 title">Carrello</h1>
 
         <!-- se il carrello non è vuoto visualizzo gli elementi -->
         <div v-if="store.cart && store.cart.length > 0">
-            <h2>Il carrello contiene {{ getTotalQuantity() }} elementi:</h2>
+            <h3>Il carrello contiene {{ getTotalQuantity() }} elementi</h3>
+            <div class="card p-4">
+                <div v-for="dish in store.cart" class="cart-list">
+                    <div class="mb-3 d-flex justify-content-between align-items-center">
 
-            <div v-for="dish in store.cart">
-                <div class="card mb-3" style="max-width: 540px;">
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                            <img :src="dish.image" :alt="dish.name" class="img-fluid rounded-start">
-                        </div>
-                        <div class="col-md-8">
+                        <div class="d-flex">
+                            <div class="dish-image">
+                                <img :src="dish.image" :alt="dish.name" class="img-fluid rounded-start">
+                            </div>
+
                             <div class="card-body">
                                 <h5 class="card-title">{{ dish.name }}</h5>
-                                <p class="card-text">{{ dish.ingredients }}</p>
                                 <p class="card-text"> <span v-if="dish.quantity > 1" class="me-2">{{
                                     dish.quantity }}x</span> {{ dish.price }} €</p>
                             </div>
-                            <button class="btn btn-danger" @click="removeDish(index)">Rimuovi</button>
-                            <p class="card-text">
-                                <button class="btn btn-sm btn-secondary me-2" @click="decreaseQuantity(dish)">-</button>
-                                <span>{{ dish.quantity }}</span>
-                                <button class="btn btn-sm btn-secondary ms-2" @click="increaseQuantity(dish)">+</button>
-                                {{ dish.price }} €
-                            </p>
                         </div>
+
+                        <div class="d-flex  align-items-center gap-3">
+
+                            <div class="card-text text-center">
+                                <button class="btn me-2 btn-add" @click="decreaseQuantity(dish)">
+                                    <i class="fa-solid fa-minus"></i>
+                                </button>
+
+                                <button class="btn ms-2 btn-add" @click="increaseQuantity(dish)">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+
+                            <button class="btn btn-danger custom-btn" @click="removeDish(index)">Rimuovi</button>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <!-- Mostra il prezzo totale -->
+                <div>
+                    <div><strong>Prezzo Totale:</strong> {{ totalPrice }} €</div>
+
+                    <div class="btn-cart text-center">
+                        <!--TODO Qui il btn per procedere all'acquisto con la classe custom-primary-btn-->
+                        <button class="btn custom-primary-btn me-2">Acquista</button>
+                        <!-- Bottone per svuotare il carrello -->
+                        <button class="btn btn-danger custom-btn" @click="emptyCart()">Svuota carrello</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Mostra il prezzo totale -->
-            <div><strong>Prezzo Totale:</strong> {{ totalPrice }} €</div>
-
-            <!-- Bottone per svuotare il carrello -->
-            <button class="btn btn-danger my-5" @click="emptyCart()">Svuota carrello</button>
         </div>
 
-        <div v-else>
-            <h2>Nessun prodotto inserito nel carrello</h2>
+        <div v-else class="text-center card py-5">
+            <h2 class="mb-4">Il carrello è vuoto ... davvero non hai fame?</h2>
+            <div class="d-flex justify-content-center gap-2">
+
+                <div class="btn back-btn" @click="$router.back()">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Torna indietro
+                </div>
+                <RouterLink :to="{ name: 'list' }">
+                    <div class="btn custom-primary-btn">Cerca altri ristoranti</div>
+                </RouterLink>
+            </div>
         </div>
     </div>
 
@@ -121,7 +149,59 @@ export default {
 
 <style lang="scss">
 .cart-container {
-    padding-top: 200px;
+    padding-top: 100px;
     padding-bottom: 50px;
+
+    .title {
+        font-weight: 700;
+    }
+
+    .cart-list {
+
+        width: 100%;
+
+        .dish-image {
+            img {
+
+                width: 100px;
+                height: 100px;
+                border-radius: 20px;
+            }
+        }
+
+        .btn-add {
+            background-color: #e9f8f5;
+            border-radius: 50%;
+            color: #00A082;
+
+            &:hover {
+                transform: scale(1.3);
+            }
+        }
+
+        .custom-btn {
+            padding: 15px 20px;
+        }
+
+
+    }
+
+    .custom-btn {
+        padding: 15px 50px;
+        border-radius: 50px;
+        font-weight: 700;
+    }
+
+    .back-btn {
+        background-color: #e9f8f5;
+        padding: 15px 50px;
+        border-radius: 50px;
+        font-weight: 700;
+        color: #00A082;
+
+        &:hover {
+            background-color: #b0eee2;
+        }
+    }
 }
 </style>
