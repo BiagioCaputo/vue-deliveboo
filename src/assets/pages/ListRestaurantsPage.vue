@@ -90,7 +90,7 @@ export default {
                 <ul>
                     <li>
                         <div class="category-list">
-                            <div class="category-img ms-2">
+                            <div class="category-img">
                                 <!-- <img src="" alt=""> -->
                             </div>
                             <span class="category-link" :class="{ 'active-link': !selectedCategories.length }"
