@@ -1,4 +1,5 @@
 <script>
+import { RouterLink } from 'vue-router';
 import { store } from '../../data/store.js'
 export default {
     name: "CartPage",
@@ -128,8 +129,18 @@ export default {
 
         </div>
 
-        <div v-else>
-            <h2>Nessun prodotto inserito nel carrello</h2>
+        <div v-else class="text-center card py-5">
+            <h2 class="mb-4">Il carrello è vuoto ... davvero non hai fame?</h2>
+            <div class="d-flex justify-content-center gap-2">
+
+                <div class="btn back-btn" @click="$router.back()">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Torna indietro
+                </div>
+                <RouterLink :to="{ name: 'list' }">
+                    <div class="btn custom-primary-btn">Cerca altri ristoranti</div>
+                </RouterLink>
+            </div>
         </div>
     </div>
 
@@ -179,6 +190,18 @@ export default {
         padding: 15px 50px;
         border-radius: 50px;
         font-weight: 700;
+    }
+
+    .back-btn {
+        background-color: #e9f8f5;
+        padding: 15px 50px;
+        border-radius: 50px;
+        font-weight: 700;
+        color: #00A082;
+
+        &:hover {
+            background-color: #b0eee2;
+        }
     }
 }
 </style>
