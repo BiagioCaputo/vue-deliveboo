@@ -199,15 +199,16 @@ export default {
     <div class="modal" :class="{ 'is-active': showModal }">
         <div class="modal-background"></div>
         <div class="modal-card my-modal-bg glass ">
-            <header class="modal-card-head">
-                <p class="modal-card-title fw-bold fs-3">Attenzione</p>
+            <header class="modal-card-head d-flex  justify-content-center">
+                <p class="modal-card-title fw-bolder fs-3">Fame nervosa...?</p>
             </header>
-            <section class="modal-card-body fs-4">
+            <section class="modal-card-body fs-5">
                 <p>Non puoi ordinare da più ristoranti contemporaneamente. Vuoi svuotare il carrello?</p>
             </section>
-            <footer class="modal-card-foot bg-transparent">
-                <button class="btn btn-danger is-success me-3" @click="emptyCartAndCloseModal">Sì</button>
-                <button class="btn btn-secondary" @click="showModal = false">No</button>
+            <footer class="modal-card-foot bg-transparent d-flex justify-content-center">
+                <button class="custom-primary-btn btn is-success me-3" @click="emptyCartAndCloseModal">Sì</button>
+                <button class="custom-primary-btn btn button-refuse is-success " @click="
+                    showModal = false">No</button>
             </footer>
         </div>
     </div>
@@ -322,7 +323,7 @@ section {
 
 //Stile Modale
 .modal {
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.526);
     display: none;
     position: fixed;
     top: 0;
@@ -332,6 +333,21 @@ section {
     justify-content: center;
     align-items: center;
     z-index: 10;
+
+    .custom-primary-btn:hover {
+        color: white;
+    }
+
+    .button-refuse {
+        background-color: #e9f8f5;
+        color: #00A082;
+
+    }
+
+    .button-refuse:hover {
+        background-color: #00A082;
+        color: white;
+    }
 }
 
 .modal.is-active {
@@ -339,9 +355,9 @@ section {
 }
 
 .my-modal-bg {
-    background-color: rgba(243, 131, 4, 0.973);
+    background-color: white;
     padding: 20px;
     border-radius: 15px;
-    color: white;
+    color: black;
 }
 </style>
