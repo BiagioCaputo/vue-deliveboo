@@ -3,7 +3,7 @@ import AppCardRestaurant from '../../components/AppCardRestaurant.vue';
 import { store } from '../../data/store.js'
 import axios from 'axios';
 
-const baseUri = 'http://localhost:8000/api/';
+const baseUri = 'http://localhost:8000/api';
 
 export default {
     name: 'ListRestaurantsPage',
@@ -12,80 +12,53 @@ export default {
         store,
         restaurants: [],
         categories: [],
-        selectedType: []
+        selectedCategories: [] // Array per memorizzare gli ID delle categorie selezionate
     }),
 
     methods: {
+        // Chiamata API per ottenere tutti i ristoranti
         fetchRestaurants() {
-            // Accendo il loader
-            store.isLoading = true;
+            let url = `${baseUri}/restaurants`;
 
-            axios.get(`${baseUri}restaurants`).then(res => {
-                this.restaurants = res.data;
-            })
-                .catch(error => {
-                    console.log(error)
-                })
-                .then(() => {
-                    store.isLoading = false
-                })
-        },
-
-        fetchTypes() {
-            store.isLoading = true;
-            axios.get(`${baseUri}types`).then(res => {
-                this.categories = res.data;
-            })
-                .catch(error => {
-                    console.log(error)
-                })
-                .then(() => {
-                    store.isLoading = false;
-                })
-        },
-
-        fetchTypeRestaurants() {
-            store.isLoading = true;
-
-            // Variabile per recuperare i dati in query string
-            const queryParams = this.$route.query;
-            console.log(queryParams)
-
-            // Inizializzo la variabile per montare la query
-            let query = '';
-
-            // Se ci sono parametri in query string, aggiungili all'URL della richiesta
-            if (Object.keys(queryParams).length > 0) {
-                // Per ogni elemento nella query
-                for (let key in queryParams) {
-                    // Inserisco le tipologie nell'array
-                    this.selectedType.push(`type_id[]=${queryParams[key]}`)
-
-                    // Per ogni tipologia
-                    this.selectedType.forEach(type => {
-                        // Monto la query con le tipologie presenti nell'array
-                        query += type + '&';
-                    });
-
-                    console.log('Stringa query:', query)
-                }
+            // Se ci sono categorie selezionate, aggiungile alla query
+            if (this.selectedCategories.length > 0) {
+                const categoryQuery = this.selectedCategories.map(catId => `type_id[]=${catId}`).join('&');
+                url = `${baseUri}/types/restaurants?${categoryQuery}`;
             }
-            console.log(this.selectedType)
-            console.log('Stringa query:', query)
+            console.log('URL della richiesta:', url); // Controlla l'URL della richiesta
 
-            axios.get(baseUri + `types/restaurants/?${query}`)
+            axios.get(url)
                 .then(res => {
                     this.restaurants = res.data;
+                    console.log('Risposta API:', res.data); // Controlla la risposta della chiamata API
                 })
                 .catch(error => {
-                    console.error('Errore nel recupero delle tipologie:', error);
-                    // Redirect alla pagina not-found
-                    this.$router.push({ name: 'not-found' });
-                }).then(() => {
-                    store.isLoading = false;
+                    console.error('Errore nel recupero dei ristoranti:', error);
                 });
         },
+        // Gestione del clic su una categoria
+        toggleCategory(categoryId) {
+            // Se la categoria è già selezionata, rimuovila, altrimenti aggiungila
+            if (this.selectedCategories.includes(categoryId)) {
+                this.selectedCategories = this.selectedCategories.filter(id => id !== categoryId);
+            } else {
+                this.selectedCategories.push(categoryId);
+            }
+            console.log(this.selectedCategories)
+            // Aggiorna i ristoranti in base alle categorie selezionate
+            this.fetchRestaurants();
+        },
 
+        // Chiamata API per ottenere le categorie di ristoranti
+        fetchTypes() {
+            axios.get(`${baseUri}/types`)
+                .then(res => {
+                    this.categories = res.data;
+                })
+                .catch(error => {
+                    console.error('Errore nel recupero delle categorie di ristoranti:', error);
+                });
+        }
     },
 
     created() {
@@ -124,11 +97,12 @@ export default {
                 <h6>Categorie</h6>
                 <ul>
                     <li v-for="category in categories" :key="category.id">
-                        <div class="category-list" @click="fetchTypeRestaurants">
+                        <div class="category-list" @click="toggleCategory(category.id)">
                             <div class="category-img">
                                 <img :src="category.image" alt="">
                             </div>
-                            <span class="category-link">
+                            <span class="category-link"
+                                :class="{ 'active-link': selectedCategories.includes(category.id) }">
                                 {{ category.label }}
                             </span>
                         </div>
