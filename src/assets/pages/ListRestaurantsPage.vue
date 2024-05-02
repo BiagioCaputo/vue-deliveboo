@@ -3,7 +3,7 @@ import AppCardRestaurant from '../../components/AppCardRestaurant.vue';
 import { store } from '../../data/store.js'
 import axios from 'axios';
 
-const baseUri = 'http://localhost:8000/api';
+const baseUri = 'http://localhost:8000/api/';
 
 export default {
     name: 'ListRestaurantsPage',
@@ -11,7 +11,8 @@ export default {
     data: () => ({
         store,
         restaurants: [],
-        categories: []
+        categories: [],
+        selectedType: []
     }),
 
     methods: {
@@ -19,19 +20,8 @@ export default {
             // Accendo il loader
             store.isLoading = true;
 
-            // Variabile per recuperare i dati in query string
-            const queryParams = this.$route.query;
-
-            let query;
-
-            // Se ci sono parametri in query string, aggiungili all'URL della richiesta
-            if (Object.keys(queryParams).length > 0) {
-                query = `type_id[]=${queryParams.type}`;
-            }
-
-            axios.get(`${baseUri}/restaurants`).then(res => {
+            axios.get(`${baseUri}restaurants`).then(res => {
                 this.restaurants = res.data;
-                console.log(baseUri)
             })
                 .catch(error => {
                     console.log(error)
@@ -43,7 +33,7 @@ export default {
 
         fetchTypes() {
             store.isLoading = true;
-            axios.get(`${baseUri}/types`).then(res => {
+            axios.get(`${baseUri}types`).then(res => {
                 this.categories = res.data;
             })
                 .catch(error => {
@@ -54,12 +44,63 @@ export default {
                 })
         },
 
+        fetchTypeRestaurants() {
+            store.isLoading = true;
+
+            // Variabile per recuperare i dati in query string
+            const queryParams = this.$route.query;
+            console.log(queryParams)
+
+            // Inizializzo la variabile per montare la query
+            let query = '';
+
+            // Se ci sono parametri in query string, aggiungili all'URL della richiesta
+            if (Object.keys(queryParams).length > 0) {
+                // Per ogni elemento nella query
+                for (let key in queryParams) {
+                    // Inserisco le tipologie nell'array
+                    this.selectedType.push(`type_id[]=${queryParams[key]}`)
+
+                    // Per ogni tipologia
+                    this.selectedType.forEach(type => {
+                        // Monto la query con le tipologie presenti nell'array
+                        query += type + '&';
+                    });
+
+                    console.log('Stringa query:', query)
+                }
+            }
+            console.log(this.selectedType)
+            console.log('Stringa query:', query)
+
+            axios.get(baseUri + `types/restaurants/?${query}`)
+                .then(res => {
+                    this.restaurants = res.data;
+                })
+                .catch(error => {
+                    console.error('Errore nel recupero delle tipologie:', error);
+                    // Redirect alla pagina not-found
+                    this.$router.push({ name: 'not-found' });
+                }).then(() => {
+                    store.isLoading = false;
+                });
+        },
+
     },
 
     created() {
+        // this.fetchTypeRestaurants();
         this.fetchRestaurants();
         this.fetchTypes();
-    }
+    },
+
+    // watch: {
+    //     '$route'(to, from) {
+    //         if (to.query['type_id[]'] !== from.query['type_id[]']) {
+    //             this.fetchTypeRestaurants();
+    //         }
+    //     }
+    // }
 }
 </script>
 
@@ -70,28 +111,27 @@ export default {
                 <h6>Tutti i ristoranti</h6>
                 <ul>
                     <li>
-                        <RouterLink :to="{ name: 'list' }" class="category-list">
+                        <div class="category-list">
                             <div class="category-img ms-2">
                                 <!-- <img src="" alt=""> -->
                             </div>
-                            <span class="category-link">Tutti</span>
-                        </RouterLink>
+                            <span class="category-link" @click="(fetchRestaurants)">Tutti</span>
+                        </div>
                     </li>
                 </ul>
             </div>
             <div class="more-filters">
                 <h6>Categorie</h6>
                 <ul>
-                    <!-- TODO Modificare parametro del RouterLink -->
                     <li v-for="category in categories" :key="category.id">
-                        <RouterLink :to="{ name: 'type', query: { 'type_id[]': category.id } }" class="category-list">
+                        <div class="category-list" @click="fetchTypeRestaurants">
                             <div class="category-img">
                                 <img :src="category.image" alt="">
                             </div>
                             <span class="category-link">
                                 {{ category.label }}
                             </span>
-                        </RouterLink>
+                        </div>
                     </li>
                 </ul>
             </div>
