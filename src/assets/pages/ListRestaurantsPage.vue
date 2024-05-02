@@ -1,4 +1,5 @@
 <script>
+import AppCardRestaurant from '../../components/AppCardRestaurant.vue';
 import { store } from '../../data/store.js'
 import axios from 'axios';
 
@@ -6,6 +7,7 @@ const baseUri = 'http://localhost:8000/api';
 
 export default {
     name: 'ListRestaurantsPage',
+    components: { AppCardRestaurant },
     data: () => ({
         store,
         restaurants: [],
@@ -84,16 +86,7 @@ export default {
             <div class="row flex-container">
                 <div class="col flex-item" v-for="restaurant in restaurants" :key="restaurant.id">
                     <RouterLink :to="{ name: 'menu', params: { id: restaurant.id } }" class="text-decoration-none">
-                        <div class="card-restaurant">
-                            <div class="img-restaurant">
-                                <img :src="restaurant.image" :alt="restaurant.activity_name">
-                            </div>
-                            <div class="text-restaurant">
-                                <h5 class="mb-0 text-black">{{ restaurant.activity_name }}</h5>
-
-                                <!-- <div class="category">Categoria</div> -->
-                            </div>
-                        </div>
+                        <AppCardRestaurant :restaurant="restaurant" />
                     </RouterLink>
                 </div>
             </div>
@@ -177,48 +170,6 @@ export default {
                 flex-grow: 0;
             }
         }
-
-        .card-restaurant {
-            width: 100%;
-            height: 200px;
-
-            .img-restaurant {
-                width: 100%;
-                height: 80%;
-                border-radius: 10px;
-
-                background-color: #fff3da; //bg in caso di assenza img
-
-                img {
-                    width: 100%;
-                    height: 100%;
-                    border-radius: 10px;
-                }
-            }
-
-            .text-restaurant {
-                padding: 5px 5px 0 5px;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-
-                h5 {
-                    font-weight: 800;
-                    font-size: 1.1rem;
-                }
-
-                .category {
-                    color: #7b7d7b;
-                    font-size: 0.7rem;
-                    font-weight: 800;
-
-                    background-color: #f5f5f5;
-                    padding: 0 5px;
-                    border-radius: 5px;
-                }
-            }
-        }
-
     }
 }
 </style>
