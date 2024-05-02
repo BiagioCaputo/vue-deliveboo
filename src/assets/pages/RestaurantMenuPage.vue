@@ -200,9 +200,9 @@ export default {
         <div class="modal-background"></div>
         <div class="modal-card my-modal-bg glass ">
             <header class="modal-card-head">
-                <p class="modal-card-title fw-bold fs-3">Attenzione</p>
+                <p class="modal-card-title fw-bolder fs-3">Fame nervosa...?</p>
             </header>
-            <section class="modal-card-body fs-4">
+            <section class="modal-card-body fs-5">
                 <p>Non puoi ordinare da più ristoranti contemporaneamente. Vuoi svuotare il carrello?</p>
             </section>
             <footer class="modal-card-foot bg-transparent">
@@ -322,7 +322,7 @@ section {
 
 //Stile Modale
 .modal {
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.526);
     display: none;
     position: fixed;
     top: 0;
@@ -339,9 +339,9 @@ section {
 }
 
 .my-modal-bg {
-    background-color: rgba(243, 131, 4, 0.973);
+    background-color: white;
     padding: 20px;
     border-radius: 15px;
-    color: white;
+    color: black;
 }
 </style>
