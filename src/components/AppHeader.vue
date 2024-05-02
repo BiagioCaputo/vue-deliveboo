@@ -40,7 +40,7 @@ export default {
                 <Router-link to="/cart">
                     <div class="cart-shopping">
                         <i class="fa-solid fa-cart-shopping position-relative fa-lg">
-                            <span class="cart-number-items fw-bold">{{ cartTotalQuantity }}</span>
+                            <span class="cart-number-items fw-bold">{{ cartTotalQuantity || 0 }}</span>
                         </i>
                     </div>
                 </Router-link>
