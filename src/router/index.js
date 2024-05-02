@@ -17,7 +17,7 @@ const router = createRouter({
     routes: [
         { path: '/', component: HomePage, name: 'home' },
         { path: '/restaurants', component: ListRestaurantsPage, name: 'list' },
-        { path: '/types/:type/restaurants', component: TypesRestaurantPage, name: 'type' },
+        { path: '/types/restaurants', component: TypesRestaurantPage, name: 'type' },
         { path: '/restaurant/:id', component: RestaurantMenuPage, name: 'menu' },
         { path: '/cart', component: CartPage, name: 'cart' },
         { path: '/not-found', component: NotFoundPage, name: 'not-found' },
