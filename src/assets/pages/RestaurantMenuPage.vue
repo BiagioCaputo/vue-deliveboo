@@ -1,4 +1,5 @@
 <script>
+import AppModal from '../../components/AppModal.vue';
 import axios from 'axios';
 import { store } from '../../data/store.js'
 const endpoint = 'http://localhost:8000/api/restaurants/'
@@ -8,7 +9,7 @@ let { isLoading, cart } = store;
 
 export default {
     name: 'RestaurantMenuPage',
-
+    components: { AppModal },
     data() {
         return {
             isLoading,
@@ -172,7 +173,7 @@ export default {
                                 <div class="mb-3" style="max-width: 540px;">
                                     <div class="d-flex justify-content-between text-start">
                                         <p><strong v-if="item.quantity > 1">{{
-                                            item.quantity }}x</strong>
+            item.quantity }}x</strong>
                                             {{ item.name }}
                                         </p>
                                         <p class="card-text">{{ item.price }} €</p>
@@ -196,22 +197,9 @@ export default {
 
 
     <!--Modale se l'utente prova ad ordinare da più ristoranti -->
-    <div class="modal" :class="{ 'is-active': showModal }">
-        <div class="modal-background"></div>
-        <div class="modal-card my-modal-bg glass ">
-            <header class="modal-card-head d-flex  justify-content-center">
-                <p class="modal-card-title fw-bolder fs-3">Fame nervosa...?</p>
-            </header>
-            <section class="modal-card-body fs-5">
-                <p>Non puoi ordinare da più ristoranti contemporaneamente. Vuoi svuotare il carrello?</p>
-            </section>
-            <footer class="modal-card-foot bg-transparent d-flex justify-content-center">
-                <button class="custom-primary-btn btn is-success me-3" @click="emptyCartAndCloseModal">Sì</button>
-                <button class="custom-primary-btn btn button-refuse is-success " @click="
-                    showModal = false">No</button>
-            </footer>
-        </div>
-    </div>
+    <AppModal :isActive="showModal" :title="'Fame nervosa...?'"
+        :message="'Non puoi ordinare da più ristoranti contemporaneamente. Vuoi svuotare il carrello?'"
+        @erase-cart-close-modal="emptyCartAndCloseModal()" @close-modal="showModal = false" />
 </template>
 
 <style lang="scss" scoped>
@@ -318,46 +306,5 @@ section {
 
 .cart-shopping {
     text-decoration: none;
-}
-
-
-//Stile Modale
-.modal {
-    background-color: rgba(0, 0, 0, 0.526);
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-
-    .custom-primary-btn:hover {
-        color: white;
-    }
-
-    .button-refuse {
-        background-color: #e9f8f5;
-        color: #00A082;
-
-    }
-
-    .button-refuse:hover {
-        background-color: #00A082;
-        color: white;
-    }
-}
-
-.modal.is-active {
-    display: flex;
-}
-
-.my-modal-bg {
-    background-color: white;
-    padding: 20px;
-    border-radius: 15px;
-    color: black;
 }
 </style>
