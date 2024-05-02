@@ -22,14 +22,16 @@ export default {
             // Variabile per recuperare i dati in query string
             const queryParams = this.$route.query;
 
+            let query;
+
             // Se ci sono parametri in query string, aggiungili all'URL della richiesta
             if (Object.keys(queryParams).length > 0) {
-                baseUri += `?types=${queryParams.type}`;
-                console.log(baseUri)
+                query = `type_id[]=${queryParams.type}`;
             }
 
             axios.get(`${baseUri}/restaurants`).then(res => {
                 this.restaurants = res.data;
+                console.log(baseUri)
             })
                 .catch(error => {
                     console.log(error)
@@ -82,7 +84,7 @@ export default {
                 <ul>
                     <!-- TODO Modificare parametro del RouterLink -->
                     <li v-for="category in categories" :key="category.id">
-                        <RouterLink :to="{ name: 'type', query: { type: category.id } }" class="category-list">
+                        <RouterLink :to="{ name: 'type', query: { 'type_id[]': category.id } }" class="category-list">
                             <div class="category-img">
                                 <img :src="category.image" alt="">
                             </div>
