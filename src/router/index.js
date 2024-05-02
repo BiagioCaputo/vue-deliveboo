@@ -11,6 +11,7 @@ import NotFoundPage from '../assets/pages/NotFoundPage.vue';
 //Rotte
 const router = createRouter({
     history: createWebHistory(),
+    linkExactActiveClass: 'active-link',
     scrollBehavior() {
         return { top: 0 }
     },

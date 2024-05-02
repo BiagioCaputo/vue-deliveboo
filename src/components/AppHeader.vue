@@ -39,7 +39,7 @@ export default {
                 </RouterLink>
                 <Router-link to="/cart">
                     <div class="cart-shopping">
-                        <i class="fa-solid fa-cart-shopping position-relative">
+                        <i class="fa-solid fa-cart-shopping position-relative fa-lg">
                             <span class="cart-number-items fw-bold">{{ cartTotalQuantity }}</span>
                         </i>
                     </div>
@@ -100,8 +100,8 @@ header {
         justify-content: center;
         align-items: center;
         position: absolute;
-        top: 3px;
-        left: 15px;
+        top: -13px;
+        left: 20px;
         font-size: 0.5rem;
         color: white;
         border: 1px solid white;
