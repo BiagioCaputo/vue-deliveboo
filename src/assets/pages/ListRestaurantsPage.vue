@@ -11,53 +11,69 @@ export default {
     data: () => ({
         store,
         restaurants: [],
-        categories: []
+        categories: [],
+        selectedCategories: [] // Array per memorizzare gli ID delle categorie selezionate
     }),
 
     methods: {
+        // Chiamata API per ottenere tutti i ristoranti
         fetchRestaurants() {
-            // Accendo il loader
-            store.isLoading = true;
+            let url = `${baseUri}/restaurants`;
 
-            // Variabile per recuperare i dati in query string
-            const queryParams = this.$route.query;
-
-            // Se ci sono parametri in query string, aggiungili all'URL della richiesta
-            if (Object.keys(queryParams).length > 0) {
-                baseUri += `?types=${queryParams.type}`;
-                console.log(baseUri)
+            // Se ci sono categorie selezionate, aggiungile alla query
+            if (this.selectedCategories.length > 0) {
+                const categoryQuery = this.selectedCategories.map(catId => `type_id[]=${catId}`).join('&');
+                url = `${baseUri}/types/restaurants?${categoryQuery}`;
             }
+            console.log('URL della richiesta:', url); // Controlla l'URL della richiesta
 
-            axios.get(`${baseUri}/restaurants`).then(res => {
-                this.restaurants = res.data;
-            })
+            axios.get(url)
+                .then(res => {
+                    this.restaurants = res.data;
+                    console.log('Risposta API:', res.data); // Controlla la risposta della chiamata API
+                })
                 .catch(error => {
-                    console.log(error)
-                })
-                .then(() => {
-                    store.isLoading = false
-                })
+                    console.error('Errore nel recupero dei ristoranti:', error);
+                });
+        },
+        // Gestione del clic su una categoria
+        toggleCategory(categoryId) {
+            // Se la categoria è già selezionata, rimuovila, altrimenti aggiungila
+            if (this.selectedCategories.includes(categoryId)) {
+                this.selectedCategories = this.selectedCategories.filter(id => id !== categoryId);
+            } else {
+                this.selectedCategories.push(categoryId);
+            }
+            console.log(this.selectedCategories)
+            // Aggiorna i ristoranti in base alle categorie selezionate
+            this.fetchRestaurants();
         },
 
+        // Chiamata API per ottenere le categorie di ristoranti
         fetchTypes() {
-            store.isLoading = true;
-            axios.get(`${baseUri}/types`).then(res => {
-                this.categories = res.data;
-            })
+            axios.get(`${baseUri}/types`)
+                .then(res => {
+                    this.categories = res.data;
+                })
                 .catch(error => {
-                    console.log(error)
-                })
-                .then(() => {
-                    store.isLoading = false;
-                })
-        },
-
+                    console.error('Errore nel recupero delle categorie di ristoranti:', error);
+                });
+        }
     },
 
     created() {
+        // this.fetchTypeRestaurants();
         this.fetchRestaurants();
         this.fetchTypes();
-    }
+    },
+
+    // watch: {
+    //     '$route'(to, from) {
+    //         if (to.query['type_id[]'] !== from.query['type_id[]']) {
+    //             this.fetchTypeRestaurants();
+    //         }
+    //     }
+    // }
 }
 </script>
 
@@ -68,28 +84,28 @@ export default {
                 <h6>Tutti i ristoranti</h6>
                 <ul>
                     <li>
-                        <RouterLink :to="{ name: 'list' }" class="category-list">
+                        <div class="category-list">
                             <div class="category-img ms-2">
                                 <!-- <img src="" alt=""> -->
                             </div>
-                            <span class="category-link">Tutti</span>
-                        </RouterLink>
+                            <span class="category-link" @click="(fetchRestaurants)">Tutti</span>
+                        </div>
                     </li>
                 </ul>
             </div>
             <div class="more-filters">
                 <h6>Categorie</h6>
                 <ul>
-                    <!-- TODO Modificare parametro del RouterLink -->
                     <li v-for="category in categories" :key="category.id">
-                        <RouterLink :to="{ name: 'type', query: { type: category.id } }" class="category-list">
-                            <div class="category-img ms-2">
+                        <div class="category-list" @click="toggleCategory(category.id)">
+                            <div class="category-img">
                                 <img :src="category.image" alt="">
                             </div>
-                            <span class="category-link">
+                            <span class="category-link"
+                                :class="{ 'active-link': selectedCategories.includes(category.id) }">
                                 {{ category.label }}
                             </span>
-                        </RouterLink>
+                        </div>
                     </li>
                 </ul>
             </div>

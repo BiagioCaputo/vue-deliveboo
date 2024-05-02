@@ -17,9 +17,8 @@ export default {
             <div class="category-pills d-flex flex-wrap justify-content-center gap-4 mt-5">
 
                 <div v-for="category in categories" :key="category.id">
-                    <RouterLink :to="{ name: 'type', query: { type: category.id } }" class="pills">
-                        {{ category.label }}
-                    </RouterLink>
+
+                    <!-- TODO mettere la ricerca per catgorie -->
                 </div>
 
             </div>
