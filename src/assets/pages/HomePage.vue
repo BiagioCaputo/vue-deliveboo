@@ -84,7 +84,7 @@ export default {
         <section class="category">
             <div class="container-desktop">
 
-                <h1 class="title-category text-center">{{ title }}</h1>
+                <h1 class="title-category text-center">Le nostre categorie</h1>
                 <div class="category-pills d-flex flex-wrap justify-content-center gap-4 mt-5">
 
                     <div v-for="category in categories" :key="category.id">

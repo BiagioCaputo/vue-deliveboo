@@ -170,6 +170,10 @@ export default {
                 color: black;
                 text-decoration: none;
 
+                &:hover {
+                    cursor: pointer;
+                }
+
                 .category-img {
                     width: 35px;
                     height: 35px;
