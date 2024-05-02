@@ -199,15 +199,16 @@ export default {
     <div class="modal" :class="{ 'is-active': showModal }">
         <div class="modal-background"></div>
         <div class="modal-card my-modal-bg glass ">
-            <header class="modal-card-head">
+            <header class="modal-card-head d-flex  justify-content-center">
                 <p class="modal-card-title fw-bolder fs-3">Fame nervosa...?</p>
             </header>
             <section class="modal-card-body fs-5">
                 <p>Non puoi ordinare da più ristoranti contemporaneamente. Vuoi svuotare il carrello?</p>
             </section>
-            <footer class="modal-card-foot bg-transparent">
-                <button class="btn btn-danger is-success me-3" @click="emptyCartAndCloseModal">Sì</button>
-                <button class="btn btn-secondary" @click="showModal = false">No</button>
+            <footer class="modal-card-foot bg-transparent d-flex justify-content-center">
+                <button class="custom-primary-btn btn is-success me-3" @click="emptyCartAndCloseModal">Sì</button>
+                <button class="custom-primary-btn btn button-refuse is-success " @click="
+                    showModal = false">No</button>
             </footer>
         </div>
     </div>
@@ -332,6 +333,21 @@ section {
     justify-content: center;
     align-items: center;
     z-index: 10;
+
+    .custom-primary-btn:hover {
+        color: white;
+    }
+
+    .button-refuse {
+        background-color: #e9f8f5;
+        color: #00A082;
+
+    }
+
+    .button-refuse:hover {
+        background-color: #00A082;
+        color: white;
+    }
 }
 
 .modal.is-active {
