@@ -93,7 +93,8 @@ export default {
                             <div class="category-img ms-2">
                                 <!-- <img src="" alt=""> -->
                             </div>
-                            <span class="category-link" @click="(resetRestaurants)">Tutti</span>
+                            <span class="category-link" :class="{ 'active-link': !selectedCategories.length }"
+                                @click="(resetRestaurants)">Tutti</span>
                         </div>
                     </li>
                 </ul>
