@@ -85,7 +85,7 @@ export default {
             <div class="container-desktop">
 
                 <h1 class="title-category text-center">Le nostre categorie</h1>
-                <div class="category-pills d-flex flex-wrap justify-content-center gap-4 mt-5">
+                <div class="d-flex flex-wrap justify-content-center gap-4 mt-5">
 
                     <div v-for="category in categories" :key="category.id">
 
@@ -108,12 +108,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-.active-link {
-    background-color: #FFC244;
-    border-radius: 100px;
-    padding: 0 5px;
-}
-
 .category {
     background-image: url('/img/main-waves-desktop.svg');
     background-repeat: no-repeat;
@@ -126,14 +120,19 @@ export default {
         padding-top: 190px;
     }
 
+    .pills.active-link {
+        background-color: #00A082;
+        color: #fff3da;
+    }
+
     .pills {
         background-color: #fff3da;
         padding: 10px 15px;
         border-radius: 50px;
         font-weight: 700;
-
         text-decoration: none;
         color: black;
+
     }
 
     .pills:hover {
