@@ -16,7 +16,18 @@ export default {
 
     methods: {
         fetchRestaurants() {
+            // Accendo il loader
             store.isLoading = true;
+
+            // Variabile per recuperare i dati in query string
+            const queryParams = this.$route.query;
+
+            // Se ci sono parametri in query string, aggiungili all'URL della richiesta
+            if (Object.keys(queryParams).length > 0) {
+                baseUri += `?types=${queryParams.type}`;
+                console.log(baseUri)
+            }
+
             axios.get(`${baseUri}/restaurants`).then(res => {
                 this.restaurants = res.data;
             })
@@ -58,10 +69,10 @@ export default {
                 <ul>
                     <li>
                         <RouterLink :to="{ name: 'list' }" class="category-list">
-                            <div class="category-img">
+                            <div class="category-img ms-2">
                                 <!-- <img src="" alt=""> -->
                             </div>
-                            <span>Vedi tutti</span>
+                            <span class="category-link">Tutti</span>
                         </RouterLink>
                     </li>
                 </ul>
@@ -69,12 +80,15 @@ export default {
             <div class="more-filters">
                 <h6>Categorie</h6>
                 <ul>
+                    <!-- TODO Modificare parametro del RouterLink -->
                     <li v-for="category in categories" :key="category.id">
-                        <RouterLink :to="{ name: 'type', params: { type: category.id } }" class="category-list">
-                            <div class="category-img">
+                        <RouterLink :to="{ name: 'type', query: { type: category.id } }" class="category-list">
+                            <div class="category-img ms-2">
                                 <img :src="category.image" alt="">
                             </div>
-                            <span>{{ category.label }}</span>
+                            <span class="category-link">
+                                {{ category.label }}
+                            </span>
                         </RouterLink>
                     </li>
                 </ul>
@@ -95,6 +109,14 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+.active-link {
+    background-color: #FFC244;
+    border-radius: 100px;
+    padding: 0 5px;
+}
+
+
+
 .container-main {
     width: 1100px;
     margin: 0 auto;
@@ -146,6 +168,17 @@ export default {
                         height: 80%;
                     }
                 }
+
+                .category-link {
+
+                    border-radius: 100px;
+                    padding: 0 5px;
+
+                    &:hover {
+                        background-color: #FFC244;
+                    }
+                }
+
             }
         }
 

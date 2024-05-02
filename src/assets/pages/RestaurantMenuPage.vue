@@ -5,14 +5,13 @@ import { store } from '../../data/store.js'
 const endpoint = 'http://localhost:8000/api/restaurants/'
 
 // Destructuring dello store
-let { isLoading, cart } = store;
+let { cart } = store;
 
 export default {
     name: 'RestaurantMenuPage',
     components: { AppModal },
     data() {
         return {
-            isLoading,
             restaurant: '',
             dishes: [],
             cart,
@@ -24,7 +23,7 @@ export default {
 
         //Chiamata per ricevere dati del ristorante e dei piatti
         getRestaurantDishes() {
-            isLoading = true;
+            store.isLoading = true;
             axios.get(endpoint + this.$route.params.id)
                 .then((res) => {
                     const { restaurant, dishes } = res.data; // Destructuring per estrarre restaurant e dishes
@@ -35,7 +34,7 @@ export default {
                     console.log(err)
                 })
                 .then(() => {
-                    isLoading = false;
+                    store.isLoading = false;
                 })
         },
 
