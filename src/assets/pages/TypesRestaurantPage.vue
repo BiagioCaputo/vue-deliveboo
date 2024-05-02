@@ -11,14 +11,42 @@ export default {
     data: () => ({
         store,
         restaurants: [],
-        categories: []
+        categories: [],
+        selectedType: []
     }),
     methods: {
         fetchTypeRestaurants() {
             store.isLoading = true;
-            axios.get(baseUri + `types/${this.$route.params.type}/restaurants`)
+
+            // Variabile per recuperare i dati in query string
+            const queryParams = this.$route.query;
+            console.log(queryParams)
+
+            // Inizializzo la variabile per montare la query
+            let query = '';
+
+            // Se ci sono parametri in query string, aggiungili all'URL della richiesta
+            if (Object.keys(queryParams).length > 0) {
+                // Per ogni elemento nella query
+                for (let key in queryParams) {
+                    // Inserisco le tipologie nell'array
+                    this.selectedType.push(`type_id[]=${queryParams[key]}`)
+
+                    // Per ogni tipologia
+                    this.selectedType.forEach(type => {
+                        // Monto la query con le tipologie presenti nell'array
+                        query += type + '&';
+                    });
+
+                    console.log('Stringa query:', query)
+                }
+            }
+            console.log(this.selectedType)
+            console.log('Stringa query:', query)
+
+            axios.get(baseUri + `types/restaurants/?${query}`)
                 .then(res => {
-                    this.restaurants = res.data.restaurants;
+                    this.restaurants = res.data;
                 })
                 .catch(error => {
                     console.error('Errore nel recupero delle tipologie:', error);
@@ -28,6 +56,7 @@ export default {
                     store.isLoading = false;
                 });
         },
+
         fetchTypes() {
             store.isLoading = true;
             axios.get(baseUri + 'types')
@@ -51,7 +80,7 @@ export default {
 
     watch: {
         '$route'(to, from) {
-            if (to.params.type !== from.params.type) {
+            if (to.query['type_id[]'] !== from.query['type_id[]']) {
                 this.fetchTypeRestaurants();
             }
         }
@@ -82,7 +111,7 @@ export default {
                 <h6>Categorie</h6>
                 <ul>
                     <li v-for="category in categories" :key="category.id">
-                        <RouterLink :to="{ name: 'type', params: { type: category.id } }" class="category-list">
+                        <RouterLink :to="{ name: 'type', query: { 'type_id[]': category.id } }" class="category-list">
                             <div class="category-img">
                                 <img :src="category.image" alt="">
                             </div>
