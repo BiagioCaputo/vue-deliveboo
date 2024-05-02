@@ -43,6 +43,7 @@ body {
 
   &:hover {
     background-color: #00846b;
+    color: white;
   }
 }
 
