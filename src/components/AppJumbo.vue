@@ -62,7 +62,7 @@ export default {
                 animation-name: loop-panesopra;
                 animation-duration: 3s;
                 animation-iteration-count: infinite;
-                animation-timing-function: ease;
+                animation-timing-function: ease-in-out;
             }
 
             .carne-sopra {
@@ -70,7 +70,7 @@ export default {
                 animation-name: loop-carnesopra;
                 animation-duration: 3s;
                 animation-iteration-count: infinite;
-                animation-timing-function: ease;
+                animation-timing-function: ease-in-out;
                 z-index: 2;
             }
 
@@ -79,7 +79,7 @@ export default {
                 animation-name: loop-carnesotto;
                 animation-duration: 3s;
                 animation-iteration-count: infinite;
-                animation-timing-function: ease;
+                animation-timing-function: ease-in-out;
                 z-index: 1;
 
             }
@@ -90,7 +90,7 @@ export default {
                 animation-name: loop-panesotto;
                 animation-duration: 3s;
                 animation-iteration-count: infinite;
-                animation-timing-function: ease;
+                animation-timing-function: ease-in-out;
             }
 
             .cetriolo {
@@ -98,7 +98,7 @@ export default {
                 animation-name: cetriolo;
                 animation-duration: 3s;
                 animation-iteration-count: infinite;
-                animation-timing-function: ease;
+                animation-timing-function: ease-in-out;
             }
 
             .pomodoro {
@@ -106,7 +106,7 @@ export default {
                 animation-name: pomodoro;
                 animation-duration: 3s;
                 animation-iteration-count: infinite;
-                animation-timing-function: ease;
+                animation-timing-function: ease-in-out;
             }
 
             @keyframes loop-panesopra {
