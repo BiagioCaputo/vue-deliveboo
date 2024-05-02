@@ -89,7 +89,8 @@ export default {
         getCartItemsFromLocalStorage() {
             const cartItems = localStorage.cart ? JSON.parse(localStorage.cart) : [];
             this.cart = cartItems;
-            //console.log(cart)
+            //risalvo gli elementi anche nel carrello nello store per tenere aggiornata la pagina del riepilogo
+            store.cart = this.cart;
         },
     },
     created() {
@@ -172,7 +173,7 @@ export default {
                                 <div class="mb-3" style="max-width: 540px;">
                                     <div class="d-flex justify-content-between text-start">
                                         <p><strong v-if="item.quantity > 1">{{
-                                                item.quantity }}x</strong>
+                                            item.quantity }}x</strong>
                                             {{ item.name }}
                                         </p>
                                         <p class="card-text">{{ item.price }} €</p>
