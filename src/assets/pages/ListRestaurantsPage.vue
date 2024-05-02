@@ -36,6 +36,11 @@ export default {
                     console.error('Errore nel recupero dei ristoranti:', error);
                 });
         },
+        resetRestaurants() {
+
+            this.selectedCategories = [],
+                this.fetchRestaurants()
+        },
         // Gestione del clic su una categoria
         toggleCategory(categoryId) {
             // Se la categoria è già selezionata, rimuovila, altrimenti aggiungila
@@ -88,7 +93,7 @@ export default {
                             <div class="category-img ms-2">
                                 <!-- <img src="" alt=""> -->
                             </div>
-                            <span class="category-link" @click="(fetchRestaurants)">Tutti</span>
+                            <span class="category-link" @click="(resetRestaurants)">Tutti</span>
                         </div>
                     </li>
                 </ul>
