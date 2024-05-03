@@ -19,6 +19,7 @@ export default {
 
     methods: {
         fetchRestaurants() {
+            store.isLoading = true;
             let url = `${baseUri}/restaurants`;
 
             // Se ci sono categorie selezionate, aggiungile alla query
@@ -35,6 +36,9 @@ export default {
                 })
                 .catch(error => {
                     console.error('Errore nel recupero dei ristoranti:', error);
+                })
+                .then(() => {
+                    store.isLoading = false;
                 });
         },
 
@@ -53,12 +57,16 @@ export default {
 
         // Chiamata API per ottenere le categorie di ristoranti
         fetchTypes() {
+            store.isLoading = true;
             axios.get(`${baseUri}/types`)
                 .then(res => {
                     this.categories = res.data;
                 })
                 .catch(error => {
                     console.error('Errore nel recupero delle categorie di ristoranti:', error);
+                })
+                .then(() => {
+                    store.isLoading = false;
                 });
         }
 

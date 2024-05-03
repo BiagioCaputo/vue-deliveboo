@@ -22,10 +22,10 @@ export default {
                 <p>{{ message }}</p>
             </section>
             <footer class="modal-card-foot bg-transparent d-flex justify-content-center">
-                <button class="custom-primary-btn btn is-success me-3"
-                    @click="$emit('erase-cart-close-modal', !isActive)">Sì</button>
-                <button class="custom-primary-btn btn button-refuse is-success"
-                    @click="$emit('close-modal', !isActive)">No</button>
+                <button class="custom-secondary-btn btn me-3" @click="$emit('close-modal', !isActive)">Ho
+                    capito!</button>
+                <button class="custom-btn btn btn-danger" @click="$emit('erase-cart-close-modal', !isActive)">Svuota
+                    carrello</button>
             </footer>
         </div>
     </div>
@@ -43,21 +43,6 @@ export default {
     justify-content: center;
     align-items: center;
     z-index: 10;
-
-    .custom-primary-btn:hover {
-        color: white;
-    }
-
-    .button-refuse {
-        background-color: #e9f8f5;
-        color: #00A082;
-
-    }
-
-    .button-refuse:hover {
-        background-color: #00A082;
-        color: white;
-    }
 }
 
 .modal.is-active {
@@ -69,5 +54,12 @@ export default {
     padding: 20px;
     border-radius: 15px;
     color: black;
+}
+
+.custom-btn {
+    padding: 15px 50px;
+    border-radius: 50px;
+    font-weight: 700;
+
 }
 </style>

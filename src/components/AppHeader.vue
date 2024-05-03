@@ -100,16 +100,10 @@ header {
         justify-content: center;
         align-items: center;
         position: absolute;
-        top: -13px;
-        left: 20px;
-        font-size: 0.5rem;
-        color: white;
-        border: 1px solid white;
-        background-color: $primary-color;
-        width: 8px;
-        height: 8px;
-        padding: 6px;
-        border-radius: 50%;
+        top: -8px;
+        left: 22px;
+        color: $primary-color;
+        font-size: 1rem;
     }
 }
 </style>

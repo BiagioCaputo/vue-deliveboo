@@ -204,20 +204,27 @@ export default {
                                         </p>
                                         <p class="card-text">{{ item.price }} €</p>
                                     </div>
-                                    <div class="d-flex  align-items-center gap-3">
+
+                                    <div class="d-flex  align-items-center justify-content-between">
+
+                                        <!--Bottone di rimozione-->
+                                        <button class="btn btn-danger btn-custom" @click="removeDish(index)">
+                                            <i class="fa-solid fa-x"></i>
+                                        </button>
 
                                         <div class="card-text text-center">
+                                            <!--Bottone di drecremento-->
                                             <button class="btn me-2 btn-add" @click="decreaseQuantity(item)">
                                                 <i class="fa-solid fa-minus"></i>
                                             </button>
 
+                                            <!--Bottone di incremento-->
                                             <button class="btn ms-2 btn-add" @click="increaseQuantity(item)">
                                                 <i class="fa-solid fa-plus"></i>
                                             </button>
                                         </div>
-
-                                        <button class="btn btn-danger custom-btn" @click="removeDish(index)">X</button>
                                     </div>
+
                                 </div>
                             </div>
                             <p><strong>Totale: </strong>{{ totalPrice }} €</p>
@@ -238,7 +245,7 @@ export default {
 
     <!--Modale se l'utente prova ad ordinare da più ristoranti -->
     <AppModal :isActive="showModal" :title="'Fame nervosa...?'"
-        :message="'Non puoi ordinare da più ristoranti contemporaneamente. Vuoi svuotare il carrello?'"
+        :message="'Non puoi ordinare da più ristoranti contemporaneamente.'"
         @erase-cart-close-modal="emptyCartAndCloseModal()" @close-modal="showModal = false" />
 </template>
 
@@ -323,21 +330,37 @@ section {
             font-size: 18px;
         }
 
-        .btn-add {
-            background-color: #e9f8f5;
-            border-radius: 50%;
-            color: #00A082;
+    }
+}
 
-            &:hover {
-                transform: scale(1.3);
-            }
-        }
+.btn-add {
+    background-color: #e9f8f5;
+    border-radius: 50%;
+    color: #00A082;
+
+    &:hover {
+        transform: scale(1.3);
+    }
+
+    &:active {
+        border: 1px solid #00A082;
+        background-color: #e9f8f5;
+        color: #00A082;
     }
 }
 
 .cart {
     box-shadow: 0px 2px 24px 1px rgba(0, 0, 0, 0.1019607843);
     border: transparent;
+
+    .btn-add {
+        font-size: 10px;
+    }
+
+    .btn-custom {
+        font-size: 10px;
+        border-radius: 50%;
+    }
 }
 
 .cart-title {
