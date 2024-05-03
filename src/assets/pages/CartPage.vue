@@ -1,14 +1,15 @@
 <script>
 import { RouterLink } from 'vue-router';
 import { store } from '../../data/store.js'
+import AppPaymentModal from '../../components/AppPaymentModal.vue';
 export default {
     name: "CartPage",
-    components: {
-    },
+    components: { AppPaymentModal },
     data() {
         return {
             store,
             totalPrice: 0,
+            paymentModal: false
         }
     },
     methods: {
@@ -61,7 +62,10 @@ export default {
             this.calculateTotalPrice(); // Ricalcola il prezzo totale
         },
 
-
+        // Funzione per aprire/chiudere modale pagamento
+        togglePaymentModal() {
+            !this.paymentModal ? this.paymentModal = true : this.paymentModal = false
+        },
     },
     mounted() {
         //se ho dati nel localStorage li salvo nel cart dello store per poter interagire con esso con le altre funzioni del carrello, altrimenti salvo un array vuoto nel cart dello store
@@ -91,7 +95,7 @@ export default {
                             <div class="card-body">
                                 <h5 class="card-title">{{ dish.name }}</h5>
                                 <p class="card-text"> <span v-if="dish.quantity > 1" class="me-2">{{
-                                    dish.quantity }}x</span> {{ dish.price }} €</p>
+            dish.quantity }}x</span> {{ dish.price }} €</p>
                             </div>
                         </div>
 
@@ -124,13 +128,14 @@ export default {
                         <!-- Bottone per svuotare il carrello -->
                         <button class="btn custom-secondary-btn me-2" @click="emptyCart()">Svuota carrello</button>
 
-                        <button class="btn custom-primary-btn">Acquista</button>
+                        <button class="btn custom-primary-btn" @click="togglePaymentModal()">Acquista</button>
                     </div>
                 </div>
             </div>
 
         </div>
 
+        <!-- Se il carrello è vuoto -->
         <div v-else class="text-center card py-5">
             <h2 class="mb-4">Il carrello è vuoto ... davvero non hai fame?</h2>
             <div class="d-flex justify-content-center gap-2">
@@ -144,6 +149,10 @@ export default {
                 </RouterLink>
             </div>
         </div>
+
+        <!-- Modale per il pagamento -->
+        <AppPaymentModal :isActive="paymentModal" :title="'Completa il tuo ordine'"
+            @close-modal="togglePaymentModal()" />
     </div>
 
 
