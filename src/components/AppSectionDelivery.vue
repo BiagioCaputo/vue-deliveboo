@@ -8,7 +8,7 @@ export default {
 <template>
     <section class="delivery text-center container-desktop">
         <h1 class="delivery-title">Consegniamo tutto ciò che vuoi</h1>
-        <div class="delivery-group mb-4">
+        <div class="delivery-group mb-4 p-4">
             <div class="delivery-item">
                 <img src="/img/restaurants.svg" alt="">
                 <div>
@@ -69,7 +69,7 @@ export default {
         gap: 150px;
 
         .delivery-item {
-            width: 350px;
+            width: 250px;
             display: flex;
             flex-direction: column;
             align-items: center;
