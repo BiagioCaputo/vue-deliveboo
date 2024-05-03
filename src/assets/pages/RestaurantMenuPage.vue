@@ -245,7 +245,7 @@ export default {
 
     <!--Modale se l'utente prova ad ordinare da più ristoranti -->
     <AppModal :isActive="showModal" :title="'Fame nervosa...?'"
-        :message="'Non puoi ordinare da più ristoranti contemporaneamente. Vuoi svuotare il carrello?'"
+        :message="'Non puoi ordinare da più ristoranti contemporaneamente.'"
         @erase-cart-close-modal="emptyCartAndCloseModal()" @close-modal="showModal = false" />
 </template>
 
