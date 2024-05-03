@@ -83,8 +83,8 @@ export default {
 </script>
 
 <template>
-    <main class="container-main">
-        <section class="sidebar">
+    <main class="container-main d-flex justify-content-center">
+        <section class="sidebar mx-3">
             <div class="all">
                 <h6>Tutti i ristoranti</h6>
                 <ul>
@@ -117,10 +117,10 @@ export default {
             </div>
         </section>
 
-        <section class="list">
+        <section class="list me-3">
             <h2>Ristoranti a domicilio</h2>
             <div class="row flex-container">
-                <div class="col flex-item" v-for="restaurant in restaurants" :key="restaurant.id">
+                <div class="flex-item" v-for="restaurant in restaurants" :key="restaurant.id">
                     <RouterLink :to="{ name: 'menu', params: { id: restaurant.id } }" class="text-decoration-none">
                         <AppCardRestaurant :restaurant="restaurant" />
                     </RouterLink>
@@ -140,12 +140,10 @@ export default {
 
 
 .container-main {
-    width: 1100px;
+    max-width: 1300px;
     margin: 0 auto;
-
     display: flex;
-
-    padding-top: 200px;
+    padding-top: 150px;
     padding-bottom: 50px;
 
     h6 {
@@ -159,7 +157,9 @@ export default {
     }
 
     .sidebar {
-        width: 20%;
+        max-width: 20%;
+
+
 
         ul {
             margin-bottom: 20px;
@@ -193,6 +193,13 @@ export default {
                         width: 80%;
                         height: 80%;
                     }
+
+                }
+
+                @media screen and (max-width: 768px) {
+                    .category-img {
+                        display: none;
+                    }
                 }
 
                 .category-link {
@@ -211,7 +218,8 @@ export default {
     }
 
     .list {
-        width: 80%;
+        max-width: 80%;
+        margin-right: 30px;
 
         h2 {
             font-weight: 700;
@@ -222,12 +230,24 @@ export default {
             display: flex;
             margin: 0 -1rem;
             flex-wrap: wrap;
+            justify-content: center;
 
-            .col.flex-item {
+
+
+            .flex-item {
                 margin: 1rem;
+                flex-shrink: 0;
                 flex-basis: calc(100% / 3 - 2rem);
-                flex-grow: 0;
+                min-width: 300px;
             }
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        .list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
     }
 }
