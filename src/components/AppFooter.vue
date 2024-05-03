@@ -20,7 +20,7 @@ export default {
                         <img src="/img/glovo_logo.png" alt="Logo" class="logo-img">
                     </h1>
                 </div>
-                <div class="d-flex justify-content-between py-5 text-center list-container">
+                <div class="d-flex justify-content-between gap-5 flex-wrap p-5 text-center list-container">
                     <div v-for="(links, i) in store.footerLinks" :key="i" class="text-white">
                         <div>
 
@@ -83,7 +83,7 @@ img {
 }
 
 .container {
-    width: 1100px;
+    max-width: 1100px;
 }
 
 .bg-footer {
@@ -103,6 +103,11 @@ img {
             bottom: 15px;
             right: 22px;
         }
+    }
+
+    .list-container {
+        flex-basis: calc(100% / 2);
+        gap: 50px;
     }
 }
 
