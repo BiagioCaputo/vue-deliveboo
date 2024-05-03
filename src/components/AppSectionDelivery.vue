@@ -65,6 +65,7 @@ export default {
     .delivery-group {
         display: flex;
         justify-content: center;
+        flex-wrap: wrap;
         gap: 150px;
 
         .delivery-item {
