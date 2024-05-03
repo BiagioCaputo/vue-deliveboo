@@ -120,9 +120,11 @@ export default {
 
                     <div class="btn-cart text-center">
                         <!--TODO Qui il btn per procedere all'acquisto con la classe custom-primary-btn-->
-                        <button class="btn custom-primary-btn me-2">Acquista</button>
+
                         <!-- Bottone per svuotare il carrello -->
-                        <button class="btn btn-danger custom-btn" @click="emptyCart()">Svuota carrello</button>
+                        <button class="btn custom-secondary-btn me-2" @click="emptyCart()">Svuota carrello</button>
+
+                        <button class="btn custom-primary-btn">Acquista</button>
                     </div>
                 </div>
             </div>
@@ -181,15 +183,11 @@ export default {
 
         .custom-btn {
             padding: 15px 20px;
+            border-radius: 50px;
+            font-weight: 700;
         }
 
 
-    }
-
-    .custom-btn {
-        padding: 15px 50px;
-        border-radius: 50px;
-        font-weight: 700;
     }
 
     .back-btn {
