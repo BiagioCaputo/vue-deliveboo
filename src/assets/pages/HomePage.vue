@@ -85,7 +85,7 @@ export default {
             <div class="container-desktop">
 
                 <h1 class="title-category text-center">Le nostre categorie</h1>
-                <div class="d-flex flex-wrap justify-content-center gap-4 mt-5">
+                <div class="d-flex flex-wrap justify-content-center gap-4 mt-5 pb-5">
 
                     <div v-for="category in categories" :key="category.id">
 
@@ -98,7 +98,7 @@ export default {
                 </div>
             </div>
         </section>
-        <img class="wave-img" src="/img/jumbotron-wave-desktop.svg" alt="jumbo-wave">
+        <!-- <img class="wave-img" src="/img/jumbotron-wave-desktop.svg" alt="jumbo-wave"> -->
 
         <!--Sezione Delivery-->
         <AppSectionDelivery />
@@ -113,7 +113,7 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
-    height: 500px;
+    height: 700px;
 
     h1 {
         font-weight: 700;

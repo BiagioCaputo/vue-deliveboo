@@ -52,9 +52,9 @@ export default {
 
         .animated-image {
             position: relative;
-            width: 500px;
+            // width: 500px;
+            width: 100%;
             height: 400px;
-            ;
 
 
             .pane-sopra {
@@ -212,6 +212,14 @@ export default {
             margin: 0 auto;
             font-size: 3.5rem;
             font-weight: 700;
+        }
+    }
+
+    @media screen and (max-width: 1140px) {
+        .jumbo-content {
+            flex-direction: column;
+            align-items: center;
+
         }
     }
 
