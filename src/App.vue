@@ -56,7 +56,20 @@ body {
 
   &:hover {
     background-color: #b2f0e3;
-    color: #00846b;
+    color: black;
+  }
+}
+
+.custom-dark-btn {
+  background-color: black;
+  color: white;
+  padding: 15px 50px;
+  border-radius: 50px;
+  font-weight: 700;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: black;
   }
 }
 
