@@ -83,6 +83,8 @@ export default {
             this.cart = [];
             localStorage.cart = JSON.stringify(this.cart);
             this.showModal = false;
+            // Refresha la pagina
+            window.location.reload();
         },
 
         // Metodo per recuperare i piatti dal localStorage (usato items per non confondersi con gli altri dishes in pagina)
@@ -173,7 +175,7 @@ export default {
                                 <div class="mb-3" style="max-width: 540px;">
                                     <div class="d-flex justify-content-between text-start">
                                         <p><strong v-if="item.quantity > 1">{{
-                                            item.quantity }}x</strong>
+            item.quantity }}x</strong>
                                             {{ item.name }}
                                         </p>
                                         <p class="card-text">{{ item.price }} €</p>
