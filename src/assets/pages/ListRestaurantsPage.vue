@@ -18,6 +18,7 @@ export default {
     methods: {
         // Chiamata API per ottenere tutti i ristoranti
         fetchRestaurants() {
+            store.isLoading = true;
             let url = `${baseUri}/restaurants`;
 
             // Se ci sono categorie selezionate, aggiungile alla query
@@ -34,6 +35,9 @@ export default {
                 })
                 .catch(error => {
                     console.error('Errore nel recupero dei ristoranti:', error);
+                })
+                .then(() => {
+                    store.isLoading = false;
                 });
         },
         resetRestaurants() {
