@@ -87,6 +87,30 @@ export default {
             window.location.reload();
         },
 
+        // Funzione per aumentare la quantità di un piatto nel carrello 
+        increaseQuantity(item) {
+            item.quantity++;
+            this.calculateTotalPrice();
+            localStorage.cart = JSON.stringify(this.cart);
+        },
+
+        // Funzione per diminuire la quantità di un piatto nel carrello
+        decreaseQuantity(item) {
+            if (item.quantity > 1) {
+                item.quantity--;
+                this.calculateTotalPrice();
+                localStorage.cart = JSON.stringify(this.cart);
+            }
+        },
+
+        // Funzione per rimuovere un piatto dal carrello
+        removeDish(itemIndex) {
+            this.cart.splice(itemIndex, 1); // 1 elemento:indice da cui iniziare l'eliminazione, 2 quanti da eliminare, 3 elemento+:rimpiazzo(in questo caso il o i rimpiazzi non ci servono)
+            // this.cart = this.store.cart.filter((item, index) => index !== dishIndex); //in alternativa si poteva utilizzare il filter...sono 10 euro per il ripasso
+            localStorage.cart = JSON.stringify(this.cart);
+            this.calculateTotalPrice(); // Ricalcola il prezzo totale
+        },
+
         // Metodo per recuperare i piatti dal localStorage (usato items per non confondersi con gli altri dishes in pagina)
         getCartItemsFromLocalStorage() {
             const cartItems = localStorage.cart ? JSON.parse(localStorage.cart) : [];
@@ -175,10 +199,24 @@ export default {
                                 <div class="mb-3" style="max-width: 540px;">
                                     <div class="d-flex justify-content-between text-start">
                                         <p><strong v-if="item.quantity > 1">{{
-            item.quantity }}x</strong>
+                                            item.quantity }}x</strong>
                                             {{ item.name }}
                                         </p>
                                         <p class="card-text">{{ item.price }} €</p>
+                                    </div>
+                                    <div class="d-flex  align-items-center gap-3">
+
+                                        <div class="card-text text-center">
+                                            <button class="btn me-2 btn-add" @click="decreaseQuantity(item)">
+                                                <i class="fa-solid fa-minus"></i>
+                                            </button>
+
+                                            <button class="btn ms-2 btn-add" @click="increaseQuantity(item)">
+                                                <i class="fa-solid fa-plus"></i>
+                                            </button>
+                                        </div>
+
+                                        <button class="btn btn-danger custom-btn" @click="removeDish(index)">X</button>
                                     </div>
                                 </div>
                             </div>
