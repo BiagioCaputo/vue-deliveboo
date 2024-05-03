@@ -136,9 +136,9 @@ export default {
             <!-- Sezione Piatti + Sezione Ordine -->
             <div class="row">
                 <!-- Sezione Piatti -->
-                <div class="col-9 row">
-                    <div v-for="dish in dishes" :key="dish.id" class="col-6">
-                        <div class="card p-3 dish mb-4">
+                <div class="col-9 row d-flex flex-wrap flex-shrink-0">
+                    <div v-for="dish in dishes" :key="dish.id" class="">
+                        <div class="card dish-card p-3 dish mb-4">
                             <div class="d-flex gap-2">
                                 <img class="dish-image rounded" :src="dish.image" :alt="dish.name">
 
@@ -166,7 +166,7 @@ export default {
                     <div class="card p-3 text-center cart">
                         <h2 class="cart-title">Il tuo ordine</h2>
                         <div v-if="cart.length <= 0">
-                            <img src="/img/astronaut-grey-scale.svg" alt="">
+                            <img class="cart-img" src="/img/astronaut-grey-scale.svg" alt="">
                         </div>
                         <div v-else>
                             <div v-for="item in cart" :key="item.id">
@@ -260,6 +260,9 @@ section {
 }
 
 .dish {
+    box-shadow: 0px 2px 24px 1px #0000001A;
+    border: 0;
+    flex-basis: calc((100% / 2) - 72px);
 
     .dish-image {
         width: 100px;
@@ -302,6 +305,10 @@ section {
 
 .cart-title {
     font-weight: 700;
+
+    .cart-img {
+        max-width: 100%;
+    }
 }
 
 .cart-shopping {
