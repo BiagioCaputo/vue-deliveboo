@@ -1,12 +1,83 @@
 <script>
+import axios from 'axios';
+import { store } from '../data/store.js';
+
+const endpoint = 'http://localhost:8000/api';
+
 export default {
     // Javascript Logic
     name: 'PaymentModal',
+    data: () => ({
+        store,
+        token: '',
+        card_number: '',
+        card_expire_date: '',
+        cvv_code: '',
+        paymentDetails: {
+            customer_name: '',
+            customer_address: '',
+            customer_email: '',
+            customer_phone_number: '',
+            dishes: [],
+            restaurant_id: '',
+            payment_method_nonce: 'fake-valid-nonce',
+        },
+    }),
     props: {
         isActive: Boolean,
-        title: String,
+        totalPrice: String,
+        message: String
     },
-    emits: ['close-modal']
+    emits: ['close-modal'],
+    methods: {
+        generateToken() {
+            // Chiamata per generare il token
+            store.checkout = true
+            axios.get(endpoint + '/order/generate')
+                .then((res) => {
+                    // Inserisco i dati della chiamata nell'oggetto
+                    this.token = res.data;
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+                .then(() => {
+                    if (this.token) this.makePayment()
+                })
+        },
+        makePayment() {
+            // Recupero l'id o gli ids e le quantità dei piatti per inviarle
+            this.store.cart.forEach(cartElement => {
+                const dish = { id: '', quantity: '' };
+                dish.id = cartElement.id;
+                dish.quantity = cartElement.quantity;
+                this.paymentDetails.dishes.push(dish);
+                this.paymentDetails.restaurant_id = cartElement.restaurant_id;
+            });
+
+            // Chiamata per effettuare il pagamento
+            axios.post(
+                endpoint + '/order/payment',
+                { ...this.paymentDetails },
+                { headers: { 'Content-type': 'multipart/form-data' } })
+                .then(response => {
+                    console.log('Oggetto partito: ', this.paymentDetails);
+                    console.log('Response: ', response.data);
+                    console.log(response.data.message)
+                })
+                .catch(error => {
+                    console.error(error);
+                    // In caso di errore ripulisco l'array nell'oggetto per non avere doppioni
+                    this.paymentDetails.dishes = [];
+                })
+                .then(() => {
+                    // Ripulisco il carrello e spengo il loader
+                    // TODO Ripulire il carrello nel localStorage
+                    this.store.cart = [];
+                    store.checkout = false
+                })
+        }
+    },
 };
 </script>
 
@@ -143,34 +214,35 @@ export default {
 
             <div class="credit-card-info--form">
                 <div class="input_container">
-                    <label for="customer-name" class="input_label">Nome/Cognome</label>
-                    <input id="customer-name" class="input_field" type="text" name="customer-name"
-                        placeholder="Nome e cognome">
+                    <label for="customer_name" class="input_label">Nome/Cognome</label>
+                    <input id="customer_name" class="input_field" type="text" name="customer_name"
+                        placeholder="Nome e cognome" v-model="paymentDetails.customer_name">
                     <div class="form-text d-none">
-                        <p id="customer-name-suggest"></p>
+                        <p id="customer_name_suggest"></p>
                     </div>
                 </div>
                 <div class="input_container">
-                    <label for="customer-address" class="input_label">Indirizzo spedizione</label>
-                    <input id="customer-address" class="input_field" type="text" name="customer-address"
-                        placeholder="Indirizzo di spedizione">
+                    <label for="customer_address" class="input_label">Indirizzo spedizione</label>
+                    <input id="customer_address" class="input_field" type="text" name="customer_address"
+                        placeholder="Indirizzo di spedizione" v-model="paymentDetails.customer_address">
                     <div class="form-text d-none">
-                        <p id="customer-address-suggest"></p>
+                        <p id="customer_address_suggest"></p>
                     </div>
                 </div>
                 <div class="input_container">
-                    <label for="customer-mail" class="input_label">Indirizzo email</label>
-                    <input id="customer-mail" class="input_field" type="text" name="customer-mail" placeholder="Email">
+                    <label for="customer_mail" class="input_label">Indirizzo email</label>
+                    <input id="customer_mail" class="input_field" type="text" name="customer_mail" placeholder="Email"
+                        v-model="paymentDetails.customer_email">
                     <div class="form-text d-none">
-                        <p id="customer-email-suggest"></p>
+                        <p id="customer_email_suggest"></p>
                     </div>
                 </div>
                 <div class="input_container">
-                    <label for="customer-phone-number" class="input_label">Telefono</label>
-                    <input id="customer-phone-number" class="input_field" type="text" name="customer-phone-number"
-                        placeholder="Numero di telefono">
+                    <label for="customer_phone_number" class="input_label">Telefono</label>
+                    <input id="customer_phone_number" class="input_field" type="text" name="customer_phone_number"
+                        placeholder="Numero di telefono" v-model="paymentDetails.customer_phone_number">
                     <div class="form-text d-none">
-                        <p id="customer-phone-suggest"></p>
+                        <p id="customer_phone_suggest"></p>
                     </div>
                 </div>
                 <div class="separator">
@@ -179,32 +251,38 @@ export default {
                     <hr class="line">
                 </div>
                 <div class="input_container">
-                    <label for="card-number" class="input_label">Numero Carta</label>
-                    <input id="card-number" class="input_field" type="number" name="card-number"
-                        placeholder="0000 0000 0000 0000">
+                    <label for="card_number" class="input_label">Numero Carta</label>
+                    <input id="card_number" class="input_field" type="number" name="card_number"
+                        placeholder="0000 0000 0000 0000" v-model="card_number">
                     <div class="form-text d-none">
-                        <p id="card-number-suggest"></p>
+                        <p id="card_number_suggest"></p>
                     </div>
                 </div>
                 <div class="wrapper">
                     <div class="col-9">
-                        <label for="card-expire-date" class="input_label">Data scadenza</label>
-                        <input id="card-expire-date" class="input_field" type="text" name="card-expire-date"
-                            placeholder="01/23">
+                        <label for="card_expire_date" class="input_label">Data scadenza</label>
+                        <input id="card_expire_date" class="input_field" type="text" name="card_expire_date"
+                            placeholder="01/23" v-model="card_expire_date">
                         <div class="form-text d-none">
-                            <p id="card-expire-suggest"></p>
+                            <p id="card_expire_suggest"></p>
                         </div>
                     </div>
                     <div class="col-3">
-                        <label for="cvv-code" class="input_label">CVV</label>
-                        <input id="cvv-code" class="input_field" type="number" name="cvv-code" placeholder="CVV">
+                        <label for="cvv_code" class="input_label">CVV</label>
+                        <input id="cvv_code" class="input_field" type="number" name="cvv_code" placeholder="CVV"
+                            v-model="cvv_code">
                         <div class="form-text d-none">
-                            <p id="cvv-code-suggest"></p>
+                            <p id="cvv_code_suggest"></p>
                         </div>
                     </div>
+                    <input type="hidden" id="nonce" name="payment_method_nonce"
+                        v-model="paymentDetails.payment_method_nonce" />
                 </div>
             </div>
-            <button class="custom-primary-btn btn">Checkout</button>
+            <button :disabled="store.checkout" class="custom-primary-btn btn" @click="generateToken()">
+                <span v-if="!store.checkout">Paga €{{ totalPrice }}</span>
+                <span v-else class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            </button>
             <button type="button" class="custom-dark-btn btn" @click="$emit('close-modal')">Torna
                 indietro</button>
         </form>
@@ -225,7 +303,7 @@ export default {
     height: fit-content;
     background: #FFFFFF;
     box-shadow: 0px 187px 75px rgba(0, 0, 0, 0.01), 0px 105px 63px rgba(0, 0, 0, 0.05), 0px 47px 47px rgba(0, 0, 0, 0.09), 0px 12px 26px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
-    border-radius: 26px;
+    border-radius: 0.6rem;
     max-width: 600px;
     margin: 0 auto;
 }
