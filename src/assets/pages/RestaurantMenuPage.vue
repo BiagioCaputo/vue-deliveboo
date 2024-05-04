@@ -14,9 +14,11 @@ export default {
         return {
             restaurant: '',
             dishes: [],
+            courses: [],
             cart,
             showModal: false, // Flag Modale
-            totalPrice: 0
+            totalPrice: 0,
+            selectedCourse: '',
         }
     },
     methods: {
@@ -26,10 +28,16 @@ export default {
             store.isLoading = true;
             axios.get(endpoint + this.$route.params.id)
                 .then((res) => {
-                    const { restaurant, dishes } = res.data; // Destructuring per estrarre restaurant e dishes
+                    const { restaurant, dishes, courses } = res.data; // Destructuring per estrarre restaurant e dishes
                     this.restaurant = restaurant;
-                    this.dishes = dishes;
-                    console.log(restaurant)
+                    this.courses = courses;
+                    // Se è stata selezionata una portata diversa da "Portate disponibili", filtra i piatti in base alla portata selezionata
+                    if (this.selectedCourse) {
+                        this.dishes = dishes.filter(dish => dish.course_id === this.selectedCourse);
+                    } else {
+                        // Altrimenti, mostra tutti i piatti
+                        this.dishes = dishes;
+                    }
                 })
                 .catch(err => {
                     console.log(err)
@@ -150,9 +158,8 @@ export default {
                         <div>
                             <div><i class="fa-solid fa-phone mb-3 me-2"></i>{{ restaurant.phone }}</div>
                             <div><i class="fa-solid fa-location-dot me-2"></i>{{ restaurant.address }}</div>
-
+                            <!-- Tipologie ristorante -->
                             <div class="d-flex mt-3">
-
                                 <div v-for="type in restaurant.types" :key="type.id" class="me-3">
                                     <div class="type-element d-flex align-items-center">
                                         <div class="type-img-box me-1">
@@ -164,6 +171,20 @@ export default {
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Filtro ricerca per portata -->
+                            <div class="course-search-box">
+                                <!-- Al cambio della select rifai la chiamata API -->
+                                <select v-model="selectedCourse" @change="getRestaurantDishes"
+                                    class="form-select form-select-lg mt-3">
+                                    <option value="">Portate disponibili</option>
+                                    <option v-for="course in courses" :key="course.id" :value="course.id" class="me-3">
+                                        {{ course.label }}
+                                    </option>
+                                </select>
+                            </div>
+
+
 
                         </div>
                     </div>
@@ -184,8 +205,8 @@ export default {
                                     <li>
                                         <h5>{{ dish.name }}</h5>
                                     </li>
-                                    <li class="dish-info">{{ dish.ingredients }}</li>
-                                    <!-- <li><strong>Portata:</strong>{{ dish.course.label }}</li> -->
+                                    <li class="dish-info mb-2">{{ dish.ingredients }}</li>
+                                    <li>Portata: {{ dish.course.label }}</li>
                                 </ul>
                             </div>
                             <div class="footer-card">
@@ -385,5 +406,9 @@ section {
 
 .type-img {
     max-width: 40px;
+}
+
+.course-search-box {
+    max-width: 210px;
 }
 </style>
