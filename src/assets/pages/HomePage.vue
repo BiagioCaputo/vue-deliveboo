@@ -59,7 +59,7 @@ export default {
                     <div v-for="type in popularTypes" :key="type.id">
 
                         <div class="pills">
-                            {{ type }}
+                            {{ type.label }}
                         </div>
                     </div>
 
