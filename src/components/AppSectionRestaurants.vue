@@ -12,7 +12,7 @@ export default {
 <template>
     <section class="restaurant container-desktop">
         <h1 class="text-center my-5">
-            I ristoranti della tua città
+            I ristoranti più cercati della tua città
             <i class="fa-solid fa-utensils"></i>
         </h1>
 

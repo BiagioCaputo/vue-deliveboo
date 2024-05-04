@@ -4,6 +4,7 @@ import AppSectionRestaurants from '../../components/AppSectionRestaurants.vue';
 import AppSectionDelivery from '../../components/AppSectionDelivery.vue';
 import { store } from '../../data/store.js';
 import axios from 'axios';
+import { router } from '../../router/index.js'; //importo il router per poter spostarmi nella lista categorie all'interno di una funzione
 
 const baseUri = 'http://localhost:8000/api';
 
@@ -12,26 +13,18 @@ export default {
     components: { AppJumbo, AppSectionRestaurants, AppSectionDelivery },
     data: () => ({
         store,
-        restaurants: [],
-        categories: [],
-        selectedCategories: []
+        popularRestaurants: [],
+        popularTypes: [],
     }),
 
     methods: {
-        fetchRestaurants() {
+        //Chiamata per i ristoranti con più ordini e le loro categorie
+        fetchPopularRestaurants() {
             store.isLoading = true;
-            let url = `${baseUri}/restaurants`;
-            // Se ci sono categorie selezionate, aggiungile alla query
-            if (this.selectedCategories.length > 0) {
-                const categoryQuery = this.selectedCategories.map(catId => `type_id[]=${catId}`).join('&');
-                url = `${baseUri}/types/restaurants?${categoryQuery}`;
-            }
-            console.log('URL della richiesta:', url); // Controlla l'URL della richiesta
-
-            axios.get(url)
+            axios.get(`${baseUri}/popular-restaurants`)
                 .then(res => {
-                    this.restaurants = res.data.data;
-                    console.log('Risposta API:', res.data); // Controlla la risposta della chiamata API
+                    this.popularRestaurants = res.data.popularRestaurants;
+                    this.popularTypes = res.data.popularTypes;
                 })
                 .catch(error => {
                     console.error('Errore nel recupero dei ristoranti:', error);
@@ -41,39 +34,16 @@ export default {
                 });
         },
 
-        // Gestione del clic su una categoria
-        toggleCategory(categoryId) {
-            // Se la categoria è già selezionata, rimuovila, altrimenti aggiungila
-            if (this.selectedCategories.includes(categoryId)) {
-                this.selectedCategories = this.selectedCategories.filter(id => id !== categoryId);
-            } else {
-                this.selectedCategories.push(categoryId);
-            }
-            console.log(this.selectedCategories)
-            // Aggiorna i ristoranti in base alle categorie selezionate
-            this.fetchRestaurants();
-        },
-
-        // Chiamata API per ottenere le categorie di ristoranti
-        fetchTypes() {
-            store.isLoading = true;
-            axios.get(`${baseUri}/types`)
-                .then(res => {
-                    this.categories = res.data;
-                })
-                .catch(error => {
-                    console.error('Errore nel recupero delle categorie di ristoranti:', error);
-                })
-                .then(() => {
-                    store.isLoading = false;
-                });
+        saveTypeInLS(typeId) {
+            // Salviamo l'ID del tipo nel localStorage
+            localStorage.setItem('selectedTypeId', typeId);
+            // Vai alla pagina della lista dei ristoranti
+            router.push({ name: 'list' });
         }
-
     },
 
     created() {
-        this.fetchRestaurants();
-        this.fetchTypes();
+        this.fetchPopularRestaurants();
     }
 }
 </script>
@@ -85,21 +55,17 @@ export default {
             :subtitle="'Ordina dai tuoi ristoranti preferiti, in pochi minuti a casa tua.'" />
 
         <!--Section Restaurant-->
-        <AppSectionRestaurants :restaurants="restaurants" />
+        <AppSectionRestaurants :restaurants="popularRestaurants" />
 
         <!--Section Type-->
         <section class="category">
             <div class="container-desktop">
 
-                <h1 class="title-category text-center">Le nostre categorie</h1>
+                <h1 class="title-category text-center">Le tipologie più cercate</h1>
                 <div class="d-flex flex-wrap justify-content-center gap-4 mt-5">
 
-                    <div v-for="category in categories" :key="category.id">
-
-                        <div :class="{ 'active-link': selectedCategories.includes(category.id) }" class="pills"
-                            @click="toggleCategory(category.id)">
-                            {{ category.label }}
-                        </div>
+                    <div v-for="type in popularTypes" :key="type.id" @click="saveTypeInLS(type.id)" class="pills">
+                        {{ type.label }}
                     </div>
 
                 </div>
