@@ -21,7 +21,6 @@ export default {
         fetchRestaurants() {
             store.isLoading = true;
             let url = `${baseUri}/restaurants`;
-
             // Se ci sono categorie selezionate, aggiungile alla query
             if (this.selectedCategories.length > 0) {
                 const categoryQuery = this.selectedCategories.map(catId => `type_id[]=${catId}`).join('&');
@@ -31,7 +30,7 @@ export default {
 
             axios.get(url)
                 .then(res => {
-                    this.restaurants = res.data;
+                    this.restaurants = res.data.data;
                     console.log('Risposta API:', res.data); // Controlla la risposta della chiamata API
                 })
                 .catch(error => {
