@@ -124,7 +124,10 @@ export default {
         <section class="list">
             <h2>Ristoranti a domicilio</h2>
             <div class="row flex-container">
-                <div class="col flex-item" v-for="restaurant in restaurants" :key="restaurant.id">
+
+                <h1 v-if="restaurants.length == 0" class="col">Nessun ristorante trovato (ERICA qua ci vuole il tuo
+                    occhio artistico)</h1> <!-- TODO ERICA GUARDA QUI -->
+                <div v-else class="col flex-item" v-for="restaurant in restaurants" :key="restaurant.id">
                     <RouterLink :to="{ name: 'menu', params: { id: restaurant.id } }" class="text-decoration-none">
                         <AppCardRestaurant :restaurant="restaurant" />
                     </RouterLink>
