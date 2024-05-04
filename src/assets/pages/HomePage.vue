@@ -50,7 +50,7 @@ export default {
             } else {
                 this.selectedCategories.push(categoryId);
             }
-            console.log(this.selectedCategories)
+            // console.log(this.selectedCategories)
             // Aggiorna i ristoranti in base alle categorie selezionate
             this.fetchRestaurants();
         },

@@ -26,12 +26,12 @@ export default {
                 const categoryQuery = this.selectedCategories.map(catId => `type_id[]=${catId}`).join('&');
                 url = `${baseUri}/types/restaurants?${categoryQuery}`;
             }
-            console.log('URL della richiesta:', url); // Controlla l'URL della richiesta
+            // console.log('URL della richiesta:', url); 
 
             axios.get(url)
                 .then(res => {
                     this.restaurants = res.data;
-                    console.log('Risposta API:', res.data); // Controlla la risposta della chiamata API
+                    // console.log('Risposta API:', res.data);
                 })
                 .catch(error => {
                     console.error('Errore nel recupero dei ristoranti:', error);
