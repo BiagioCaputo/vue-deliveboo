@@ -1,15 +1,24 @@
 <script>
-import { RouterLink } from 'vue-router';
 import { store } from '../../data/store.js'
 import AppPaymentModal from '../../components/AppPaymentModal.vue';
+
 export default {
     name: "CartPage",
     components: { AppPaymentModal },
     data() {
         return {
             store,
-            totalPrice: 0,
-            paymentModal: false
+            totalPrice: null,
+            showPaymentModal: false,
+            message: ''
+        }
+    },
+    computed: {
+        printMessage() {
+            if (this.message) {
+                this.showPaymentModal = false;
+            }
+            return this.message;
         }
     },
     methods: {
@@ -64,8 +73,9 @@ export default {
 
         // Funzione per aprire/chiudere modale pagamento
         togglePaymentModal() {
-            !this.paymentModal ? this.paymentModal = true : this.paymentModal = false
+            !this.showPaymentModal ? this.showPaymentModal = true : this.showPaymentModal = false
         },
+
     },
     mounted() {
         //se ho dati nel localStorage li salvo nel cart dello store per poter interagire con esso con le altre funzioni del carrello, altrimenti salvo un array vuoto nel cart dello store
@@ -135,8 +145,8 @@ export default {
 
         </div>
 
-        <!-- Se il carrello è vuoto -->
-        <div v-else class="text-center card py-5">
+        <!-- Se il carrello è vuoto e se non ho messaggi -->
+        <div v-else-if="!store.cart && !store.cart.length > 0 && !message" class="text-center card py-5">
             <h2 class="mb-4">Il carrello è vuoto ... davvero non hai fame?</h2>
             <div class="d-flex justify-content-center gap-2">
 
@@ -150,9 +160,13 @@ export default {
             </div>
         </div>
 
+        <div v-else>
+            {{ printMessage }}
+        </div>
+
         <!-- Modale per il pagamento -->
-        <AppPaymentModal :isActive="paymentModal" :title="'Completa il tuo ordine'"
-            @close-modal="togglePaymentModal()" />
+        <AppPaymentModal :isActive="showPaymentModal" @close-modal="togglePaymentModal()" :totalPrice="totalPrice"
+            :message="message" />
     </div>
 
 
