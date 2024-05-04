@@ -29,6 +29,7 @@ export default {
                     const { restaurant, dishes } = res.data; // Destructuring per estrarre restaurant e dishes
                     this.restaurant = restaurant;
                     this.dishes = dishes;
+                    console.log(restaurant)
                 })
                 .catch(err => {
                     console.log(err)
@@ -150,9 +151,20 @@ export default {
                             <div><i class="fa-solid fa-phone mb-3 me-2"></i>{{ restaurant.phone }}</div>
                             <div><i class="fa-solid fa-location-dot me-2"></i>{{ restaurant.address }}</div>
 
-                            <!-- TODO da implementare i types del restaurant -->
+                            <div class="d-flex mt-3">
 
-                            <!--Perché vuoi implentare i types?-->
+                                <div v-for="type in restaurant.types" :key="type.id" class="me-3">
+                                    <div class="type-element d-flex align-items-center">
+                                        <div class="type-img-box me-1">
+                                            <img class="type-img" :src="type.image" alt="type_image">
+                                        </div>
+                                        <span class="type-label">
+                                            {{ type.label }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
@@ -369,5 +381,9 @@ section {
 
 .cart-shopping {
     text-decoration: none;
+}
+
+.type-img {
+    max-width: 40px;
 }
 </style>
