@@ -4,6 +4,7 @@ import AppSectionRestaurants from '../../components/AppSectionRestaurants.vue';
 import AppSectionDelivery from '../../components/AppSectionDelivery.vue';
 import { store } from '../../data/store.js';
 import axios from 'axios';
+import { router } from '../../router/index.js'; //importo il router per poter spostarmi nella lista categorie all'interno di una funzione
 
 const baseUri = 'http://localhost:8000/api';
 
@@ -32,6 +33,13 @@ export default {
                     store.isLoading = false;
                 });
         },
+
+        saveTypeInLS(typeId) {
+            // Salviamo l'ID del tipo nel localStorage
+            localStorage.setItem('selectedTypeId', typeId);
+            // Vai alla pagina della lista dei ristoranti
+            router.push({ name: 'list' });
+        }
     },
 
     created() {
@@ -56,11 +64,8 @@ export default {
                 <h1 class="title-category text-center">Le tipologie più cercate</h1>
                 <div class="d-flex flex-wrap justify-content-center gap-4 mt-5">
 
-                    <div v-for="type in popularTypes" :key="type.id">
-
-                        <div class="pills">
-                            {{ type.label }}
-                        </div>
+                    <div v-for="type in popularTypes" :key="type.id" @click="saveTypeInLS(type.id)" class="pills">
+                        {{ type.label }}
                     </div>
 
                 </div>

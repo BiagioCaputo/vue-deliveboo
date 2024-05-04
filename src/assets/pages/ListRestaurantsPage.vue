@@ -26,13 +26,11 @@ export default {
                 const categoryQuery = this.selectedCategories.map(catId => `type_id[]=${catId}`).join('&');
                 url = `${baseUri}/types/restaurants?${categoryQuery}`;
             }
-            console.log('URL della richiesta:', url); // Controlla l'URL della richiesta
 
             axios.get(url)
                 .then(res => {
                     const { data, links } = res.data
                     this.restaurants = { data, links };
-                    console.log('Risposta API:', res.data); // Controlla la risposta della chiamata API
                 })
                 .catch(error => {
                     console.error('Errore nel recupero dei ristoranti:', error);
@@ -54,9 +52,9 @@ export default {
             } else {
                 this.selectedCategories.push(categoryId);
             }
-            console.log(this.selectedCategories)
             // Aggiorna i ristoranti in base alle categorie selezionate
             this.fetchRestaurants();
+            console.log(this.selectedCategories);
         },
 
         // Chiamata API per ottenere le categorie di ristoranti
@@ -72,21 +70,21 @@ export default {
     },
 
     created() {
-        // this.fetchTypeRestaurants();
-        this.fetchRestaurants();
-        this.fetchTypes();
-    },
+        // Recupero l'ID del tipo dal localStorage
+        const selectedTypeId = localStorage.getItem('selectedTypeId');
+        if (selectedTypeId) {
+            // Aggiungo direttamente l'ID del tipo all'array selectedCategories
+            this.selectedCategories.push(parseInt(selectedTypeId));
+            // Rimuovo l'ID del tipo dal localStorage
+            localStorage.removeItem('selectedTypeId');
+        }
 
-    // watch: {
-    //     '$route'(to, from) {
-    //         if (to.query['type_id[]'] !== from.query['type_id[]']) {
-    //             this.fetchTypeRestaurants();
-    //         }
-    //     }
-    // }
+        this.fetchTypes();
+        this.fetchRestaurants();
+        console.log(this.selectedCategories);
+    },
 }
 </script>
-
 <template>
     <main class="container-main">
         <section class="sidebar">
