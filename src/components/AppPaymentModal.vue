@@ -71,6 +71,8 @@ export default {
                 { ...this.paymentDetails },
                 { headers: { 'Content-type': 'multipart/form-data' } })
                 .then(response => {
+                    //salvo il risultato della transazione in un item nel LS chiamato 'paymentResult'
+                    localStorage.setItem('paymentResult', JSON.stringify(response.data));
                     console.log('Oggetto partito: ', this.paymentDetails);
                     console.log('Response: ', response.data);
                     console.log(response.data.message);
