@@ -62,13 +62,8 @@ export default {
         <section class="category">
             <div class="container-desktop">
 
-<<<<<<< HEAD
                 <h1 class="title-category text-center">Le nostre categorie</h1>
                 <div class="d-flex flex-wrap justify-content-center gap-4 mt-5 pb-5">
-=======
-                <h1 class="title-category text-center">Le tipologie più cercate</h1>
-                <div class="d-flex flex-wrap justify-content-center gap-4 mt-5">
->>>>>>> origin/HEAD
 
                     <div v-for="type in popularTypes" :key="type.id" @click="saveTypeInLS(type.id)" class="pills">
                         {{ type.label }}
