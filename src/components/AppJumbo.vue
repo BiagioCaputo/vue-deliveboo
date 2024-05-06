@@ -55,6 +55,9 @@ export default {
             // width: 500px;
             width: 100%;
             height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
 
 
             .pane-sopra {
