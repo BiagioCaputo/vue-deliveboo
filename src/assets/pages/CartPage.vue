@@ -146,7 +146,7 @@ export default {
         </div>
 
         <!-- Se il carrello è vuoto e se non ho messaggi -->
-        <div v-else-if="!store.cart && !store.cart.length > 0 && !message" class="text-center card py-5">
+        <div v-else="!store.cart && !store.cart.length > 0" class="text-center card py-5">
             <h2 class="mb-4">Il carrello è vuoto ... davvero non hai fame?</h2>
             <div class="d-flex justify-content-center gap-2">
 
@@ -158,10 +158,6 @@ export default {
                     <div class="btn custom-primary-btn">Cerca altri ristoranti</div>
                 </RouterLink>
             </div>
-        </div>
-
-        <div v-else>
-            {{ printMessage }}
         </div>
 
         <!-- Modale per il pagamento -->
