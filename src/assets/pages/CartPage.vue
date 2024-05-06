@@ -102,10 +102,10 @@ export default {
                                 <img :src="dish.image" :alt="dish.name" class="img-fluid rounded-start">
                             </div>
 
-                            <div class="card-body">
+                            <div class="card-body pe-0">
                                 <h5 class="card-title">{{ dish.name }}</h5>
                                 <p class="card-text"> <span v-if="dish.quantity > 1" class="me-2">{{
-            dish.quantity }}x</span> {{ dish.price }} €</p>
+                                    dish.quantity }}x</span> {{ dish.price }} €</p>
                             </div>
                         </div>
 
@@ -168,8 +168,6 @@ export default {
         <AppPaymentModal :isActive="showPaymentModal" @close-modal="togglePaymentModal()" :totalPrice="totalPrice"
             :message="message" />
     </div>
-
-
 </template>
 
 <style lang="scss">
@@ -209,6 +207,7 @@ export default {
             border-radius: 50px;
             font-weight: 700;
         }
+
 
 
     }
