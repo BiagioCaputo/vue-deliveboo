@@ -27,13 +27,6 @@ export default {
                 url = `${baseUri}/types/restaurants?${categoryQuery}`;
             }
 
-            // console.log('URL della richiesta:', url); 
-
-            axios.get(url)
-                .then(res => {
-                    this.restaurants = res.data;
-                    // console.log('Risposta API:', res.data);
-
 
             axios.get(url)
                 .then(res => {
@@ -47,6 +40,7 @@ export default {
                 .then(() => {
                     store.isLoading = false;
                 });
+
         },
         resetRestaurants() {
 
