@@ -10,31 +10,37 @@ export default {
     components: { AppCardRestaurant },
     data: () => ({
         store,
-        restaurants: [],
+        restaurants: { data: [], links: [] },
         categories: [],
         selectedCategories: [] // Array per memorizzare gli ID delle categorie selezionate
     }),
 
     methods: {
         // Chiamata API per ottenere tutti i ristoranti
-        fetchRestaurants() {
+        fetchRestaurants(endpoint) {
+            store.isLoading = true;
             let url = `${baseUri}/restaurants`;
-
+            if (endpoint) url = endpoint;
             // Se ci sono categorie selezionate, aggiungile alla query
             if (this.selectedCategories.length > 0) {
                 const categoryQuery = this.selectedCategories.map(catId => `type_id[]=${catId}`).join('&');
                 url = `${baseUri}/types/restaurants?${categoryQuery}`;
             }
-            console.log('URL della richiesta:', url); // Controlla l'URL della richiesta
+
 
             axios.get(url)
                 .then(res => {
-                    this.restaurants = res.data;
-                    console.log('Risposta API:', res.data); // Controlla la risposta della chiamata API
+                    const { data, links } = res.data
+                    this.restaurants = { data, links };
+
                 })
                 .catch(error => {
                     console.error('Errore nel recupero dei ristoranti:', error);
+                })
+                .then(() => {
+                    store.isLoading = false;
                 });
+
         },
         resetRestaurants() {
 
@@ -49,9 +55,9 @@ export default {
             } else {
                 this.selectedCategories.push(categoryId);
             }
-            console.log(this.selectedCategories)
             // Aggiorna i ristoranti in base alle categorie selezionate
             this.fetchRestaurants();
+            console.log(this.selectedCategories);
         },
 
         // Chiamata API per ottenere le categorie di ristoranti
@@ -67,21 +73,21 @@ export default {
     },
 
     created() {
-        // this.fetchTypeRestaurants();
-        this.fetchRestaurants();
-        this.fetchTypes();
-    },
+        // Recupero l'ID del tipo dal localStorage
+        const selectedTypeId = localStorage.getItem('selectedTypeId');
+        if (selectedTypeId) {
+            // Aggiungo direttamente l'ID del tipo all'array selectedCategories
+            this.selectedCategories.push(parseInt(selectedTypeId));
+            // Rimuovo l'ID del tipo dal localStorage
+            localStorage.removeItem('selectedTypeId');
+        }
 
-    // watch: {
-    //     '$route'(to, from) {
-    //         if (to.query['type_id[]'] !== from.query['type_id[]']) {
-    //             this.fetchTypeRestaurants();
-    //         }
-    //     }
-    // }
+        this.fetchTypes();
+        this.fetchRestaurants();
+        console.log(this.selectedCategories);
+    },
 }
 </script>
-
 <template>
     <main class="container-main d-flex justify-content-center">
         <section class="sidebar mx-3">
@@ -120,7 +126,19 @@ export default {
         <section class="list me-3">
             <h2>Ristoranti a domicilio</h2>
             <div class="row flex-container">
-                <div class="flex-item" v-for="restaurant in restaurants" :key="restaurant.id">
+
+                <nav v-if="restaurants.data.length != 0" class="col-12 d-flex justify-content-end">
+                    <ul class="pagination">
+                        <li v-for="link in restaurants.links" :key="link.label" class="page-item"
+                            :class="[{ active: link.active }, { disabled: !link.url }]">
+                            <button class="page-link" :disabled="!link.url" v-html="link.label"
+                                @click="fetchRestaurants(link.url)"></button>
+                        </li>
+                    </ul>
+                </nav>
+                <h1 v-if="restaurants.data.length == 0" class="col">Nessun ristorante trovato (ERICA qua ci vuole il tuo
+                    occhio artistico)</h1> <!-- TODO ERICA GUARDA QUI -->
+                <div v-else class="col flex-item" v-for="restaurant in restaurants.data" :key="restaurant.id">
                     <RouterLink :to="{ name: 'menu', params: { id: restaurant.id } }" class="text-decoration-none">
                         <AppCardRestaurant :restaurant="restaurant" />
                     </RouterLink>

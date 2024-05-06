@@ -40,7 +40,8 @@ export default {
                 <Router-link to="/cart">
                     <div class="cart-shopping">
                         <i class="fa-solid fa-cart-shopping position-relative fa-lg">
-                            <span class="cart-number-items fw-bold">{{ cartTotalQuantity || 0 }}</span>
+                            <span class="cart-number-items fw-bold"
+                                :class="{ 'double': cartTotalQuantity > 9 }">{{ cartTotalQuantity || 0 }}</span>
                         </i>
                     </div>
                 </Router-link>
@@ -100,16 +101,14 @@ header {
         justify-content: center;
         align-items: center;
         position: absolute;
-        top: -13px;
-        left: 20px;
-        font-size: 0.5rem;
-        color: white;
-        border: 1px solid white;
-        background-color: $primary-color;
-        width: 8px;
-        height: 8px;
-        padding: 6px;
-        border-radius: 50%;
+        top: -8px;
+        left: 22px;
+        color: $primary-color;
+        font-size: 1rem;
+    }
+
+    .cart-number-items.double {
+        left: 18px;
     }
 }
 </style>

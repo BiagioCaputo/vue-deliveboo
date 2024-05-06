@@ -1,14 +1,24 @@
 <script>
-import { RouterLink } from 'vue-router';
 import { store } from '../../data/store.js'
+import AppPaymentModal from '../../components/AppPaymentModal.vue';
+
 export default {
     name: "CartPage",
-    components: {
-    },
+    components: { AppPaymentModal },
     data() {
         return {
             store,
-            totalPrice: 0,
+            totalPrice: null,
+            showPaymentModal: false,
+            message: ''
+        }
+    },
+    computed: {
+        printMessage() {
+            if (this.message) {
+                this.showPaymentModal = false;
+            }
+            return this.message;
         }
     },
     methods: {
@@ -61,6 +71,10 @@ export default {
             this.calculateTotalPrice(); // Ricalcola il prezzo totale
         },
 
+        // Funzione per aprire/chiudere modale pagamento
+        togglePaymentModal() {
+            !this.showPaymentModal ? this.showPaymentModal = true : this.showPaymentModal = false
+        },
 
     },
     mounted() {
@@ -91,7 +105,7 @@ export default {
                             <div class="card-body">
                                 <h5 class="card-title">{{ dish.name }}</h5>
                                 <p class="card-text"> <span v-if="dish.quantity > 1" class="me-2">{{
-                                    dish.quantity }}x</span> {{ dish.price }} €</p>
+            dish.quantity }}x</span> {{ dish.price }} €</p>
                             </div>
                         </div>
 
@@ -120,16 +134,19 @@ export default {
 
                     <div class="btn-cart text-center">
                         <!--TODO Qui il btn per procedere all'acquisto con la classe custom-primary-btn-->
-                        <button class="btn custom-primary-btn me-2">Acquista</button>
+
                         <!-- Bottone per svuotare il carrello -->
-                        <button class="btn btn-danger custom-btn" @click="emptyCart()">Svuota carrello</button>
+                        <button class="btn custom-secondary-btn me-2" @click="emptyCart()">Svuota carrello</button>
+
+                        <button class="btn custom-primary-btn" @click="togglePaymentModal()">Acquista</button>
                     </div>
                 </div>
             </div>
 
         </div>
 
-        <div v-else class="text-center card py-5">
+        <!-- Se il carrello è vuoto e se non ho messaggi -->
+        <div v-else-if="!store.cart && !store.cart.length > 0 && !message" class="text-center card py-5">
             <h2 class="mb-4">Il carrello è vuoto ... davvero non hai fame?</h2>
             <div class="d-flex justify-content-center gap-2">
 
@@ -142,6 +159,14 @@ export default {
                 </RouterLink>
             </div>
         </div>
+
+        <div v-else>
+            {{ printMessage }}
+        </div>
+
+        <!-- Modale per il pagamento -->
+        <AppPaymentModal :isActive="showPaymentModal" @close-modal="togglePaymentModal()" :totalPrice="totalPrice"
+            :message="message" />
     </div>
 
 
@@ -181,15 +206,11 @@ export default {
 
         .custom-btn {
             padding: 15px 20px;
+            border-radius: 50px;
+            font-weight: 700;
         }
 
 
-    }
-
-    .custom-btn {
-        padding: 15px 50px;
-        border-radius: 50px;
-        font-weight: 700;
     }
 
     .back-btn {

@@ -47,6 +47,32 @@ body {
   }
 }
 
+.custom-secondary-btn {
+  background-color: #e9f8f5;
+  color: #00846b;
+  padding: 15px 50px;
+  border-radius: 50px;
+  font-weight: 700;
+
+  &:hover {
+    background-color: #b2f0e3;
+    color: black;
+  }
+}
+
+.custom-dark-btn {
+  background-color: black;
+  color: white;
+  padding: 15px 50px;
+  border-radius: 50px;
+  font-weight: 700;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: black;
+  }
+}
+
 main {
   height: fit-content;
 

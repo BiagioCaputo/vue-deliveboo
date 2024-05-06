@@ -14,9 +14,11 @@ export default {
         return {
             restaurant: '',
             dishes: [],
+            courses: [],
             cart,
             showModal: false, // Flag Modale
-            totalPrice: 0
+            totalPrice: 0,
+            selectedCourse: '',
         }
     },
     methods: {
@@ -26,9 +28,16 @@ export default {
             store.isLoading = true;
             axios.get(endpoint + this.$route.params.id)
                 .then((res) => {
-                    const { restaurant, dishes } = res.data; // Destructuring per estrarre restaurant e dishes
+                    const { restaurant, dishes, courses } = res.data; // Destructuring per estrarre restaurant e dishes
                     this.restaurant = restaurant;
-                    this.dishes = dishes;
+                    this.courses = courses;
+                    // Se è stata selezionata una portata diversa da "Portate disponibili", filtra i piatti in base alla portata selezionata
+                    if (this.selectedCourse) {
+                        this.dishes = dishes.filter(dish => dish.course_id === this.selectedCourse);
+                    } else {
+                        // Altrimenti, mostra tutti i piatti
+                        this.dishes = dishes;
+                    }
                 })
                 .catch(err => {
                     console.log(err)
@@ -83,6 +92,32 @@ export default {
             this.cart = [];
             localStorage.cart = JSON.stringify(this.cart);
             this.showModal = false;
+            // Refresha la pagina
+            window.location.reload();
+        },
+
+        // Funzione per aumentare la quantità di un piatto nel carrello 
+        increaseQuantity(item) {
+            item.quantity++;
+            this.calculateTotalPrice();
+            localStorage.cart = JSON.stringify(this.cart);
+        },
+
+        // Funzione per diminuire la quantità di un piatto nel carrello
+        decreaseQuantity(item) {
+            if (item.quantity > 1) {
+                item.quantity--;
+                this.calculateTotalPrice();
+                localStorage.cart = JSON.stringify(this.cart);
+            }
+        },
+
+        // Funzione per rimuovere un piatto dal carrello
+        removeDish(itemIndex) {
+            this.cart.splice(itemIndex, 1); // 1 elemento:indice da cui iniziare l'eliminazione, 2 quanti da eliminare, 3 elemento+:rimpiazzo(in questo caso il o i rimpiazzi non ci servono)
+            // this.cart = this.store.cart.filter((item, index) => index !== dishIndex); //in alternativa si poteva utilizzare il filter...sono 10 euro per il ripasso
+            localStorage.cart = JSON.stringify(this.cart);
+            this.calculateTotalPrice(); // Ricalcola il prezzo totale
         },
 
         // Metodo per recuperare i piatti dal localStorage (usato items per non confondersi con gli altri dishes in pagina)
@@ -123,10 +158,34 @@ export default {
                         <div>
                             <div><i class="fa-solid fa-phone mb-3 me-2"></i>{{ restaurant.phone }}</div>
                             <div><i class="fa-solid fa-location-dot me-2"></i>{{ restaurant.address }}</div>
+                            <!-- Tipologie ristorante -->
+                            <div class="d-flex mt-3">
+                                <div v-for="type in restaurant.types" :key="type.id" class="me-3">
+                                    <div class="type-element d-flex align-items-center">
+                                        <div class="type-img-box me-1">
+                                            <img class="type-img" :src="type.image" alt="type_image">
+                                        </div>
+                                        <span class="type-label">
+                                            {{ type.label }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
 
-                            <!-- TODO da implementare i types del restaurant -->
+                            <!-- Filtro ricerca per portata -->
+                            <div class="course-search-box">
+                                <!-- Al cambio della select rifai la chiamata API -->
+                                <select v-model="selectedCourse" @change="getRestaurantDishes"
+                                    class="form-select form-select-lg mt-3">
+                                    <option value="">Portate disponibili</option>
+                                    <option v-for="course in courses" :key="course.id" :value="course.id" class="me-3">
+                                        {{ course.label }}
+                                    </option>
+                                </select>
+                            </div>
 
-                            <!--Perché vuoi implentare i types?-->
+
+
                         </div>
                     </div>
 
@@ -146,8 +205,8 @@ export default {
                                     <li>
                                         <h5>{{ dish.name }}</h5>
                                     </li>
-                                    <li class="dish-info">{{ dish.ingredients }}</li>
-                                    <!-- <li><strong>Portata:</strong>{{ dish.course.label }}</li> -->
+                                    <li class="dish-info mb-2">{{ dish.ingredients }}</li>
+                                    <li>Portata: {{ dish.course.label }}</li>
                                 </ul>
                             </div>
                             <div class="footer-card">
@@ -178,6 +237,27 @@ export default {
                                         </p>
                                         <p class="card-text">{{ item.price }} €</p>
                                     </div>
+
+                                    <div class="d-flex  align-items-center justify-content-between">
+
+                                        <!--Bottone di rimozione-->
+                                        <button class="btn btn-danger btn-custom" @click="removeDish(index)">
+                                            <i class="fa-solid fa-x"></i>
+                                        </button>
+
+                                        <div class="card-text text-center">
+                                            <!--Bottone di drecremento-->
+                                            <button class="btn me-2 btn-add" @click="decreaseQuantity(item)">
+                                                <i class="fa-solid fa-minus"></i>
+                                            </button>
+
+                                            <!--Bottone di incremento-->
+                                            <button class="btn ms-2 btn-add" @click="increaseQuantity(item)">
+                                                <i class="fa-solid fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                             <p><strong>Totale: </strong>{{ totalPrice }} €</p>
@@ -198,7 +278,7 @@ export default {
 
     <!--Modale se l'utente prova ad ordinare da più ristoranti -->
     <AppModal :isActive="showModal" :title="'Fame nervosa...?'"
-        :message="'Non puoi ordinare da più ristoranti contemporaneamente. Vuoi svuotare il carrello?'"
+        :message="'Non puoi ordinare da più ristoranti contemporaneamente.'"
         @erase-cart-close-modal="emptyCartAndCloseModal()" @close-modal="showModal = false" />
 </template>
 
@@ -286,21 +366,37 @@ section {
             font-size: 18px;
         }
 
-        .btn-add {
-            background-color: #e9f8f5;
-            border-radius: 50%;
-            color: #00A082;
+    }
+}
 
-            &:hover {
-                transform: scale(1.3);
-            }
-        }
+.btn-add {
+    background-color: #e9f8f5;
+    border-radius: 50%;
+    color: #00A082;
+
+    &:hover {
+        transform: scale(1.3);
+    }
+
+    &:active {
+        border: 1px solid #00A082;
+        background-color: #e9f8f5;
+        color: #00A082;
     }
 }
 
 .cart {
     box-shadow: 0px 2px 24px 1px rgba(0, 0, 0, 0.1019607843);
     border: transparent;
+
+    .btn-add {
+        font-size: 10px;
+    }
+
+    .btn-custom {
+        font-size: 10px;
+        border-radius: 50%;
+    }
 }
 
 .cart-title {
@@ -313,5 +409,13 @@ section {
 
 .cart-shopping {
     text-decoration: none;
+}
+
+.type-img {
+    max-width: 40px;
+}
+
+.course-search-box {
+    max-width: 210px;
 }
 </style>
