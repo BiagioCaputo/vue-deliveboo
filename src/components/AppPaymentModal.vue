@@ -1,6 +1,7 @@
 <script>
 import axios from 'axios';
 import { store } from '../data/store.js';
+import { router } from '../router/index.js'; //importo il router per poter spostarmi nella lista categorie all'interno di una funzione
 
 const endpoint = 'http://localhost:8000/api';
 
@@ -82,7 +83,8 @@ export default {
                     // Ripulisco il carrello e spengo il loader
                     // TODO Ripulire il carrello nel localStorage
                     this.store.cart = [];
-                    store.checkout = false
+                    store.checkout = false;
+                    this.$router.push({ name: 'resultPaymentPage' }); // Reindirizza alla pagina di conferma pagamento
                 })
         }
     },

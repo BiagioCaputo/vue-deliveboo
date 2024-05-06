@@ -6,6 +6,7 @@ import ListRestaurantsPage from '../assets/pages/ListRestaurantsPage.vue';
 import RestaurantMenuPage from '../assets/pages/RestaurantMenuPage.vue';
 import CartPage from '../assets/pages/CartPage.vue';
 import NotFoundPage from '../assets/pages/NotFoundPage.vue';
+import ResultPaymentPage from '../assets/pages/ResultPaymentPage.vue';
 
 //Rotte
 const router = createRouter({
@@ -19,6 +20,7 @@ const router = createRouter({
         { path: '/restaurants', component: ListRestaurantsPage, name: 'list' },
         { path: '/restaurant/:id', component: RestaurantMenuPage, name: 'menu' },
         { path: '/cart', component: CartPage, name: 'cart' },
+        { path: '/result_payment', component: ResultPaymentPage, name: 'resultPaymentPage' },
         { path: '/not-found', component: NotFoundPage, name: 'not-found' },
         { path: '/:patchMatch(.*)*', redirect: 'not-found' },
     ]
