@@ -1,7 +1,6 @@
 <script>
 import axios from 'axios';
 import { store } from '../data/store.js';
-import { router } from '../router/index.js'; //importo il router per poter spostarmi nella lista categorie all'interno di una funzione
 
 const endpoint = 'http://localhost:8000/api';
 
@@ -11,7 +10,6 @@ export default {
     data: () => ({
         store,
         token: '',
-        customerNameSuggest: '',
         paymentDetails: {
             customer_name: '',
             customer_address: '',
@@ -24,6 +22,15 @@ export default {
             cvv_code: '',
             payment_method_nonce: 'fake-valid-nonce',
         },
+        messages: {
+            customer_name_message: '',
+            customer_address_message: '',
+            customer_email_message: '',
+            customer_phone_number_message: '',
+            card_number_message: '',
+            card_expire_date_message: '',
+            cvv_code_message: '',
+        },
     }),
     props: {
         isActive: Boolean,
@@ -32,9 +39,100 @@ export default {
     },
     emits: ['close-modal'],
     methods: {
-        generateToken() {
+        isCustomerNameValid() {
+            let isValid = true;
 
-            // if (!paymentDetails.customer_name && !this.paymentDetails.customer_address && !this.paymentDetails.customer_email && !this.paymentDetails.customer_phone_number && !this.paymentDetails.card_number && !this.paymentDetails.card_expire_date && !this.paymentDetails.cvv_code)
+            if (!this.paymentDetails.customer_name || this.paymentDetails.customer_name.length < 3) {
+                this.messages.customer_name_message = 'Inserisci nome e cognome';
+                isValid = false;
+            } else if (this.paymentDetails.customer_name || this.paymentDetails.customer_name.length >= 3) {
+                this.messages.customer_name_message = 'Campo valido';
+                isValid = false
+            }
+            return isValid;
+
+        },
+
+        isCustomerAddressValid() {
+            let isValid = true;
+
+            if (!this.paymentDetails.customer_address || this.paymentDetails.customer_address.length < 3) {
+                this.messages.customer_address_message = 'Inserisci l\'indirizzo di spedizione';
+                isValid = false;
+            } else if (this.paymentDetails.customer_address || this.paymentDetails.customer_address.length >= 3) {
+                this.messages.customer_address_message = 'Campo valido';
+                isValid = false
+            }
+            return isValid;
+        },
+
+        isCustomerEmailValid() {
+            let isValid = true;
+
+            if (!this.paymentDetails.customer_email || !this.paymentDetails.customer_email.includes('@') || !this.paymentDetails.customer_email.includes('.it') && !this.paymentDetails.customer_email.includes('.com')) {
+                this.messages.customer_email_message = 'Inserisci un indirizzo email valido';
+                isValid = false;
+            }
+            else {
+                this.messages.customer_email_message = 'Campo valido';
+            }
+            return isValid;
+        },
+
+        isCustomerPhoneValid() {
+            let isValid = true;
+
+            if (!this.paymentDetails.customer_phone_number || this.paymentDetails.customer_phone_number.length != 10) {
+                this.messages.customer_phone_number_message = 'Inserisci un numero di telefono valido';
+                isValid = false;
+            } else {
+                this.messages.customer_phone_number_message = 'Campo valido';
+            }
+            return isValid;
+        },
+
+        isCardNumberValid() {
+            let isValid = true;
+            if (!this.paymentDetails.card_number || this.paymentDetails.card_number.length != 16) {
+                this.messages.card_number_message = 'Il numero di carta è composto da 16 numeri';
+                isValid = false;
+            } else {
+                this.messages.card_number_message = 'Campo valido';
+            }
+            return isValid;
+        },
+
+        isCardExpireDateValid() {
+            let isValid = true;
+            if (!this.paymentDetails.card_expire_date || this.paymentDetails.card_expire_date.length != 5) {
+                this.messages.card_expire_date_message = 'Inserisci una data di scadenza valida';
+                isValid = false;
+            } else {
+                this.messages.card_expire_date_message = 'Campo valido';
+            }
+            return isValid;
+        },
+
+
+        isCvvCodeValid() {
+            let isValid = true;
+
+            if (!this.paymentDetails.cvv_code || this.paymentDetails.cvv_code.length != 3) {
+                this.messages.cvv_code_message = 'Inserisci un cvv valido';
+                isValid = false;
+            } else {
+                this.messages.cvv_code_message = 'Campo valido';
+            }
+            return isValid;
+
+        },
+        validateForm() {
+            if (this.isCustomerNameValid && this.isCustomerAddressValid && this.isCustomerEmailValid && this.isCustomerPhoneValid && this.isCardNumberValid && this.isCardExpireDateValid && this.isCvvCodeValid) return true;
+        },
+
+
+        generateToken() {
+            if (!this.validateForm()) return;
 
             // Chiamata per generare il token
             store.checkout = true
@@ -49,11 +147,12 @@ export default {
                 .then(() => {
                     if (this.token) this.makePayment()
                 })
+
         },
+
         makePayment() {
             // Trasformo la data togliendo lo slash
             this.paymentDetails.card_expire_date = this.paymentDetails.card_expire_date.replace('/', '');
-            console.log(this.paymentDetails.card_expire_date);
 
             // Recupero l'id o gli ids e le quantità dei piatti per inviarle
             this.store.cart.forEach(cartElement => {
@@ -73,17 +172,16 @@ export default {
                 .then(response => {
                     //salvo il risultato della transazione in un item nel LS chiamato 'paymentResult'
                     localStorage.setItem('paymentResult', JSON.stringify(response.data));
-                    console.log('Oggetto partito: ', this.paymentDetails);
+                    console.log('Oggetto: ', this.paymentDetails);
                     console.log('Response: ', response.data);
-                    console.log(response.data.message);
                 })
                 .catch(({ error, response }) => {
                     console.error(error);
                     console.log(response.data.errors);
+                    this.$router.push({ name: 'resultPaymentPage' });
                 })
                 .then(() => {
                     // Ripulisco il carrello e spengo il loader
-                    // TODO Ripulire il carrello nel localStorage
                     this.store.cart = [];
                     store.checkout = false;
                     this.$router.push({ name: 'resultPaymentPage' }); // Reindirizza alla pagina di conferma pagamento
@@ -132,7 +230,7 @@ export default {
     </div> -->
 
     <div class="modal" :class="{ 'is-active': isActive }">
-        <form class="form" @submit.prevent="onSubmit">
+        <form class="form" @submit.prevent>
             <!-- <div class="payment--options">
                 <button name="paypal" type="button">
                     <svg xml:space="preserve" viewBox="0 0 124 33" height="33px" width="124px" y="0px" x="0px"
@@ -227,34 +325,47 @@ export default {
             <div class="credit-card-info--form">
                 <div class="input_container">
                     <label for="customer_name" class="input_label">Nome/Cognome*</label>
-                    <input id="customer_name" class="input_field form-control" type="text" name="customer_name"
-                        placeholder="Nome e cognome" v-model="paymentDetails.customer_name">
-                    <div class="form-text">
-                        <p id="customer_name_suggest"></p>
+                    <input id="customer_name" class="input_field form-control"
+                        :class="!this.paymentDetails.customer_name || this.paymentDetails.customer_name.length < 3 ? 'is-invalid' : 'is-valid'"
+                        type="text" name="customer_name" placeholder="Nome e cognome"
+                        v-model="paymentDetails.customer_name" @keyup="isCustomerNameValid">
+                    <div class="form-text" v-if="this.messages.customer_name_message.length"
+                        :class="!this.paymentDetails.customer_name || this.paymentDetails.customer_name.length < 3 ? 'invalid-feedback' : 'valid-feedback'">
+                        <p id="customer_name_suggest">{{ this.messages.customer_name_message }}
+                        </p>
                     </div>
                 </div>
                 <div class="input_container">
                     <label for="customer_address" class="input_label">Indirizzo spedizione*</label>
-                    <input id="customer_address" class="input_field" type="text" name="customer_address"
-                        placeholder="Indirizzo di spedizione" v-model="paymentDetails.customer_address">
-                    <div class="form-text">
-                        <p id="customer_address_suggest"></p>
+                    <input id="customer_address" class="input_field form-control"
+                        :class="!this.paymentDetails.customer_address || this.paymentDetails.customer_address.length < 3 ? 'is-invalid' : 'is-valid'"
+                        type="text" name="customer_address" placeholder="Indirizzo di spedizione"
+                        v-model="paymentDetails.customer_address" @keyup="isCustomerAddressValid()">
+                    <div class="form-text" v-if="this.messages.customer_address_message.length"
+                        :class="!this.paymentDetails.customer_address || this.paymentDetails.customer_address.length < 3 ? 'invalid-feedback' : 'valid-feedback'">
+                        <p id="customer_address_suggest">{{ this.messages.customer_address_message }}</p>
                     </div>
                 </div>
                 <div class="input_container">
                     <label for="customer_mail" class="input_label">Indirizzo email*</label>
-                    <input id="customer_mail" class="input_field" type="text" name="customer_mail" placeholder="Email"
-                        v-model="paymentDetails.customer_email">
-                    <div class="form-text d-none">
-                        <p id="customer_email_suggest"></p>
+                    <input id="customer_mail" class="input_field form-control"
+                        :class="!this.paymentDetails.customer_email || !this.paymentDetails.customer_email.includes('@') || !this.paymentDetails.customer_email.includes('.it') && !this.paymentDetails.customer_email.includes('.com') ? 'is-invalid' : 'is-valid'"
+                        type="text" name="customer_mail" placeholder="Email" v-model="paymentDetails.customer_email"
+                        @keyup="isCustomerEmailValid()">
+                    <div class="form-text" v-if="this.messages.customer_email_message.length"
+                        :class="!this.paymentDetails.customer_email || !this.paymentDetails.customer_email.includes('@') || !this.paymentDetails.customer_email.includes('.it') && !this.paymentDetails.customer_email.includes('.com') ? 'invalid-feedback' : 'valid-feedback'">
+                        <p id="customer_email_suggest">{{ this.messages.customer_email_message }}</p>
                     </div>
                 </div>
                 <div class="input_container">
                     <label for="customer_phone_number" class="input_label">Telefono*</label>
-                    <input id="customer_phone_number" class="input_field" type="text" name="customer_phone_number"
-                        placeholder="Numero di telefono" v-model="paymentDetails.customer_phone_number">
-                    <div class="form-text d-none">
-                        <p id="customer_phone_suggest"></p>
+                    <input id="customer_phone_number" class="input_field form-control"
+                        :class="!this.paymentDetails.customer_phone_number || this.paymentDetails.customer_phone_number.length != 10 ? 'is-invalid' : 'is-valid'"
+                        type="text" name="customer_phone_number" placeholder="Numero di telefono"
+                        v-model="paymentDetails.customer_phone_number" @keyup="isCustomerPhoneValid()">
+                    <div class="form-text" v-if="this.messages.customer_phone_number_message.length"
+                        :class="!this.paymentDetails.customer_phone_number || this.paymentDetails.customer_phone_number.length != 10 ? 'invalid-feedback' : 'valid-feedback'">
+                        <p id="customer_phone_suggest">{{ this.messages.customer_phone_number_message }}</p>
                     </div>
                 </div>
                 <div class="separator">
@@ -264,27 +375,38 @@ export default {
                 </div>
                 <div class="input_container">
                     <label for="card_number" class="input_label">Numero Carta*</label>
-                    <input id="card_number" class="input_field" type="number" name="card_number"
-                        placeholder="0000 0000 0000 0000" v-model="paymentDetails.card_number">
-                    <div class="form-text d-none">
-                        <p id="card_number_suggest"></p>
+                    <input id="card_number" class="input_field form-control"
+                        :class="!this.paymentDetails.card_number || this.paymentDetails.card_number.length != 16 ? 'is-invalid' : 'is-valid'"
+                        type="text" name="card_number" placeholder="4012 0000 0000 1881" :maxlength="16"
+                        v-model="paymentDetails.card_number" @keyup="isCardNumberValid()">
+                    <div class="form-text" v-if="this.messages.card_number_message.length"
+                        :class="!this.paymentDetails.card_number || this.paymentDetails.card_number.length != 16 ? 'invalid-feedback' : 'valid-feedback'">
+                        <p id="card_number_suggest">{{ this.messages.card_number_message }}</p>
                     </div>
                 </div>
                 <div class="wrapper">
                     <div class="col-9">
                         <label for="card_expire_date" class="input_label">Data scadenza*</label>
-                        <input id="card_expire_date" class="input_field" type="text" name="card_expire_date"
-                            placeholder="01/23" v-model="paymentDetails.card_expire_date">
-                        <div class="form-text d-none">
-                            <p id="card_expire_suggest"></p>
+                        <input id="card_expire_date" class="input_field form-control"
+                            :class="!this.paymentDetails.card_expire_date || this.paymentDetails.card_expire_date.length != 5 ? 'is-invalid' : 'is-valid'"
+                            type="text" name="card_expire_date" placeholder="01/23" :maxlength="5"
+                            v-model="paymentDetails.card_expire_date" @keyup="isCardExpireDateValid()">
+                        <div class="form-text"
+                            :class="!this.paymentDetails.card_expire_date || this.paymentDetails.card_expire_date.length != 5 ? 'invalid-feedback' : 'valid-feedback'">
+                            <p id="card_expire_suggest">
+                                {{ this.messages.card_expire_date_message ? this.messages.card_expire_date_message : '' }}
+                            </p>
                         </div>
                     </div>
                     <div class="col-3">
                         <label for="cvv_code" class="input_label">CVV*</label>
-                        <input id="cvv_code" class="input_field" type="number" name="cvv_code" placeholder="CVV"
-                            v-model="paymentDetails.cvv_code">
-                        <div class="form-text d-none">
-                            <p id="cvv_code_suggest"></p>
+                        <input id="cvv_code" class="input_field form-control"
+                            :class="!this.paymentDetails.cvv_code || this.paymentDetails.cvv_code.length != 3 ? 'is-invalid' : 'is-valid'"
+                            type="text" name="cvv_code" placeholder="CVV" :maxlength="3"
+                            v-model="paymentDetails.cvv_code" @keyup="isCvvCodeValid()">
+                        <div class="form-text"
+                            :class="!this.paymentDetails.cvv_code || this.paymentDetails.cvv_code.length != 3 ? 'invalid-feedback' : 'valid-feedback'">
+                            <p id="cvv_code_suggest">{{ this.messages.cvv_code_message }}</p>
                         </div>
                     </div>
                     <input type="hidden" id="nonce" name="payment_method_nonce"
@@ -328,7 +450,8 @@ export default {
 
     p {
         margin: 0;
-        font-size: 0.7rem;
+        font-size: 0.6rem;
+        font-weight: bold;
     }
 }
 
@@ -401,7 +524,6 @@ export default {
 .wrapper {
     display: flex;
     justify-content: center;
-    align-items: center;
     gap: 12px;
     margin: 0 6px;
 }
