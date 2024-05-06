@@ -34,6 +34,33 @@ export default {
                 });
         },
 
+        // Gestione del clic su una categoria
+        toggleCategory(categoryId) {
+            // Se la categoria è già selezionata, rimuovila, altrimenti aggiungila
+            if (this.selectedCategories.includes(categoryId)) {
+                this.selectedCategories = this.selectedCategories.filter(id => id !== categoryId);
+            } else {
+                this.selectedCategories.push(categoryId);
+            }
+            // console.log(this.selectedCategories)
+            // Aggiorna i ristoranti in base alle categorie selezionate
+            this.fetchRestaurants();
+        },
+
+        // Chiamata API per ottenere le categorie di ristoranti
+        fetchTypes() {
+            store.isLoading = true;
+            axios.get(`${baseUri}/types`)
+                .then(res => {
+                    this.categories = res.data;
+                })
+                .catch(error => {
+                    console.error('Errore nel recupero delle categorie di ristoranti:', error);
+                })
+                .then(() => {
+                    store.isLoading = false;
+                });
+
         saveTypeInLS(typeId) {
             // Salviamo l'ID del tipo nel localStorage
             localStorage.setItem('selectedTypeId', typeId);

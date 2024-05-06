@@ -40,7 +40,8 @@ export default {
                 <Router-link to="/cart">
                     <div class="cart-shopping">
                         <i class="fa-solid fa-cart-shopping position-relative fa-lg">
-                            <span class="cart-number-items fw-bold">{{ cartTotalQuantity || 0 }}</span>
+                            <span class="cart-number-items fw-bold"
+                                :class="{ 'double': cartTotalQuantity > 9 }">{{ cartTotalQuantity || 0 }}</span>
                         </i>
                     </div>
                 </Router-link>
@@ -104,6 +105,10 @@ header {
         left: 22px;
         color: $primary-color;
         font-size: 1rem;
+    }
+
+    .cart-number-items.double {
+        left: 18px;
     }
 }
 </style>

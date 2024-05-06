@@ -14,7 +14,7 @@ export default {
 <template>
     <div class="modal" :class="{ 'is-active': isActive }">
         <div class="modal-background"></div>
-        <div class="modal-card my-modal-bg glass ">
+        <div class="modal-card my-modal-bg">
             <header class="modal-card-head d-flex  justify-content-center">
                 <p class="modal-card-title fw-bolder fs-3">{{ title }}</p>
             </header>
@@ -22,9 +22,9 @@ export default {
                 <p>{{ message }}</p>
             </section>
             <footer class="modal-card-foot bg-transparent d-flex justify-content-center">
-                <button class="custom-secondary-btn btn me-3" @click="$emit('close-modal', !isActive)">Ho
+                <button class="custom-secondary-btn btn me-3" @click="$emit('close-modal')">Ho
                     capito!</button>
-                <button class="custom-btn btn btn-danger" @click="$emit('erase-cart-close-modal', !isActive)">Svuota
+                <button class="custom-btn btn btn-danger" @click="$emit('erase-cart-close-modal')">Svuota
                     carrello</button>
             </footer>
         </div>
