@@ -105,7 +105,7 @@ export default {
                             <div class="card-body">
                                 <h5 class="card-title">{{ dish.name }}</h5>
                                 <p class="card-text"> <span v-if="dish.quantity > 1" class="me-2">{{
-            dish.quantity }}x</span> {{ dish.price }} €</p>
+                                        dish.quantity }}x</span> {{ dish.price }} €</p>
                             </div>
                         </div>
 
@@ -172,7 +172,7 @@ export default {
 
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .cart-container {
     padding-top: 100px;
     padding-bottom: 50px;
