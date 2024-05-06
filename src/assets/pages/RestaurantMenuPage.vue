@@ -193,9 +193,9 @@ export default {
             </div>
 
             <!-- Sezione Piatti + Sezione Ordine -->
-            <div class="row">
+            <div class="row justify-content-between">
                 <!-- Sezione Piatti -->
-                <div class="row col-12 col-lg-9 p-0">
+                <div class="row col-12 col-lg-9">
                     <div v-for="dish in dishes" :key="dish.id" class="col-lg-6">
                         <div class="card dish-card p-3 dish mb-4">
                             <div class="d-flex gap-2">
@@ -221,7 +221,7 @@ export default {
                 </div>
 
                 <!-- Sezione Carrello -->
-                <div class="col col-lg-3 p-0">
+                <div class="col-12 col-lg-3">
                     <div class="card p-3 text-center cart">
                         <h2 class="cart-title">Il tuo ordine</h2>
                         <div v-if="cart.length <= 0">
