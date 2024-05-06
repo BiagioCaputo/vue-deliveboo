@@ -23,7 +23,7 @@ export default {
             </div>
             <div class="text-center">
                 <h1 class="jumbo-title">{{ title }}</h1>
-                <p class="jumbo-subtitle">{{ subtitle }}</p>
+                <p class="jumbo-subtitle py-3">{{ subtitle }}</p>
 
                 <RouterLink class="custom-primary-btn router-link" :to="{ name: 'list' }">
                     Ordina subito!
@@ -212,6 +212,7 @@ export default {
             margin: 0 auto;
             font-size: 3.5rem;
             font-weight: 700;
+            line-height: 53px;
         }
     }
 
