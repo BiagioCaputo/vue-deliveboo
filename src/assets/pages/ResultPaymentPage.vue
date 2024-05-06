@@ -8,12 +8,6 @@ export default {
             paymentResult: '',
         }
     },
-    methods: {
-
-
-    },
-    mounted() {
-    },
 
     created() {
         // Mi riprendo il risultato del pagamento
@@ -23,17 +17,22 @@ export default {
             this.paymentResult = JSON.parse(paymentResult);
         }
         console.log(this.paymentResult)
+        if (this.paymentResult.success) localStorage.clear('chart');
+
     }
 }
 </script>
 
 <template>
-    <h1 v-if="paymentResult.success">Pagamento effettuato</h1>
-    <h1 v-else>Pagamento non andato a buon fine</h1>
+    <div class="text-center">
+        <h1 v-if="paymentResult.success">Pagamento effettuato con successo! 😁</h1>
+        <h1 v-else>Pagamento non andato a buon fine! 😭</h1>
+
+    </div>
 </template>
 
 <style lang="scss" scoped>
 h1 {
-    margin-top: 300px;
+    margin: 300px 0;
 }
 </style>
