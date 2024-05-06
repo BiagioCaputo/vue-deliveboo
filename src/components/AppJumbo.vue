@@ -12,7 +12,7 @@ export default {
 <template>
     <!--Jumbotron-->
     <div class="jumbotron">
-        <div class="jumbo-content container-desktop">
+        <div class="jumbo-content container-desktop pb-4">
             <div class="animated-image">
                 <img class="pane-sopra" src="/img/jumbo-food-pane-sopra.png" alt="immagine che fluttua">
                 <img class="carne-sopra" src="/img/jumbo-food-carne-sopra.png" alt="immagine che fluttua">
