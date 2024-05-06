@@ -11,7 +11,7 @@ export default {
 <template>
     <main>
 
-        <div class="container-fluid d-flex justify-content-center align-items-center">
+        <div class="container-fluid d-flex justify-content-center align-items-center flex-wrap">
             <div class="animated-image">
                 <img class="pane-sopra" src="/img/jumbo-food-pane-sopra.png" alt="immagine che fluttua">
                 <img class="carne-sopra" src="/img/jumbo-food-carne-sopra.png" alt="immagine che fluttua">
@@ -48,14 +48,16 @@ p {
 }
 
 .container-fluid {
-    height: 800px;
+    height: 1000px;
 }
 
 .animated-image {
     position: relative;
     width: 500px;
     height: 400px;
-    ;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
 
     .pane-sopra {

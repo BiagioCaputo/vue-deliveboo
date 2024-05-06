@@ -34,39 +34,13 @@ export default {
                 });
         },
 
-        // Gestione del clic su una categoria
-        toggleCategory(categoryId) {
-            // Se la categoria è già selezionata, rimuovila, altrimenti aggiungila
-            if (this.selectedCategories.includes(categoryId)) {
-                this.selectedCategories = this.selectedCategories.filter(id => id !== categoryId);
-            } else {
-                this.selectedCategories.push(categoryId);
-            }
-            // console.log(this.selectedCategories)
-            // Aggiorna i ristoranti in base alle categorie selezionate
-            this.fetchRestaurants();
-        },
-
-        // Chiamata API per ottenere le categorie di ristoranti
-        fetchTypes() {
-            store.isLoading = true;
-            axios.get(`${baseUri}/types`)
-                .then(res => {
-                    this.categories = res.data;
-                })
-                .catch(error => {
-                    console.error('Errore nel recupero delle categorie di ristoranti:', error);
-                })
-                .then(() => {
-                    store.isLoading = false;
-                });
-
         saveTypeInLS(typeId) {
             // Salviamo l'ID del tipo nel localStorage
             localStorage.setItem('selectedTypeId', typeId);
             // Vai alla pagina della lista dei ristoranti
             router.push({ name: 'list' });
         }
+
     },
 
     created() {
@@ -88,8 +62,8 @@ export default {
         <section class="category">
             <div class="container-desktop">
 
-                <h1 class="title-category text-center">Le tipologie più cercate</h1>
-                <div class="d-flex flex-wrap justify-content-center gap-4 mt-5">
+                <h1 class="title-category text-center">Le nostre categorie</h1>
+                <div class="d-flex flex-wrap justify-content-center gap-4 mt-5 pb-5">
 
                     <div v-for="type in popularTypes" :key="type.id" @click="saveTypeInLS(type.id)" class="pills">
                         {{ type.label }}
@@ -98,7 +72,7 @@ export default {
                 </div>
             </div>
         </section>
-        <img class="wave-img" src="/img/jumbotron-wave-desktop.svg" alt="jumbo-wave">
+        <!-- <img class="wave-img" src="/img/jumbotron-wave-desktop.svg" alt="jumbo-wave"> -->
 
         <!--Sezione Delivery-->
         <AppSectionDelivery />
@@ -113,7 +87,7 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
-    height: 500px;
+    height: 700px;
 
     h1 {
         font-weight: 700;

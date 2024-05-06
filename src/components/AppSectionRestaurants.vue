@@ -19,7 +19,6 @@ export default {
         <div class="text-center">
             <div class="flex-container">
                 <div v-for="restaurant in restaurants">
-
                     <RouterLink :to="{ name: 'menu', params: { id: restaurant.id } }" class="col flex-item">
                         <img :src="restaurant.image" :alt="restaurant.activity_name" class="mask-img">
                         <div class="label-rest">{{ restaurant.activity_name }}</div>
@@ -46,7 +45,7 @@ export default {
 
         .col.flex-item {
             margin: 1rem;
-            flex-basis: calc(100% / 4 - 2rem);
+            // flex-basis: calc(100% / 4 - 2rem);
 
             display: flex;
             justify-content: center;
@@ -55,6 +54,7 @@ export default {
 
             text-decoration: none;
             color: black;
+            transition: all 0.1s ease-in-out;
 
             &:hover {
                 transform: scale(1.3);

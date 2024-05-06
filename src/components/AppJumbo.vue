@@ -12,7 +12,7 @@ export default {
 <template>
     <!--Jumbotron-->
     <div class="jumbotron">
-        <div class="jumbo-content container-desktop">
+        <div class="jumbo-content container-desktop pb-4">
             <div class="animated-image">
                 <img class="pane-sopra" src="/img/jumbo-food-pane-sopra.png" alt="immagine che fluttua">
                 <img class="carne-sopra" src="/img/jumbo-food-carne-sopra.png" alt="immagine che fluttua">
@@ -52,9 +52,12 @@ export default {
 
         .animated-image {
             position: relative;
-            width: 500px;
+            // width: 500px;
+            width: 100%;
             height: 400px;
-            ;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
 
 
             .pane-sopra {
@@ -213,6 +216,14 @@ export default {
             font-size: 3.5rem;
             font-weight: 700;
             line-height: 53px;
+        }
+    }
+
+    @media screen and (max-width: 1140px) {
+        .jumbo-content {
+            flex-direction: column;
+            align-items: center;
+
         }
     }
 
