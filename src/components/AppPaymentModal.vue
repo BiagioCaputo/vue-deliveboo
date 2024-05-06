@@ -10,9 +10,7 @@ export default {
     data: () => ({
         store,
         token: '',
-        card_number: '',
-        card_expire_date: '',
-        cvv_code: '',
+        customerNameSuggest: '',
         paymentDetails: {
             customer_name: '',
             customer_address: '',
@@ -20,6 +18,9 @@ export default {
             customer_phone_number: '',
             dishes: [],
             restaurant_id: '',
+            card_number: '',
+            card_expire_date: '',
+            cvv_code: '',
             payment_method_nonce: 'fake-valid-nonce',
         },
     }),
@@ -31,6 +32,9 @@ export default {
     emits: ['close-modal'],
     methods: {
         generateToken() {
+
+            // if (!paymentDetails.customer_name && !this.paymentDetails.customer_address && !this.paymentDetails.customer_email && !this.paymentDetails.customer_phone_number && !this.paymentDetails.card_number && !this.paymentDetails.card_expire_date && !this.paymentDetails.cvv_code)
+
             // Chiamata per generare il token
             store.checkout = true
             axios.get(endpoint + '/order/generate')
@@ -46,12 +50,17 @@ export default {
                 })
         },
         makePayment() {
+            // Trasformo la data togliendo lo slash
+            this.paymentDetails.card_expire_date = this.paymentDetails.card_expire_date.replace('/', '');
+            console.log(this.paymentDetails.card_expire_date);
+
             // Recupero l'id o gli ids e le quantità dei piatti per inviarle
             this.store.cart.forEach(cartElement => {
                 const dish = { id: '', quantity: '' };
                 dish.id = cartElement.id;
                 dish.quantity = cartElement.quantity;
-                this.paymentDetails.dishes.push(dish);
+                // Se l'array dishes non include già il piatto allora lo inserisco nell'array
+                if (!this.paymentDetails.dishes.includes(dish.id)) this.paymentDetails.dishes.push(dish);
                 this.paymentDetails.restaurant_id = cartElement.restaurant_id;
             });
 
@@ -63,12 +72,11 @@ export default {
                 .then(response => {
                     console.log('Oggetto partito: ', this.paymentDetails);
                     console.log('Response: ', response.data);
-                    console.log(response.data.message)
+                    console.log(response.data.message);
                 })
-                .catch(error => {
+                .catch(({ error, response }) => {
                     console.error(error);
-                    // In caso di errore ripulisco l'array nell'oggetto per non avere doppioni
-                    this.paymentDetails.dishes = [];
+                    console.log(response.data.errors);
                 })
                 .then(() => {
                     // Ripulisco il carrello e spengo il loader
@@ -214,23 +222,23 @@ export default {
 
             <div class="credit-card-info--form">
                 <div class="input_container">
-                    <label for="customer_name" class="input_label">Nome/Cognome</label>
-                    <input id="customer_name" class="input_field" type="text" name="customer_name"
+                    <label for="customer_name" class="input_label">Nome/Cognome*</label>
+                    <input id="customer_name" class="input_field form-control" type="text" name="customer_name"
                         placeholder="Nome e cognome" v-model="paymentDetails.customer_name">
-                    <div class="form-text d-none">
+                    <div class="form-text">
                         <p id="customer_name_suggest"></p>
                     </div>
                 </div>
                 <div class="input_container">
-                    <label for="customer_address" class="input_label">Indirizzo spedizione</label>
+                    <label for="customer_address" class="input_label">Indirizzo spedizione*</label>
                     <input id="customer_address" class="input_field" type="text" name="customer_address"
                         placeholder="Indirizzo di spedizione" v-model="paymentDetails.customer_address">
-                    <div class="form-text d-none">
+                    <div class="form-text">
                         <p id="customer_address_suggest"></p>
                     </div>
                 </div>
                 <div class="input_container">
-                    <label for="customer_mail" class="input_label">Indirizzo email</label>
+                    <label for="customer_mail" class="input_label">Indirizzo email*</label>
                     <input id="customer_mail" class="input_field" type="text" name="customer_mail" placeholder="Email"
                         v-model="paymentDetails.customer_email">
                     <div class="form-text d-none">
@@ -238,7 +246,7 @@ export default {
                     </div>
                 </div>
                 <div class="input_container">
-                    <label for="customer_phone_number" class="input_label">Telefono</label>
+                    <label for="customer_phone_number" class="input_label">Telefono*</label>
                     <input id="customer_phone_number" class="input_field" type="text" name="customer_phone_number"
                         placeholder="Numero di telefono" v-model="paymentDetails.customer_phone_number">
                     <div class="form-text d-none">
@@ -251,26 +259,26 @@ export default {
                     <hr class="line">
                 </div>
                 <div class="input_container">
-                    <label for="card_number" class="input_label">Numero Carta</label>
+                    <label for="card_number" class="input_label">Numero Carta*</label>
                     <input id="card_number" class="input_field" type="number" name="card_number"
-                        placeholder="0000 0000 0000 0000" v-model="card_number">
+                        placeholder="0000 0000 0000 0000" v-model="paymentDetails.card_number">
                     <div class="form-text d-none">
                         <p id="card_number_suggest"></p>
                     </div>
                 </div>
                 <div class="wrapper">
                     <div class="col-9">
-                        <label for="card_expire_date" class="input_label">Data scadenza</label>
+                        <label for="card_expire_date" class="input_label">Data scadenza*</label>
                         <input id="card_expire_date" class="input_field" type="text" name="card_expire_date"
-                            placeholder="01/23" v-model="card_expire_date">
+                            placeholder="01/23" v-model="paymentDetails.card_expire_date">
                         <div class="form-text d-none">
                             <p id="card_expire_suggest"></p>
                         </div>
                     </div>
                     <div class="col-3">
-                        <label for="cvv_code" class="input_label">CVV</label>
+                        <label for="cvv_code" class="input_label">CVV*</label>
                         <input id="cvv_code" class="input_field" type="number" name="cvv_code" placeholder="CVV"
-                            v-model="cvv_code">
+                            v-model="paymentDetails.cvv_code">
                         <div class="form-text d-none">
                             <p id="cvv_code_suggest"></p>
                         </div>
@@ -313,6 +321,11 @@ export default {
     flex-direction: column;
     gap: 20px;
     padding: 30px;
+
+    p {
+        margin: 0;
+        font-size: 0.7rem;
+    }
 }
 
 .payment--options {
