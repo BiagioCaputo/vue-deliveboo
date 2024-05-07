@@ -77,7 +77,7 @@ main {
   height: fit-content;
 
   .container-desktop {
-    max-width: 1100px;
+    width: 1100px;
     margin: 0 auto;
   }
 

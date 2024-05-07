@@ -89,7 +89,7 @@ export default {
 }
 </script>
 <template>
-    <main class="container-main d-flex justify-content-center">
+    <main class="container-main">
         <section class="sidebar mx-3">
             <div class="all">
                 <h6>Tutti i ristoranti</h6>
@@ -124,10 +124,12 @@ export default {
         </section>
 
         <section class="list me-3">
-            <h2>Ristoranti a domicilio</h2>
+            <h2 v-if="restaurants.data.length > 0">Ristoranti a domicilio</h2>
             <div class="row flex-container">
 
-                <nav v-if="restaurants.data.length != 0" class="row col-12 d-flex justify-content-end">
+
+                <nav v-if="restaurants.data.length != 0" class="col-12 z-0 d-flex justify-content-start ms-3">
+
                     <ul class="pagination">
                         <li v-for="link in restaurants.links" :key="link.label" class="page-item"
                             :class="[{ active: link.active }, { disabled: !link.url }]">
@@ -136,9 +138,19 @@ export default {
                         </li>
                     </ul>
                 </nav>
-                <h1 v-if="restaurants.data.length == 0" class="col-10 col-md-6 align-self-center">Nessun ristorante trovato
-                </h1>
-                <!-- TODO ERICA GUARDA QUI -->
+
+
+
+                <!--Nessun risultato-->
+                <div v-if="restaurants.data.length == 0" class="col no-result text-center">
+                    <h1 class="mb-5">
+                        Non ci sono ristoranti per le categorie cercate
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                    </h1>
+                    <img src="/img/astronaut-grey-scale.svg" alt="Astronauta">
+                </div>
+                <!--Lista ristoranti-->
+
                 <div v-else class="col flex-item" v-for="restaurant in restaurants.data" :key="restaurant.id">
                     <RouterLink :to="{ name: 'menu', params: { id: restaurant.id } }" class="text-decoration-none">
                         <AppCardRestaurant :restaurant="restaurant" />
@@ -159,11 +171,13 @@ export default {
 
 
 .container-main {
-    max-width: 1300px;
+    width: 1300px;
     margin: 0 auto;
     display: flex;
+    justify-content: center;
     padding-top: 150px;
     padding-bottom: 50px;
+
 
     h6 {
         font-weight: 700;
@@ -237,7 +251,7 @@ export default {
     }
 
     .list {
-        max-width: 80%;
+        width: 80%;
         margin-right: 30px;
 
         h2 {
@@ -249,7 +263,6 @@ export default {
             display: flex;
             margin: 0 -1rem;
             flex-wrap: wrap;
-            justify-content: center;
 
 
 
@@ -263,11 +276,57 @@ export default {
         }
     }
 
-    @media screen and (max-width: 768px) {
-        .list {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+
+    .no-result {
+
+        h3 {
+            text-align: center;
+        }
+
+        img {
+            width: 600px;
+        }
+    }
+
+}
+
+@media screen and (max-width: 1280px) {
+    .container-main {
+        width: 1000px;
+
+        .no-result img {
+            width: 500px;
+        }
+    }
+}
+
+@media screen and (max-width: 1020px) {
+    .container-main {
+        width: 800px;
+
+        .no-result img {
+            width: 400px;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .container-main {
+        width: 600px;
+
+        .no-result img {
+            width: 300px;
+        }
+
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container-main {
+        width: 400px;
+
+        .no-result img {
+            width: 200px;
         }
     }
 }

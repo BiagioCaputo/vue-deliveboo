@@ -106,6 +106,7 @@ export default {
                                 <h5 class="card-title">{{ dish.name }}</h5>
                                 <p class="card-text"> <span v-if="dish.quantity > 1" class="me-2">{{
                                     dish.quantity }}x</span> {{ dish.price }} €</p>
+
                             </div>
                         </div>
 
@@ -146,7 +147,7 @@ export default {
         </div>
 
         <!-- Se il carrello è vuoto e se non ho messaggi -->
-        <div v-else-if="!store.cart && !store.cart.length > 0 && !message" class="text-center card py-5">
+        <div v-else="!store.cart && !store.cart.length > 0" class="text-center card py-5">
             <h2 class="mb-4">Il carrello è vuoto ... davvero non hai fame?</h2>
             <div class="d-flex justify-content-center gap-2">
 
@@ -160,17 +161,13 @@ export default {
             </div>
         </div>
 
-        <div v-else>
-            {{ printMessage }}
-        </div>
-
         <!-- Modale per il pagamento -->
         <AppPaymentModal :isActive="showPaymentModal" @close-modal="togglePaymentModal()" :totalPrice="totalPrice"
             :message="message" />
     </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .cart-container {
     padding-top: 100px;
     padding-bottom: 50px;
