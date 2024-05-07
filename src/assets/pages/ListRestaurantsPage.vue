@@ -127,7 +127,7 @@ export default {
             <h2>Ristoranti a domicilio</h2>
             <div class="row flex-container">
 
-                <nav v-if="restaurants.data.length != 0" class="col-12 d-flex justify-content-end">
+                <nav v-if="restaurants.data.length != 0" class="row col-12 d-flex justify-content-end">
                     <ul class="pagination">
                         <li v-for="link in restaurants.links" :key="link.label" class="page-item"
                             :class="[{ active: link.active }, { disabled: !link.url }]">
@@ -136,8 +136,9 @@ export default {
                         </li>
                     </ul>
                 </nav>
-                <h1 v-if="restaurants.data.length == 0" class="col">Nessun ristorante trovato (ERICA qua ci vuole il tuo
-                    occhio artistico)</h1> <!-- TODO ERICA GUARDA QUI -->
+                <h1 v-if="restaurants.data.length == 0" class="col-10 col-md-6 align-self-center">Nessun ristorante trovato
+                </h1>
+                <!-- TODO ERICA GUARDA QUI -->
                 <div v-else class="col flex-item" v-for="restaurant in restaurants.data" :key="restaurant.id">
                     <RouterLink :to="{ name: 'menu', params: { id: restaurant.id } }" class="text-decoration-none">
                         <AppCardRestaurant :restaurant="restaurant" />
@@ -255,6 +256,7 @@ export default {
             .flex-item {
                 margin: 1rem;
                 flex-shrink: 0;
+                flex-grow: 0;
                 flex-basis: calc(100% / 3 - 2rem);
                 min-width: 300px;
             }
