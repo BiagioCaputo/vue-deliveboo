@@ -93,7 +93,7 @@ export default {
         <!-- se il carrello non è vuoto visualizzo gli elementi -->
         <div v-if="store.cart && store.cart.length > 0">
             <h3>Il carrello contiene {{ getTotalQuantity() }} elementi</h3>
-            <div class="card p-3">
+            <div class="card p-3 my-5">
                 <div v-for="dish in store.cart" class="cart-list">
                     <div class="mb-3 d-flex justify-content-between align-items-center">
 
