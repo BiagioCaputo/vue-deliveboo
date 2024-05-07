@@ -7,6 +7,8 @@ export const store = reactive({
 
     cart: [],
 
+    orderDetails: '',
+
     footerLinks: [
         {
             title: 'Uniamo le forze',
