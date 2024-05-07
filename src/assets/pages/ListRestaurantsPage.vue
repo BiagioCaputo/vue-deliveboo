@@ -126,8 +126,9 @@ export default {
         <section class="list me-3">
             <h2 v-if="restaurants.data.length > 0">Ristoranti a domicilio</h2>
             <div class="row flex-container">
-                <!--Paginazione-->
-                <nav v-if="restaurants.data.length != 0" class="col-12 d-flex justify-content-start ms-3">
+
+                <nav v-if="restaurants.data.length != 0" class="col-12 z-0 d-flex justify-content-start ms-3">
+
                     <ul class="pagination">
                         <li v-for="link in restaurants.links" :key="link.label" class="page-item"
                             :class="[{ active: link.active }, { disabled: !link.url }]">
