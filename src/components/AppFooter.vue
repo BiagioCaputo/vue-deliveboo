@@ -11,12 +11,12 @@ export default {
 
 <template>
     <footer>
-        <img src="/img/footer-wave-desktop.svg" alt="footer-wave">
+        <img src="/img/footer-wave-desktop.svg" alt="footer-wave" class="footer-wave">
         <div class="bg-footer">
             <div class="container">
 
                 <div class="logo">
-                    <h1 class="logo-text">DeliveBoo
+                    <h1 class="logo-text pt-3">DeliveBoo
                         <img src="/img/glovo_logo.png" alt="Logo" class="logo-img">
                     </h1>
                 </div>
@@ -152,6 +152,12 @@ ul {
     .bottom-text {
         font-weight: 500;
         margin: 0;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .footer-wave {
+        display: none;
     }
 }
 </style>

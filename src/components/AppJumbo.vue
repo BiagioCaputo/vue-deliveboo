@@ -31,7 +31,8 @@ export default {
             </div>
         </div>
     </div>
-    <img class="wave-img" src="/img/jumbotron-wave-desktop.svg" alt="jumbo-wave">
+    <img class="desktop-wave" src="/img/jumbotron-wave-desktop.svg" alt="jumbo-wave">
+    <img class="mobile-wave" src="/img/down-wave-mobile.svg" alt="jumbo-wave">
 </template>
 
 <style lang="scss" scoped>
@@ -227,5 +228,24 @@ export default {
         }
     }
 
+}
+
+.desktop-wave {
+    width: 100%;
+}
+
+.mobile-wave {
+    width: 100%;
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .desktop-wave {
+        display: none;
+    }
+
+    .mobile-wave {
+        display: block;
+    }
 }
 </style>

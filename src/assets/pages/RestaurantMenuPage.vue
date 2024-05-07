@@ -197,7 +197,7 @@ export default {
                 <!-- Sezione Piatti -->
                 <div class="row col-12 col-xl-9 px-0">
                     <div v-for="dish in dishes" :key="dish.id" class="col-md-6">
-                        <div class="card dish-card p-3 dish mb-4">
+                        <div class="card p-3 dish mb-4">
                             <div class="d-flex gap-2">
                                 <img class="dish-image rounded" :src="dish.image" :alt="dish.name">
 
@@ -343,6 +343,10 @@ section {
     box-shadow: 0px 2px 24px 1px #0000001A;
     border: 0;
     flex-basis: calc((100% / 2) - 72px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 230px;
 
     .dish-image {
         width: 100px;
@@ -388,14 +392,14 @@ section {
 .cart {
     box-shadow: 0px 2px 24px 1px rgba(0, 0, 0, 0.1019607843);
     border: transparent;
-
-    .btn-add {
-        font-size: 10px;
-    }
+    height: fit-content;
 
     .btn-custom {
-        font-size: 10px;
         border-radius: 50%;
+
+        &:hover {
+            transform: scale(1.3);
+        }
     }
 }
 

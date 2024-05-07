@@ -105,19 +105,19 @@ export default {
                             <div class="card-body pe-0">
                                 <h5 class="card-title">{{ dish.name }}</h5>
                                 <p class="card-text"> <span v-if="dish.quantity > 1" class="me-2">{{
-            dish.quantity }}x</span> {{ dish.price }} €</p>
+                                    dish.quantity }}x</span> {{ dish.price }} €</p>
 
                             </div>
                         </div>
 
                         <div class="d-flex  align-items-center gap-3">
 
-                            <div class="card-text text-center">
-                                <button class="btn me-2 btn-add" @click="decreaseQuantity(dish)">
+                            <div class=" d-flex gap-2 card-text text-center add-remove-btn">
+                                <button class="btn btn-add" @click="decreaseQuantity(dish)">
                                     <i class="fa-solid fa-minus"></i>
                                 </button>
 
-                                <button class="btn ms-2 btn-add" @click="increaseQuantity(dish)">
+                                <button class="btn btn-add" @click="increaseQuantity(dish)">
                                     <i class="fa-solid fa-plus"></i>
                                 </button>
                             </div>
@@ -131,15 +131,13 @@ export default {
 
                 <!-- Mostra il prezzo totale -->
                 <div>
-                    <div><strong>Prezzo Totale:</strong> {{ totalPrice }} €</div>
+                    <div class="mb-3"><strong>Prezzo Totale:</strong> {{ totalPrice }} €</div>
 
                     <div class="btn-cart text-center">
-                        <!--TODO Qui il btn per procedere all'acquisto con la classe custom-primary-btn-->
-
                         <!-- Bottone per svuotare il carrello -->
-                        <button class="btn custom-secondary-btn me-2" @click="emptyCart()">Svuota carrello</button>
-
-                        <button class="btn custom-primary-btn" @click="togglePaymentModal()">Acquista</button>
+                        <button class="btn custom-secondary-btn me-2 mb-2" @click="emptyCart()">Svuota carrello</button>
+                        <!--Bottone per procedere all'acquisto-->
+                        <button class="btn custom-primary-btn mb-2" @click="togglePaymentModal()">Acquista</button>
                     </div>
                 </div>
             </div>
@@ -170,7 +168,7 @@ export default {
 <style lang="scss" scoped>
 .cart-container {
     padding-top: 100px;
-    padding-bottom: 50px;
+    margin-bottom: 50px;
 
     .title {
         font-weight: 700;
@@ -185,6 +183,7 @@ export default {
 
                 width: 100px;
                 height: 100px;
+                object-fit: fill;
                 border-radius: 20px;
             }
         }
@@ -219,6 +218,19 @@ export default {
         &:hover {
             background-color: #b0eee2;
         }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .add-remove-btn {
+        flex-direction: column;
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .dish-image {
+        display: none;
     }
 }
 </style>

@@ -56,7 +56,7 @@ body {
 
   &:hover {
     background-color: #b2f0e3;
-    color: black;
+    color: #00846b;
   }
 }
 
@@ -83,6 +83,31 @@ main {
 
   section {
     padding-top: 50px;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  main {
+    .container-desktop {
+      // width: 650px;
+      width: 800px;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  main {
+    .container-desktop {
+      width: 650px;
+    }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  main {
+    .container-desktop {
+      width: 400px;
+    }
   }
 }
 </style>
