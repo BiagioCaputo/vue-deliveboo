@@ -56,7 +56,7 @@ body {
 
   &:hover {
     background-color: #b2f0e3;
-    color: black;
+    color: #00846b;
   }
 }
 
