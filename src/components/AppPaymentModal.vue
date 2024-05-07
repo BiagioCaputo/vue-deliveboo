@@ -292,6 +292,8 @@ export default {
 <style lang="scss" scoped>
 .modal.is-active {
     display: block;
+    width: 450px;
+    position: fixed;
 }
 
 .modal {

@@ -229,7 +229,7 @@ export default {
                         </div>
                         <div v-else>
                             <div v-for="item in cart" :key="item.id">
-                                <div class="mb-3" style="max-width: 540px;">
+                                <div class="mb-3">
                                     <div class="d-flex justify-content-between text-start">
                                         <p><strong v-if="item.quantity > 1">{{
                                             item.quantity }}x</strong>
