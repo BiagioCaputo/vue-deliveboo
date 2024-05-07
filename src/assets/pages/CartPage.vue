@@ -87,7 +87,7 @@ export default {
 </script>
 
 <template>
-    <div class="cart-container container p-0">
+    <div class="cart-container container p-0 mt-5 pt-5">
         <h1 class="text-center my-5 title">Carrello</h1>
 
         <!-- se il carrello non è vuoto visualizzo gli elementi -->
