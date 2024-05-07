@@ -41,13 +41,11 @@ export default {
     methods: {
         isCustomerNameValid() {
             let isValid = true;
-
             if (!this.paymentDetails.customer_name || this.paymentDetails.customer_name.length < 3) {
                 this.messages.customer_name_message = 'Inserisci nome e cognome.';
                 isValid = false;
-            } else if (this.paymentDetails.customer_name || this.paymentDetails.customer_name.length >= 3) {
+            } else {
                 this.messages.customer_name_message = 'Campo valido.';
-                isValid = false
             }
             return isValid;
 
@@ -55,20 +53,17 @@ export default {
 
         isCustomerAddressValid() {
             let isValid = true;
-
             if (!this.paymentDetails.customer_address || this.paymentDetails.customer_address.length < 3) {
                 this.messages.customer_address_message = 'Inserisci l\'indirizzo di spedizione.';
                 isValid = false;
-            } else if (this.paymentDetails.customer_address || this.paymentDetails.customer_address.length >= 3) {
+            } else {
                 this.messages.customer_address_message = 'Campo valido.';
-                isValid = false
             }
             return isValid;
         },
 
         isCustomerEmailValid() {
             let isValid = true;
-
             if (!this.paymentDetails.customer_email || !this.paymentDetails.customer_email.includes('@') || !this.paymentDetails.customer_email.includes('.it') && !this.paymentDetails.customer_email.includes('.com')) {
                 this.messages.customer_email_message = 'Inserisci un indirizzo email valido.';
                 isValid = false;
@@ -81,7 +76,6 @@ export default {
 
         isCustomerPhoneValid() {
             let isValid = true;
-
             if (!this.paymentDetails.customer_phone_number || this.paymentDetails.customer_phone_number.length != 10) {
                 this.messages.customer_phone_number_message = 'Inserisci un numero di telefono valido.';
                 isValid = false;
@@ -104,7 +98,7 @@ export default {
 
         isCardExpireDateValid() {
             let isValid = true;
-            if (!this.paymentDetails.card_expire_date || this.paymentDetails.card_expire_date.length != 5) {
+            if (!this.paymentDetails.card_expire_date || !this.paymentDetails.card_expire_date.length == 5) {
                 this.messages.card_expire_date_message = 'Inserisci una data di scadenza valida.';
                 isValid = false;
             } else {
@@ -113,10 +107,8 @@ export default {
             return isValid;
         },
 
-
         isCvvCodeValid() {
             let isValid = true;
-
             if (!this.paymentDetails.cvv_code || this.paymentDetails.cvv_code.length != 3) {
                 this.messages.cvv_code_message = 'Inserisci un cvv valido.';
                 isValid = false;
@@ -128,27 +120,34 @@ export default {
         },
 
         validateForm() {
-            if (this.isCustomerNameValid && this.isCustomerAddressValid && this.isCustomerEmailValid && this.isCustomerPhoneValid && this.isCardNumberValid && this.isCardExpireDateValid && this.isCvvCodeValid) return true;
+            if (this.isCustomerNameValid() && this.isCustomerAddressValid() && this.isCustomerEmailValid() && this.isCustomerPhoneValid() && this.isCardNumberValid() && this.isCardExpireDateValid() && this.isCvvCodeValid()) {
+                return true;
+            } else {
+                return false;
+            }
         },
 
-        generateToken() {
-            if (!this.validateForm()) return;
+        generateToken(event) {
+            // Se gli inputs del form non sono validi
+            if (!this.validateForm()) {
+                // Blocco l'invio 
+                event.preventDefault();
+                return;
+            }
 
             // Chiamata per generare il token
             store.checkout = true
             axios.get(endpoint + '/order/generate')
                 .then((res) => {
                     // Inserisco i dati della chiamata nell'oggetto
-                    // this.token = res.data;
+                    this.token = res.data;
                 })
                 .catch(err => {
                     console.log(err)
                 })
                 .then(() => {
-                    if (this.token) this.makePayment()
-                    if (!this.token) this.$router.push({ name: 'resultPaymentPage' });
+                    if (this.token && this.validateForm()) this.makePayment();
                 })
-
         },
 
         makePayment() {
@@ -231,7 +230,7 @@ export default {
     </div> -->
 
     <div class="modal" :class="{ 'is-active': isActive }">
-        <form class="form" @submit.prevent>
+        <form class="form" @submit.prevent="generateToken($event)">
             <!-- <div class="payment--options">
                 <button name="paypal" type="button">
                     <svg xml:space="preserve" viewBox="0 0 124 33" height="33px" width="124px" y="0px" x="0px"
@@ -378,7 +377,7 @@ export default {
                     <label for="card_number" class="input_label">Numero Carta*</label>
                     <input id="card_number" class="input_field form-control"
                         :class="!this.paymentDetails.card_number || this.paymentDetails.card_number.length != 16 ? 'is-invalid' : 'is-valid'"
-                        type="text" name="card_number" placeholder="4012 0000 0000 1881" :maxlength="16"
+                        type="text" name="card_number" placeholder="4012 0000 0000 1881" maxlength="16"
                         v-model="paymentDetails.card_number" @keyup="isCardNumberValid()">
                     <div class="form-text" v-if="this.messages.card_number_message.length"
                         :class="!this.paymentDetails.card_number || this.paymentDetails.card_number.length != 16 ? 'invalid-feedback' : 'valid-feedback'">
@@ -389,13 +388,13 @@ export default {
                     <div class="col-9">
                         <label for="card_expire_date" class="input_label">Data scadenza*</label>
                         <input id="card_expire_date" class="input_field form-control"
-                            :class="!this.paymentDetails.card_expire_date || this.paymentDetails.card_expire_date.length != 5 ? 'is-invalid' : 'is-valid'"
+                            :class="!this.paymentDetails.card_expire_date || !this.paymentDetails.card_expire_date.length == 5 ? 'is-invalid' : 'is-valid'"
                             type="text" name="card_expire_date" placeholder="01/23" :maxlength="5"
                             v-model="paymentDetails.card_expire_date" @keyup="isCardExpireDateValid()">
                         <div class="form-text"
-                            :class="!this.paymentDetails.card_expire_date || this.paymentDetails.card_expire_date.length != 5 ? 'invalid-feedback' : 'valid-feedback'">
+                            :class="!this.paymentDetails.card_expire_date || !this.paymentDetails.card_expire_date.length == 5 ? 'invalid-feedback' : 'valid-feedback'">
                             <p id="card_expire_suggest">
-                                {{ this.messages.card_expire_date_message ? this.messages.card_expire_date_message : '' }}
+                                {{ this.messages.card_expire_date_message }}
                             </p>
                         </div>
                     </div>
@@ -414,7 +413,7 @@ export default {
                         v-model="paymentDetails.payment_method_nonce" />
                 </div>
             </div>
-            <button :disabled="store.checkout" class="custom-primary-btn btn" @click="generateToken()">
+            <button :disabled="store.checkout" class="custom-primary-btn btn">
                 <span v-if="!store.checkout">Paga €{{ totalPrice }}</span>
                 <span v-else class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             </button>

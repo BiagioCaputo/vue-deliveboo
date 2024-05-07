@@ -105,7 +105,7 @@ export default {
                             <div class="card-body pe-0">
                                 <h5 class="card-title">{{ dish.name }}</h5>
                                 <p class="card-text"> <span v-if="dish.quantity > 1" class="me-2">{{
-                                    dish.quantity }}x</span> {{ dish.price }} €</p>
+            dish.quantity }}x</span> {{ dish.price }} €</p>
 
                             </div>
                         </div>
@@ -147,7 +147,7 @@ export default {
         </div>
 
         <!-- Se il carrello è vuoto e se non ho messaggi -->
-        <div v-else="!store.cart && !store.cart.length > 0" class="text-center card py-5">
+        <div v-else="!store.cart && !store.cart.length > 0" class="text-center card py-5 my-5">
             <h2 class="mb-4">Il carrello è vuoto ... davvero non hai fame?</h2>
             <div class="d-flex justify-content-center gap-2">
 
