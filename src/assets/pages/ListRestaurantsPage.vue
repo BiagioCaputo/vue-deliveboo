@@ -127,7 +127,7 @@ export default {
             <h2>Ristoranti a domicilio</h2>
             <div class="row flex-container">
 
-                <nav v-if="restaurants.data.length != 0" class="col-12 d-flex justify-content-end">
+                <nav v-if="restaurants.data.length != 0" class="col-12 z-0 d-flex justify-content-end">
                     <ul class="pagination">
                         <li v-for="link in restaurants.links" :key="link.label" class="page-item"
                             :class="[{ active: link.active }, { disabled: !link.url }]">
