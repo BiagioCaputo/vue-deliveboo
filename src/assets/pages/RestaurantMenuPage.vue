@@ -193,9 +193,9 @@ export default {
             </div>
 
             <!-- Sezione Piatti + Sezione Ordine -->
-            <div class="row justify-content-between">
+            <div class="row justify-content-evenly">
                 <!-- Sezione Piatti -->
-                <div class="row col-12 col-xl-9">
+                <div class="row col-12 col-xl-9 px-0">
                     <div v-for="dish in dishes" :key="dish.id" class="col-md-6">
                         <div class="card dish-card p-3 dish mb-4">
                             <div class="d-flex gap-2">
