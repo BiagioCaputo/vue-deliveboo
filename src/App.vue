@@ -85,4 +85,29 @@ main {
     padding-top: 50px;
   }
 }
+
+@media screen and (max-width: 992px) {
+  main {
+    .container-desktop {
+      // width: 650px;
+      width: 800px;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  main {
+    .container-desktop {
+      width: 650px;
+    }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  main {
+    .container-desktop {
+      width: 400px;
+    }
+  }
+}
 </style>
