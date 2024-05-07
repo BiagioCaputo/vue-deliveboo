@@ -38,3 +38,10 @@ export default {
         </div>
     </div>
 </template>
+
+
+<style lang="scss" scoped>
+.wrapper {
+    margin: 300px 0;
+}
+</style>
