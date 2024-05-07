@@ -1,5 +1,6 @@
 <script>
 import { store } from '../../data/store.js'
+import axios from 'axios';
 export default {
     name: 'ResultPayment',
     data() {
@@ -28,13 +29,28 @@ export default {
             // Ritrasforma la stringa in array e salvala in payment result
             this.paymentResult = JSON.parse(paymentResult);
             if (this.paymentResult.success) {
+
+                //invio l'email di conferma all'acquirente
+                axios.post(
+                    'http://localhost:8000/api/contact-mail',
+                    { email: this.store.orderDetails.customer_email }
+                )
+                    .then(response => {
+                        console.log('Email inviata con successo:', response.data);
+                    })
+                    .catch(error => {
+                        console.error('Errore invio email:', error);
+                    });
+
+                //svuoto il local storage
                 localStorage.clear('chart');
                 localStorage.clear('paymentResult');
             };
 
-        }
+        };
 
     }
+
 }
 </script>
 
@@ -69,6 +85,7 @@ export default {
                     </div>
                 </section>
             </div>
+            <h5 class="my-4 text-success">Presto riceverai un email con il riepilogo</h5>
             <RouterLink to="/" class="custom-primary-btn btn">
                 Torna alla Home
             </RouterLink>
