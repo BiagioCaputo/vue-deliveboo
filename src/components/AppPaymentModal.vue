@@ -10,7 +10,7 @@ export default {
     data: () => ({
         store,
         token: '',
-        totalAmount: '',
+        totalAmount: 0,
         paymentDetails: {
             customer_name: '',
             customer_address: '',
@@ -163,8 +163,12 @@ export default {
                 // Se l'array dishes non include già il piatto allora lo inserisco nell'array
                 if (!this.paymentDetails.dishes.includes(dish.id)) this.paymentDetails.dishes.push(dish);
                 this.paymentDetails.restaurant_id = cartElement.restaurant_id;
+                //nuovo elemento
+                let cartDish = parseFloat(cartElement.price) * parseInt(cartElement.quantity);
                 // Calcolo il prezzo totale
-                this.totalAmount = cartElement.price * cartElement.quantity;
+                this.totalAmount += cartDish;
+
+                cartDish = 0;
                 // Inserisco il totale nel localStorage
                 localStorage.setItem('totalPrice', this.totalAmount);
             });
