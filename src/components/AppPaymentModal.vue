@@ -10,6 +10,7 @@ export default {
     data: () => ({
         store,
         token: '',
+        totalAmount: '',
         paymentDetails: {
             customer_name: '',
             customer_address: '',
@@ -162,6 +163,10 @@ export default {
                 // Se l'array dishes non include già il piatto allora lo inserisco nell'array
                 if (!this.paymentDetails.dishes.includes(dish.id)) this.paymentDetails.dishes.push(dish);
                 this.paymentDetails.restaurant_id = cartElement.restaurant_id;
+                // Calcolo il prezzo totale
+                this.totalAmount = cartElement.price * cartElement.quantity;
+                // Inserisco il totale nel localStorage
+                localStorage.setItem('totalPrice', this.totalAmount);
             });
 
             // Chiamata per effettuare il pagamento
@@ -172,6 +177,8 @@ export default {
                 .then(response => {
                     //salvo il risultato della transazione in un item nel LS chiamato 'paymentResult'
                     localStorage.setItem('paymentResult', JSON.stringify(response.data));
+                    // Salvo i dati dell'ordine nel localStorage
+                    localStorage.setItem('orderDetails', JSON.stringify(this.paymentDetails));
                     console.log('Oggetto: ', this.paymentDetails);
                     console.log('Response: ', response.data);
                 })

@@ -57,7 +57,7 @@ export default {
             }
             // Aggiorna i ristoranti in base alle categorie selezionate
             this.fetchRestaurants();
-            console.log(this.selectedCategories);
+            // console.log(this.selectedCategories);
         },
 
         // Chiamata API per ottenere le categorie di ristoranti
@@ -84,7 +84,7 @@ export default {
 
         this.fetchTypes();
         this.fetchRestaurants();
-        console.log(this.selectedCategories);
+        // console.log(this.selectedCategories);
     },
 }
 </script>
