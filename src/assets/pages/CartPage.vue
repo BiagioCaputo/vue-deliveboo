@@ -87,13 +87,13 @@ export default {
 </script>
 
 <template>
-    <div class="cart-container container">
+    <div class="cart-container container p-0">
         <h1 class="text-center my-5 title">Carrello</h1>
 
         <!-- se il carrello non è vuoto visualizzo gli elementi -->
         <div v-if="store.cart && store.cart.length > 0">
             <h3>Il carrello contiene {{ getTotalQuantity() }} elementi</h3>
-            <div class="card p-4">
+            <div class="card p-3">
                 <div v-for="dish in store.cart" class="cart-list">
                     <div class="mb-3 d-flex justify-content-between align-items-center">
 
