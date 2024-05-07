@@ -43,10 +43,10 @@ export default {
             let isValid = true;
 
             if (!this.paymentDetails.customer_name || this.paymentDetails.customer_name.length < 3) {
-                this.messages.customer_name_message = 'Inserisci nome e cognome';
+                this.messages.customer_name_message = 'Inserisci nome e cognome.';
                 isValid = false;
             } else if (this.paymentDetails.customer_name || this.paymentDetails.customer_name.length >= 3) {
-                this.messages.customer_name_message = 'Campo valido';
+                this.messages.customer_name_message = 'Campo valido.';
                 isValid = false
             }
             return isValid;
@@ -57,10 +57,10 @@ export default {
             let isValid = true;
 
             if (!this.paymentDetails.customer_address || this.paymentDetails.customer_address.length < 3) {
-                this.messages.customer_address_message = 'Inserisci l\'indirizzo di spedizione';
+                this.messages.customer_address_message = 'Inserisci l\'indirizzo di spedizione.';
                 isValid = false;
             } else if (this.paymentDetails.customer_address || this.paymentDetails.customer_address.length >= 3) {
-                this.messages.customer_address_message = 'Campo valido';
+                this.messages.customer_address_message = 'Campo valido.';
                 isValid = false
             }
             return isValid;
@@ -70,11 +70,11 @@ export default {
             let isValid = true;
 
             if (!this.paymentDetails.customer_email || !this.paymentDetails.customer_email.includes('@') || !this.paymentDetails.customer_email.includes('.it') && !this.paymentDetails.customer_email.includes('.com')) {
-                this.messages.customer_email_message = 'Inserisci un indirizzo email valido';
+                this.messages.customer_email_message = 'Inserisci un indirizzo email valido.';
                 isValid = false;
             }
             else {
-                this.messages.customer_email_message = 'Campo valido';
+                this.messages.customer_email_message = 'Campo valido.';
             }
             return isValid;
         },
@@ -83,10 +83,10 @@ export default {
             let isValid = true;
 
             if (!this.paymentDetails.customer_phone_number || this.paymentDetails.customer_phone_number.length != 10) {
-                this.messages.customer_phone_number_message = 'Inserisci un numero di telefono valido';
+                this.messages.customer_phone_number_message = 'Inserisci un numero di telefono valido.';
                 isValid = false;
             } else {
-                this.messages.customer_phone_number_message = 'Campo valido';
+                this.messages.customer_phone_number_message = 'Campo valido.';
             }
             return isValid;
         },
@@ -94,10 +94,10 @@ export default {
         isCardNumberValid() {
             let isValid = true;
             if (!this.paymentDetails.card_number || this.paymentDetails.card_number.length != 16) {
-                this.messages.card_number_message = 'Il numero di carta è composto da 16 numeri';
+                this.messages.card_number_message = 'Il numero di carta è composto da 16 numeri.';
                 isValid = false;
             } else {
-                this.messages.card_number_message = 'Campo valido';
+                this.messages.card_number_message = 'Campo valido.';
             }
             return isValid;
         },
@@ -105,10 +105,10 @@ export default {
         isCardExpireDateValid() {
             let isValid = true;
             if (!this.paymentDetails.card_expire_date || this.paymentDetails.card_expire_date.length != 5) {
-                this.messages.card_expire_date_message = 'Inserisci una data di scadenza valida';
+                this.messages.card_expire_date_message = 'Inserisci una data di scadenza valida.';
                 isValid = false;
             } else {
-                this.messages.card_expire_date_message = 'Campo valido';
+                this.messages.card_expire_date_message = 'Campo valido.';
             }
             return isValid;
         },
@@ -118,18 +118,18 @@ export default {
             let isValid = true;
 
             if (!this.paymentDetails.cvv_code || this.paymentDetails.cvv_code.length != 3) {
-                this.messages.cvv_code_message = 'Inserisci un cvv valido';
+                this.messages.cvv_code_message = 'Inserisci un cvv valido.';
                 isValid = false;
             } else {
-                this.messages.cvv_code_message = 'Campo valido';
+                this.messages.cvv_code_message = 'Campo valido.';
             }
             return isValid;
 
         },
+
         validateForm() {
             if (this.isCustomerNameValid && this.isCustomerAddressValid && this.isCustomerEmailValid && this.isCustomerPhoneValid && this.isCardNumberValid && this.isCardExpireDateValid && this.isCvvCodeValid) return true;
         },
-
 
         generateToken() {
             if (!this.validateForm()) return;
@@ -139,13 +139,14 @@ export default {
             axios.get(endpoint + '/order/generate')
                 .then((res) => {
                     // Inserisco i dati della chiamata nell'oggetto
-                    this.token = res.data;
+                    // this.token = res.data;
                 })
                 .catch(err => {
                     console.log(err)
                 })
                 .then(() => {
                     if (this.token) this.makePayment()
+                    if (!this.token) this.$router.push({ name: 'resultPaymentPage' });
                 })
 
         },
@@ -431,7 +432,7 @@ export default {
 .modal {
     width: fit-content;
     position: absolute;
-    top: 45%;
+    top: 50%;
     left: 50%;
     translate: -50% -50%;
     height: fit-content;
