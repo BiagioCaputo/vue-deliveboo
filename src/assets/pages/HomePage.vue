@@ -59,6 +59,8 @@ export default {
         <AppSectionRestaurants :restaurants="popularRestaurants" />
 
         <!--Section Type-->
+        <img class="desktop-wave upside-down" src="/img/jumbotron-wave-desktop.svg" alt="jumbo-wave">
+        <img class="mobile-wave upside-down" src="/img/down-wave-mobile.svg" alt="jumbo-wave">
         <section class="category d-flex align-items-center justify-content-center ">
             <!-- <div class="animated-shopping-bag align-items-center d-flex">
                 <img src="/img/spesa-borsa.png" alt="spesa-borsa" class="spesa-borsa">
@@ -70,7 +72,7 @@ export default {
             <div class="container-desktop d-flex flex-column gap-5">
 
                 <h1 class="title-category text-center">Le nostre categorie</h1>
-                <div class="d-flex flex-wrap justify-content-center gap-4">
+                <div class="d-flex flex-wrap justify-content-center gap-4 pb-5">
 
                     <div v-for="type in popularTypes" :key="type.id" @click="saveTypeInLS(type.id)" class="pills">
                         {{ type.label }}
@@ -79,7 +81,8 @@ export default {
                 </div>
             </div>
         </section>
-        <!-- <img class="wave-img" src="/img/jumbotron-wave-desktop.svg" alt="jumbo-wave"> -->
+        <img class="desktop-wave" src="/img/jumbotron-wave-desktop.svg" alt="jumbo-wave">
+        <img class="mobile-wave" src="/img/down-wave-mobile.svg" alt="jumbo-wave">
 
         <!--Sezione Delivery-->
         <AppSectionDelivery />
@@ -90,15 +93,13 @@ export default {
 
 <style lang="scss" scoped>
 .category {
-    background-image: url('/img/main-waves-desktop.svg');
+    background-color: #FFC244;
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
-    height: 1140px;
 
     h1 {
         font-weight: 700;
-        padding-top: 3px;
     }
 
     .pills.active-link {
@@ -156,8 +157,47 @@ export default {
     }
 
 }
+
+.desktop-wave {
+    width: 100%;
+}
+
+.mobile-wave {
+    width: 100%;
+    display: none;
+}
+
+.desktop-wave.upside-down {
+    transform: rotate(180deg) translateY(-1%);
+    display: block;
+    width: 100%;
+}
+
+.mobile-wave.upside-down {
+    width: 100%;
+    display: none;
+    transform: rotate(180deg) translateY(-1%);
+}
+
+@media screen and (max-width: 768px) {
+    .desktop-wave {
+        display: none;
+    }
+
+    .desktop-wave.upside-down {
+        display: none;
+    }
+
+    .mobile-wave {
+        display: block;
+    }
+
+    .mobile-wave.upside-down {
+        display: block;
+    }
+}
 </style>
 
 
 
-Idea categorie: possiamo aggiungere una seconda immagine animata e le categorie a sinistra (stile homepage con il burger animato)
+<!-- Idea categorie: possiamo aggiungere una seconda immagine animata e le categorie a sinistra (stile homepage con il burger animato) -->
