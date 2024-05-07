@@ -195,8 +195,8 @@ export default {
             <!-- Sezione Piatti + Sezione Ordine -->
             <div class="row justify-content-between">
                 <!-- Sezione Piatti -->
-                <div class="row col-12 col-lg-9">
-                    <div v-for="dish in dishes" :key="dish.id" class="col-lg-6">
+                <div class="row col-12 col-xl-9">
+                    <div v-for="dish in dishes" :key="dish.id" class="col-md-6">
                         <div class="card dish-card p-3 dish mb-4">
                             <div class="d-flex gap-2">
                                 <img class="dish-image rounded" :src="dish.image" :alt="dish.name">
@@ -221,8 +221,8 @@ export default {
                 </div>
 
                 <!-- Sezione Carrello -->
-                <div class="col-12 col-lg-3">
-                    <div class="card p-3 text-center cart">
+                <div class="row col-12 col-xl-3">
+                    <div class="col-12 card p-3 text-center cart">
                         <h2 class="cart-title">Il tuo ordine</h2>
                         <div v-if="cart.length <= 0">
                             <img class="cart-img" src="/img/astronaut-grey-scale.svg" alt="">
