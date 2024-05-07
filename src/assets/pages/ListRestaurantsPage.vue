@@ -127,6 +127,7 @@ export default {
             <h2 v-if="restaurants.data.length > 0">Ristoranti a domicilio</h2>
             <div class="row flex-container">
 
+
                 <nav v-if="restaurants.data.length != 0" class="col-12 z-0 d-flex justify-content-start ms-3">
 
                     <ul class="pagination">
@@ -138,6 +139,8 @@ export default {
                     </ul>
                 </nav>
 
+
+
                 <!--Nessun risultato-->
                 <div v-if="restaurants.data.length == 0" class="col no-result text-center">
                     <h1 class="mb-5">
@@ -147,6 +150,7 @@ export default {
                     <img src="/img/astronaut-grey-scale.svg" alt="Astronauta">
                 </div>
                 <!--Lista ristoranti-->
+
                 <div v-else class="col flex-item" v-for="restaurant in restaurants.data" :key="restaurant.id">
                     <RouterLink :to="{ name: 'menu', params: { id: restaurant.id } }" class="text-decoration-none">
                         <AppCardRestaurant :restaurant="restaurant" />

@@ -31,7 +31,9 @@ main {
         position: relative;
         width: 500px;
         height: 400px;
-        ;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
 
         .pane-sopra {

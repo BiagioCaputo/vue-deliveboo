@@ -59,11 +59,18 @@ export default {
         <AppSectionRestaurants :restaurants="popularRestaurants" />
 
         <!--Section Type-->
-        <section class="category">
-            <div class="container-desktop">
+        <section class="category d-flex align-items-center justify-content-center ">
+            <!-- <div class="animated-shopping-bag align-items-center d-flex">
+                <img src="/img/spesa-borsa.png" alt="spesa-borsa" class="spesa-borsa">
+                <img src="/img/spesa-pomodoro-grande.png" alt="spesa-pomodoro-grande" class="spesa-pomodoro-grande">
+                <img src="/img/spesa-pomodoro-piccolo.png" alt="spesa-pomodoro-piccolo" class="spesa-pomodoro-piccolo">
+                <img src="/img/spesa-barattolo.png" alt="spesa-barattolo" class="spesa-barattolo">
+                <img src="/img/spesa-cioccolato.png" alt="spesa-cioccolato" class="spesa-cioccolato">
+            </div> -->
+            <div class="container-desktop d-flex flex-column gap-5">
 
                 <h1 class="title-category text-center">Le nostre categorie</h1>
-                <div class="d-flex flex-wrap justify-content-center gap-4 mt-5 pb-5">
+                <div class="d-flex flex-wrap justify-content-center gap-4">
 
                     <div v-for="type in popularTypes" :key="type.id" @click="saveTypeInLS(type.id)" class="pills">
                         {{ type.label }}
@@ -87,11 +94,11 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
-    height: 700px;
+    height: 1140px;
 
     h1 {
         font-weight: 700;
-        padding-top: 190px;
+        padding-top: 3px;
     }
 
     .pills.active-link {
@@ -101,9 +108,10 @@ export default {
 
     .pills {
         background-color: #fff3da;
-        padding: 10px 15px;
+        padding: 20px 25px;
         border-radius: 50px;
-        font-weight: 700;
+        font-weight: 600;
+        font-size: 1.2rem;
         text-decoration: none;
         color: black;
 
@@ -115,5 +123,41 @@ export default {
         cursor: pointer;
     }
 
+    .animated-shopping-bag {
+        width: 100%;
+        height: 100px;
+
+        .spesa-borsa {
+            position: absolute;
+            max-width: 400px;
+        }
+
+        .spesa-pomodoro-grande {
+            position: absolute;
+            max-width: 400px;
+        }
+
+        .spesa-pomodoro-piccolo {
+            position: absolute;
+            max-width: 400px;
+        }
+
+        .spesa-barattolo {
+            position: absolute;
+            max-width: 400px;
+        }
+
+        .spesa-cioccolato {
+            position: absolute;
+            max-width: 400px;
+        }
+
+
+    }
+
 }
 </style>
+
+
+
+Idea categorie: possiamo aggiungere una seconda immagine animata e le categorie a sinistra (stile homepage con il burger animato)

@@ -193,10 +193,10 @@ export default {
             </div>
 
             <!-- Sezione Piatti + Sezione Ordine -->
-            <div class="row">
+            <div class="row justify-content-evenly">
                 <!-- Sezione Piatti -->
-                <div class="col-9 row d-flex flex-wrap flex-shrink-0">
-                    <div v-for="dish in dishes" :key="dish.id" class="">
+                <div class="row col-12 col-xl-9 px-0">
+                    <div v-for="dish in dishes" :key="dish.id" class="col-md-6">
                         <div class="card dish-card p-3 dish mb-4">
                             <div class="d-flex gap-2">
                                 <img class="dish-image rounded" :src="dish.image" :alt="dish.name">
@@ -221,15 +221,15 @@ export default {
                 </div>
 
                 <!-- Sezione Carrello -->
-                <div class="col-3">
-                    <div class="card p-3 text-center cart">
+                <div class="row col-12 col-xl-3">
+                    <div class="col-12 card p-3 text-center cart">
                         <h2 class="cart-title">Il tuo ordine</h2>
                         <div v-if="cart.length <= 0">
                             <img class="cart-img" src="/img/astronaut-grey-scale.svg" alt="">
                         </div>
                         <div v-else>
                             <div v-for="item in cart" :key="item.id">
-                                <div class="mb-3" style="max-width: 540px;">
+                                <div class="mb-3">
                                     <div class="d-flex justify-content-between text-start">
                                         <p><strong v-if="item.quantity > 1">{{
                                             item.quantity }}x</strong>
