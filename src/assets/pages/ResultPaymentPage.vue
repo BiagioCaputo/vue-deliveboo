@@ -33,7 +33,12 @@ export default {
                 //invio l'email di conferma all'acquirente
                 axios.post(
                     'http://localhost:8000/api/contact-mail',
-                    { email: this.store.orderDetails.customer_email }
+                    {
+                        email: this.store.orderDetails.customer_email,
+                        customer_address: this.store.orderDetails.customer_address,
+                        customer_name: this.store.orderDetails.customer_name,
+                        final_price: this.totalPrice
+                    }
                 )
                     .then(response => {
                         console.log('Email inviata con successo:', response.data);
