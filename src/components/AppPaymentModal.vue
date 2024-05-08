@@ -89,7 +89,7 @@ export default {
         isCardNumberValid() {
             let isValid = true;
             if (!this.paymentDetails.card_number || this.paymentDetails.card_number.length != 16) {
-                this.messages.card_number_message = 'Il numero di carta è composto da 16 numeri.';
+                this.messages.card_number_message = 'Il numero di carta non è valido.';
                 isValid = false;
             } else {
                 this.messages.card_number_message = 'Campo valido.';
@@ -389,7 +389,7 @@ export default {
                     <input id="card_number" class="input_field form-control"
                         :class="!this.paymentDetails.card_number || this.paymentDetails.card_number.length != 16 ? 'is-invalid' : 'is-valid'"
                         type="text" name="card_number" placeholder="4012 0000 0000 1881" maxlength="16"
-                        v-model="paymentDetails.card_number" @keyup="isCardNumberValid()">
+                        v-model.trim="paymentDetails.card_number" @keyup="isCardNumberValid()">
                     <div class="form-text" v-if="this.messages.card_number_message.length"
                         :class="!this.paymentDetails.card_number || this.paymentDetails.card_number.length != 16 ? 'invalid-feedback' : 'valid-feedback'">
                         <p id="card_number_suggest">{{ this.messages.card_number_message }}</p>
@@ -424,7 +424,7 @@ export default {
                         v-model="paymentDetails.payment_method_nonce" />
                 </div>
             </div>
-            <button :disabled="store.checkout" class="custom-primary-btn btn">
+            <button :disabled="store.checkout || !validateForm()" class="custom-primary-btn btn">
                 <span v-if="!store.checkout">Paga €{{ totalPrice }}</span>
                 <span v-else class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             </button>
