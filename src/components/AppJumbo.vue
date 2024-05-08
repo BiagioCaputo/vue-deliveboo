@@ -54,7 +54,7 @@ export default {
         .animated-image {
             position: relative;
             // width: 500px;
-            width: 100%;
+            width: 30%;
             height: 400px;
             display: flex;
             flex-direction: column;
